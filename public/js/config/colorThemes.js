@@ -1,4 +1,4 @@
-export const themeID = 1
+export const themeID = 2
 
 /* ------ THEME 1 ------------------------------------------------------------------------------ */
 
@@ -21,15 +21,40 @@ evenRows: #E5E1DA;
 color4: #F1F0E8;
 `
 
-/* ------ THEME 2 ------------------------------------------------------------------------------ */
+/* ------ THEME 2 (DARK) ------------------------------------------------------------------------------ */
 
 export const theme2 = {
-  buttonsPlates: '#640D5F',
-  mainBackground: '#D91656',
-  oddRows: '',
-  evenRows: '#EB5B00',
-  color4: '#FFB200'
+  buttonsPlates: '#697565',
+  mainBackground: '#1E201E',
+  generalText: '#ECDFCC',
+  oddRows: '#3C3D37',
+  evenRows: '#4e5047',
+  selectedRow: '#ECDFCC',
+  selectedRowText: '#1E201E',
+  statisticsParts: '#4e5047',
+  greyBtnText: '#4e5047',
+  shadedText: '#d3c7b5',
+  inputAndSelect: '#ECDFCC',
+  plusAndMinusBtn: '#4e5047'
 }
+
+const testcolors2 =
+// eslint-disable-next-line
+/*css*/
+`
+buttonsPlates: #697565;
+mainBackground: #1E201E;
+generalText: #ECDFCC;
+oddRows: #3C3D37;
+evenRows: #4e5047;
+selectedRow: #ECDFCC;
+selectedRowText: #1E201E;
+statisticsParts: #4e5047;
+greyBtnText: #4e5047;
+shadedText: #d3c7b5;
+inputAndSelect: #ECDFCC;
+plusAndMinusBtn: #4e5047;
+`
 
 export const theme3 = {
   buttonsPlates: '#3D5300',

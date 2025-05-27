@@ -38,7 +38,7 @@ export const cssTemplate =
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: ${theme.buttonsPlates};
+      background-color: ${theme.evenRows};
       padding: 15px;
       border-radius: 8px;
       box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.861);
@@ -56,11 +56,13 @@ export const cssTemplate =
     input, select {
       box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
       padding: 3px;
+      background-color: ${theme.inputAndSelect}
     }
 
     label {
       margin-top: 12px;
       margin-bottom: 3px;
+      color: ${theme.generalText}
     }
 
     #generalWrapper {
@@ -132,6 +134,7 @@ export const cssTemplate =
       border-top-right-radius: 3px;
       box-shadow: none;
       background-color: ${theme.mainBackground};
+      color: ${theme.shadedText};
       padding-left: 7px;
       padding-right: 7px;
       padding-bottom: 0;
@@ -140,14 +143,15 @@ export const cssTemplate =
     }
 
     .selected-tab {
-      background-color: ${theme.evenRows};
+      background-color: ${theme.buttonsPlates};
+      color: ${theme.generalText};
     }
 
     .forms {
       display: none;
       flex-direction: column;
       padding: 20px;
-      background-color: ${theme.evenRows};
+      background-color: ${theme.buttonsPlates};
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
       border-top-right-radius: 10px;
@@ -186,7 +190,6 @@ export const cssTemplate =
       padding: 5px 9px;
       border-radius: 5px;
       border: 1px solid #999;
-      background-color: white;
     }
 
     input::placeholder {
@@ -246,13 +249,18 @@ export const cssTemplate =
       gap: 15px;
     }
 
+    #plusAndMinusBtn button {
+      background-color: ${theme.plusAndMinusBtn};
+      color: ${theme.generalText};
+    }
+
     #cancel, #submit {
       min-width: 58px;
     }
 
     #removeTrackConfirmDiv {
       display: none;
-      background-color: white;
+      background-color: ${theme.inputAndSelect};
       max-width: 600px;
       padding: 12px;
       border-radius: 10px;

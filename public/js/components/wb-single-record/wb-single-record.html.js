@@ -17,7 +17,7 @@ export default
         <button id="deleteBtn"><img src="${deleteBtnImagePath}"></button>
       </div>
       <div id="confirmDeleteDiv">
-      <div id="warningSign"><p>!</p></div>
+        <div id="warningSign"><p>!</p></div>
         <div>Are you sure you want to delete this record?</div>
         <div id="confirmDeleteTitle"></div>
         <div>

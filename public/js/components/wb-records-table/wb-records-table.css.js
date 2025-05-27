@@ -34,14 +34,16 @@ export const cssTemplate =
 
 #allRecordsTable tr:nth-child(even) {
   background: ${theme.evenRows};
+  color: ${theme.generalText};
 }
 #allRecordsTable tr:nth-child(odd) {
   background: ${theme.oddRows};
+  color: ${theme.generalText};
 }
 
 #allRecordsTable tr.selected {
-  background-color: ${theme.buttonsPlates};
-  color: white;
+  background-color: ${theme.selectedRow};
+  color: ${theme.selectedRowText};
 }
 
 .centered {
