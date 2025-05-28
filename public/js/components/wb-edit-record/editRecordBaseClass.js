@@ -53,7 +53,7 @@ export class EditRecordBaseClass extends HTMLElement {
     this.#removeTrackCancel = this.shadowRoot.querySelector('#removeTrackCancel')
     this.#removeTrackSubmit = this.shadowRoot.querySelector('#removeTrackSubmit')
 
-    /* ---------- EVENT LISTENERS ---------- */
+    /* ---------- EVENT LISTENERS ------------------------------------------------------------------------- */
     this.#artistInput.addEventListener('input', () => {
       this.listenForArtistInput()
     })

@@ -7,15 +7,9 @@ customElements.define('wb-new-record',
    * Defines a form tool to add a new record to the database.
    */
   class extends EditRecordBaseClass {
-    #albumEditForm
     #cancel
     #submit
     #tabsDiv
-    #tracks
-    #albumTitle
-    #store
-    #price
-    #recordIndexHiddenInput
     #allConditions = []
     /**
      * Creates a new instance of the wb-new-record web component.
@@ -32,15 +26,9 @@ customElements.define('wb-new-record',
     connectedCallback () {
       super.connectedCallback()
       // SETTING UP REFERENCES
-      this.#albumEditForm = this.shadowRoot.querySelector('#albumEditForm')
       this.#cancel = this.shadowRoot.querySelector('#cancel')
       this.#submit = this.shadowRoot.querySelector('#submit')
       this.#tabsDiv = this.shadowRoot.querySelector('#tabsDiv')
-      this.#tracks = this.shadowRoot.querySelector('#tracks')
-      this.#albumTitle = this.shadowRoot.querySelector('input[name="albumTitle"]')
-      this.#store = this.shadowRoot.querySelector('input[name="store"]')
-      this.#price = this.shadowRoot.querySelector('input[name="price"]')
-      this.#recordIndexHiddenInput = this.shadowRoot.querySelector('#recordIndex')
 
       /* ---------- EVENT LISTENERS ---------- */
       this.#cancel.addEventListener('click', () => this.cancel())
@@ -70,7 +58,7 @@ customElements.define('wb-new-record',
       // Send form to web server
       event.preventDefault()
 
-      const formData = new FormData(this.#albumEditForm)
+      const formData = new FormData(this.albumEditForm)
       const tracks = this.prepareTracksForSubmission()
       formData.append('tracks', JSON.stringify(tracks))
 
@@ -79,6 +67,7 @@ customElements.define('wb-new-record',
         body: formData
       })
       const record = await response.json()
+      console.log('Record in submit of new record:', record)
       this.dispatchEvent(new CustomEvent('recordAdded', {
         detail: {
           addedRecord: record

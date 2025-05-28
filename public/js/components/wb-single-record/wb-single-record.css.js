@@ -9,7 +9,6 @@ export const cssTemplate =
 
 * {
     font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
-    color: ${theme.generalText};
   }
 
   #singleRecordWrapper {
@@ -51,7 +50,8 @@ export const cssTemplate =
     align-items: center;
     width: 320px;
     height: 180px;
-    background-color: ${theme.buttonsPlates};
+    background-color: ${theme.statisticsParts};
+    color: ${theme.generalText};
     border-radius: 15px;
     border: 1px solid black;
     box-shadow: 4px 4px 8px gray;

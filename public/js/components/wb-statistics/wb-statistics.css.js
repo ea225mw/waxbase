@@ -7,7 +7,6 @@ export const cssTemplate =
 /*css*/`
 * {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  color: ${theme.generalText}
 }
 .statisticsWrapper {
   display: flex;
@@ -42,6 +41,7 @@ export const cssTemplate =
   background-color: ${theme.statisticsParts};
   border-top-right-radius: 20px;
   margin-top: 10px;
+  color: ${theme.generalText}
 }
 
 h1 {
@@ -59,7 +59,7 @@ p {
   height: 80px;
   border-radius: 50%;
   background-color: ${theme.buttonsPlates};
-  color: white;
+  color: ${theme.lightText};
   font-size: 16px;
   font-weight: 500;
   border: none;

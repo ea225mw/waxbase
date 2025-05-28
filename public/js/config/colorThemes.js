@@ -1,25 +1,26 @@
-export const themeID = 2
+export const themeID = 1
 
-/* ------ THEME 1 ------------------------------------------------------------------------------ */
+/* ------ THEME 1 (BLUE/GRAY) ---------------------------------------------------------------------------- */
 
 export const theme1 = {
   buttonsPlates: '#89A8B2',
   mainBackground: '#B3C8CF',
-  oddRows: 'rgb(217, 213, 206)',
+  generalText: 'black',
+  oddRows: '#d9d5ce',
   evenRows: '#E5E1DA',
-  color4: '#F1F0E8'
+  selectedRow: '#89A8B2',
+  selectedRowText: 'white',
+  statisticsParts: '#E5E1DA',
+  greyBtnText: 'black',
+  shadedText: '#343434',
+  lightText: 'white',
+  modal: '#89A8B2',
+  selectedTabAndForms: '#E5E1DA',
+  tab: '#cbc4b8',
+  inputAndSelect: 'white',
+  plusAndMinusBtn: '#89A8B2',
+  plusAndMinusBtnText: 'white'
 }
-
-const testcolors1 =
-// eslint-disable-next-line
-/*css*/
-`
-buttonsPlates: #89A8B2;
-mainBackground: #B3C8CF;
-oddRows:rgb(217, 213, 206);
-evenRows: #E5E1DA;
-color4: #F1F0E8;
-`
 
 /* ------ THEME 2 (DARK) ------------------------------------------------------------------------------ */
 
@@ -34,8 +35,13 @@ export const theme2 = {
   statisticsParts: '#4e5047',
   greyBtnText: '#4e5047',
   shadedText: '#d3c7b5',
+  lightText: 'white',
+  modal: '#1E201E',
+  selectedTabAndForms: '#697565',
+  tab: '#4e5047',
   inputAndSelect: '#ECDFCC',
-  plusAndMinusBtn: '#4e5047'
+  plusAndMinusBtn: '#4e5047',
+  plusAndMinusBtnText: '#ECDFCC'
 }
 
 const testcolors2 =
@@ -52,8 +58,21 @@ selectedRowText: #1E201E;
 statisticsParts: #4e5047;
 greyBtnText: #4e5047;
 shadedText: #d3c7b5;
+modal: #4e5047;
 inputAndSelect: #ECDFCC;
 plusAndMinusBtn: #4e5047;
+`
+
+const testcolors1 =
+// eslint-disable-next-line
+/*css*/
+`
+buttonsPlates: #89A8B2;
+mainBackground: #B3C8CF;
+oddRows: #cbc4b8;
+evenRows: #E5E1DA;
+color4: #F1F0E8;
+shadedText: #343434;
 `
 
 export const theme3 = {

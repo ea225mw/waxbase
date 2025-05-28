@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Konstruera sökväg relativt till src/
-const dbPath = path.resolve(__dirname, '../../database/WB_test_30april.db')
+const dbPath = path.resolve(__dirname, '../../database/WB_test_DB.db')
 
 export const sequelize = new Sequelize({
   dialect: 'sqlite',

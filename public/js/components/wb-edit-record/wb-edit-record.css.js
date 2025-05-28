@@ -38,7 +38,7 @@ export const cssTemplate =
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: ${theme.evenRows};
+      background-color: ${theme.modal};
       padding: 15px;
       border-radius: 8px;
       box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.861);
@@ -78,7 +78,7 @@ export const cssTemplate =
     input[name="albumTitle"], 
     input[name="artist"], 
     input[name="store"] {
-      max-width: 250px;
+      width: 250px;
     }
 
     input[name="releaseYear"], 
@@ -133,7 +133,7 @@ export const cssTemplate =
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
       box-shadow: none;
-      background-color: ${theme.mainBackground};
+      background-color: ${theme.tab};
       color: ${theme.shadedText};
       padding-left: 7px;
       padding-right: 7px;
@@ -143,7 +143,7 @@ export const cssTemplate =
     }
 
     .selected-tab {
-      background-color: ${theme.buttonsPlates};
+      background-color: ${theme.selectedTabAndForms};
       color: ${theme.generalText};
     }
 
@@ -151,7 +151,7 @@ export const cssTemplate =
       display: none;
       flex-direction: column;
       padding: 20px;
-      background-color: ${theme.buttonsPlates};
+      background-color: ${theme.selectedTabAndForms};
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
       border-top-right-radius: 10px;
@@ -211,7 +211,7 @@ export const cssTemplate =
 
     .suggestions {
       position: absolute;
-      left: 170px;
+      left: 270px;
       list-style: none;
       margin: 0;
       padding: 0;
@@ -237,8 +237,6 @@ export const cssTemplate =
       justify-content: center;
       border: none;
       border-radius: 50%;
-      background-color: ${theme.buttonsPlates};
-      color: white;
       font-size: 20px;
     }
 
@@ -251,7 +249,7 @@ export const cssTemplate =
 
     #plusAndMinusBtn button {
       background-color: ${theme.plusAndMinusBtn};
-      color: ${theme.generalText};
+      color: ${theme.plusAndMinusBtnText};
     }
 
     #cancel, #submit {

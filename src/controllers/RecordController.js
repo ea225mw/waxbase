@@ -193,6 +193,29 @@ export class RecordController {
   }
 
   /**
+   * Creates an object that maps the incoming request object to the albums keys.
+   *
+   * @param {object} req - Express request object.
+   * @returns {object} - The object with mapped data.
+   */
+  mapDataFromReqToAlbum (req) {
+    const dataToSave = {
+      albumTitle: req.body.albumTitle,
+      releaseYear: req.body.releaseYear || null,
+      origReleaseYear: req.body.origReleaseYear || null,
+      price: req.body.price || null,
+      imgURL: req.body.imgURL || null,
+      formatId: req.body.formatId || null,
+      storeId: req.body.storeId || null,
+      artistId: req.body.artistId || null,
+      mediaConditionId: req.body.mediaConditionId || null,
+      sleeveConditionId: req.body.sleeveConditionId || null,
+      rpm: req.body.rpm
+    }
+    return dataToSave
+  }
+
+  /**
    * Saves an edited record in the database.
    *
    * @param {object} req - Express request object.
@@ -207,19 +230,8 @@ export class RecordController {
         return res.status(404).send('Album not found')
       }
 
-      await album.update({
-        albumTitle: req.body.albumTitle || null,
-        releaseYear: req.body.releaseYear || null,
-        origReleaseYear: req.body.origReleaseYear || null,
-        price: req.body.price || null,
-        imgURL: req.body.imgURL || null,
-        formatId: req.body.formatId || null,
-        storeId: req.body.storeId || null,
-        artistId: req.body.artistId || null,
-        mediaConditionId: req.body.mediaConditionId || null,
-        sleeveConditionId: req.body.sleeveConditionId || null,
-        rpm: req.body.rpm
-      })
+      const dataToSave = this.mapDataFromReqToAlbum(req)
+      await album.update({ ...dataToSave })
 
       await this.prepareTracks(req.body.tracks, album)
 
@@ -276,32 +288,13 @@ export class RecordController {
    */
   async saveNewRecord (req, res) {
     try {
-      const album = await models.album.create({
-        albumTitle: req.body.albumTitle,
-        releaseYear: req.body.releaseYear || null,
-        origReleaseYear: req.body.origReleaseYear || null,
-        price: req.body.price || null,
-        imgURL: req.body.imgURL || null,
-        artistId: req.body.artistId || null,
-        storeId: req.body.storeId || null,
-        formatId: req.body.formatId || null,
-        mediaConditionId: req.body.mediaConditionId || null,
-        sleeveConditionId: req.body.sleeveConditionId || null,
-        rpm: req.body.rpm
-      })
+      const dataToSave = this.mapDataFromReqToAlbum(req)
+
+      const album = await models.album.create({ ...dataToSave })
+
       await this.prepareTracks(req.body.tracks, album)
 
-      const createdAlbum = await models.album.findByPk(album.id, {
-        include: [
-          {
-            model: models.artist,
-            attributes: [
-              'id',
-              [sequelize.literal(`${this.#concatFullName}`), 'fullName']
-            ]
-          }
-        ]
-      })
+      const createdAlbum = await this.getAlbumById(album.id)
 
       res.status(201).json(createdAlbum)
     } catch (error) {
