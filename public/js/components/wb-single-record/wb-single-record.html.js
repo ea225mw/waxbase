@@ -2,7 +2,7 @@ const pathToModule = import.meta.url
 const editBtnImagePath = new URL('./images/editbtn.svg', pathToModule)
 const deleteBtnImagePath = new URL('./images/deletebtn.png', pathToModule)
 
-export default
+export const htmlTemplate =
 // eslint-disable-next-line
 /*html*/`
 <div id="singleRecordWrapper">

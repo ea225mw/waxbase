@@ -1,6 +1,7 @@
 import { EditRecordBaseClass } from './editRecordBaseClass.js'
 import { cssTemplate } from './wb-edit-record.css.js'
-import htmlTemplate from './wb-edit-record.html.js'
+import { htmlTemplate } from './wb-edit-record.html.js'
+import { renderTemplates } from '../../commonMethods.js'
 
 const pathToModule = import.meta.url
 const defaultImagePath = new URL('./images/default.svg', pathToModule)
@@ -25,7 +26,7 @@ customElements.define('wb-edit-record',
     constructor () {
       super()
       this.attachShadow({ mode: 'open' })
-      this.renderTemplates(cssTemplate, htmlTemplate)
+      renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
     }
 
     /**

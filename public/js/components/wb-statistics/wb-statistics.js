@@ -1,5 +1,6 @@
 import { cssTemplate } from './wb-statistics.css.js'
-import htmlTemplate from './wb-statistics.html.js'
+import { htmlTemplate } from './wb-statistics.html.js'
+import { renderTemplates } from '../../commonMethods.js'
 
 customElements.define('wb-statistics',
   /**
@@ -15,22 +16,9 @@ customElements.define('wb-statistics',
     constructor () {
       super()
       this.attachShadow({ mode: 'open' })
-      this.renderTemplates()
+      renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
       this.#toggableDiv = this.shadowRoot.querySelector('.toggableDiv')
       this.#toggleStatisticsBtn = this.shadowRoot.querySelector('#toggleStatisticsBtn')
-    }
-
-    /**
-     * Renders <style> and <template> elements from template files.
-     */
-    renderTemplates () {
-      const style = document.createElement('style')
-      style.textContent = cssTemplate
-
-      const template = document.createElement('template')
-      template.innerHTML = htmlTemplate
-
-      this.shadowRoot.append(style, template.content.cloneNode(true))
     }
 
     /**

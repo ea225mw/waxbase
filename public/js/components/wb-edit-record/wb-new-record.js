@@ -1,6 +1,7 @@
 import { EditRecordBaseClass } from './editRecordBaseClass.js'
 import { cssTemplate } from './wb-edit-record.css.js'
-import htmlTemplate from './wb-edit-record.html.js'
+import { htmlTemplate } from './wb-edit-record.html.js'
+import { renderTemplates } from '../../commonMethods.js'
 
 customElements.define('wb-new-record',
   /**
@@ -17,7 +18,7 @@ customElements.define('wb-new-record',
     constructor () {
       super()
       this.attachShadow({ mode: 'open' })
-      this.renderTemplates(cssTemplate, htmlTemplate)
+      renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
     }
 
     /**

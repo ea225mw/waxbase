@@ -82,6 +82,9 @@ addRecordBtn.addEventListener('click', () => {
 
   newRecordView.addEventListener('recordAdded', (event) => {
     wbRecordsTable.setRecordData(event.detail.addedRecord)
+    wbRecordsTable.selectRowToHighlight(event.detail.addedRecord.id)
+    wbSingleRecord.showSingleRecord(event.detail.addedRecord)
+    document.querySelector('#noRecordSelected').style.display = 'none'
     wbStatistics.updateStatistics()
   })
 })

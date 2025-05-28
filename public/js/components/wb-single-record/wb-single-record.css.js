@@ -120,17 +120,17 @@ export const cssTemplate =
 
   tr td:first-child {
     padding-left: 7px;
-    padding-right: 7px;
+    padding-right: 5px;
   }
 
   tr td:last-child {
-    padding-left: 12px;
+    padding-left: 20px;
     padding-right: 7px;  
   }
 
   td {
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 
   }
 

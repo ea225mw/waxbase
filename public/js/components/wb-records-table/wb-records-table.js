@@ -1,5 +1,6 @@
 import { cssTemplate } from './wb-records-table.css.js'
-import htmlTemplate from './wb-records-table.html.js'
+import { htmlTemplate } from './wb-records-table.html.js'
+import { renderTemplates } from '../../commonMethods.js'
 
 customElements.define('wb-records-table',
   /**
@@ -15,22 +16,9 @@ customElements.define('wb-records-table',
     constructor () {
       super()
       this.attachShadow({ mode: 'open' })
-      this.renderTemplates()
+      renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
       this.#tbody = this.shadowRoot.querySelector('tbody')
       this.#allRecordsTable = this.shadowRoot.querySelector('#allRecordsTable')
-    }
-
-    /**
-     * Renders <style> and <template> elements from template files.
-     */
-    renderTemplates () {
-      const style = document.createElement('style')
-      style.textContent = cssTemplate
-
-      const template = document.createElement('template')
-      template.innerHTML = htmlTemplate
-
-      this.shadowRoot.append(style, template.content.cloneNode(true))
     }
 
     /**
@@ -143,9 +131,7 @@ customElements.define('wb-records-table',
       const row = event.target.closest('tr.recordTableRow')
       if (!row) return
 
-      // Highlight selected row in allRecordsTable.
-      this.shadowRoot.querySelectorAll('.recordTableRow').forEach(r => r.classList.remove('selected'))
-      row.classList.add('selected')
+      this.highlightRow(row)
 
       // Get detailed information on selected record.
       const id = row.dataset.id
@@ -165,6 +151,26 @@ customElements.define('wb-records-table',
           rec: record
         }
       }))
+    }
+
+    /**
+     * Highlights a row in the record table.
+     *
+     * @param {HTMLTableRowElement} row - The table row to highlight.
+     */
+    highlightRow (row) {
+      this.shadowRoot.querySelectorAll('.recordTableRow').forEach(r => r.classList.remove('selected'))
+      row.classList.add('selected')
+    }
+
+    /**
+     * Marks one row in the record table.
+     *
+     * @param {number} id - The id of the record that should be marked and highlighted.
+     */
+    selectRowToHighlight (id) {
+      const rowToHighlight = this.shadowRoot.querySelector(`tr[data-id="${id}"]`)
+      this.highlightRow(rowToHighlight)
     }
 
     /**

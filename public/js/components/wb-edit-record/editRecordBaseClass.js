@@ -294,22 +294,6 @@ export class EditRecordBaseClass extends HTMLElement {
   }
 
   /**
-   * Renders <style> and <template> elements from template files (CSS and HTML).
-   *
-   * @param {string} cssTemplate - The CSS template.
-   * @param {string} htmlTemplate - The HTML template.
-   */
-  renderTemplates (cssTemplate, htmlTemplate) {
-    const style = document.createElement('style')
-    style.textContent = cssTemplate
-
-    const template = document.createElement('template')
-    template.innerHTML = htmlTemplate
-
-    this.shadowRoot.append(style, template.content.cloneNode(true))
-  }
-
-  /**
    * Loads the base URL to use for communication with the backend.
    * Is set differently for dev and production.
    */
@@ -391,6 +375,7 @@ export class EditRecordBaseClass extends HTMLElement {
 
     div.append(trackIndex, trackTitleField, trackMinutesField, trackSecondsField)
     this.shadowRoot.querySelector('#tracksWrapper').append(div)
+    div.querySelector('.trackTitle').focus()
   }
 
   /**

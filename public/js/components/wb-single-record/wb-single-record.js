@@ -1,6 +1,7 @@
 import '../wb-edit-record/wb-edit-record.js'
 import { cssTemplate } from './wb-single-record.css.js'
-import htmlTemplate from './wb-single-record.html.js'
+import { htmlTemplate } from './wb-single-record.html.js'
+import { renderTemplates } from '../../commonMethods.js'
 
 const pathToModule = import.meta.url
 const defaultImagePath = new URL('./images/default.svg', pathToModule)
@@ -33,21 +34,8 @@ customElements.define('wb-single-record',
     constructor () {
       super()
       this.attachShadow({ mode: 'open' })
-      this.renderTemplates()
+      renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
       this.loadBaseURLClient()
-    }
-
-    /**
-     * Renders <style> and <template> elements from template files.
-     */
-    renderTemplates () {
-      const style = document.createElement('style')
-      style.textContent = cssTemplate
-
-      const template = document.createElement('template')
-      template.innerHTML = htmlTemplate
-
-      this.shadowRoot.append(style, template.content.cloneNode(true))
     }
 
     /**
@@ -169,15 +157,25 @@ customElements.define('wb-single-record',
       this.#tracksTable.innerHTML = null
 
       Object.values(record.tracks).forEach((track) => {
-        const trackRow = document.createElement('tr')
-        const indexTD = document.createElement('td')
-        const titleTD = document.createElement('td')
-        const timeTD = document.createElement('td')
+        const [trackRow, indexTD, titleTD, timeTD] = ['tr', 'td', 'td', 'td'].map(tag => document.createElement(tag))
+
         indexTD.textContent = `${track.trackIndex}.`
         titleTD.textContent = track.trackTitle
 
-        const time = `${track.minutes}:${String(track.seconds).padStart(2, '0')}`
-        timeTD.textContent = time
+        let minutes = ''
+        let seconds = ''
+        if (track.minutes || track.minutes === 0) {
+          minutes = `${track.minutes}`
+        }
+        if (track.seconds || track.seconds === 0) {
+          seconds = `${track.seconds}`
+        }
+        if (minutes !== '' || seconds !== '') {
+          const time = `${minutes}:${String(seconds).padStart(2, '0')}`
+          timeTD.textContent = time
+        } else {
+          timeTD.textContent = ''
+        }
 
         trackRow.append(indexTD, titleTD, timeTD)
         this.#tracksTable.append(trackRow)
