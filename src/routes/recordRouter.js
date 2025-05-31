@@ -19,3 +19,4 @@ router.get('/statistics', (req, res, next) => controller.getStatistics(req, res,
 router.post('/delete', (req, res, next) => controller.deleteRecord(req, res, next))
 router.post('/save', upload.none(), (req, res, next) => controller.updateAlbum(req, res, next))
 router.post('/saveNewRecord', upload.none(), (req, res, next) => controller.saveNewRecord(req, res, next))
+router.post('/search', (req, res, next) => controller.searchRecord(req, res, next))

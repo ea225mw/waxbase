@@ -63,7 +63,7 @@ Use case: UC1
 
 ##### Test steps
 
-* Start the application by visiting https://cscloud7-230.lnu.se/waxbase
+* Start the application by visiting https://waxbase-app-5tea3.ondigitalocean.app/
 * The application is displaying a table of records.
 * Click on the record that has an index number of 3.
 
@@ -101,7 +101,7 @@ A new interface should be displayed, with clickable tabs for General, Tracks, Co
 
 ##### Test steps
 
-* Use a web browser and go to the adress: https://cscloud7-230.lnu.se/waxbase/records/allalbums (or [http://localhost:8085/records/allalbums](http://localhost:8085/records/allalbums) if test is performed locally.)
+* Use a web browser and go to the adress: [https://waxbase-app-5tea3.ondigitalocean.app/records/allalbums](https://waxbase-app-5tea3.ondigitalocean.app/records/allalbums) (or [http://localhost:8085/records/allalbums](http://localhost:8085/records/allalbums) if test is performed locally.)
 
 ##### Expected output
 
@@ -120,7 +120,7 @@ To do the test a specific record should be selected from the records table and b
   - album title
   - format
   - release year
-  - original release year 
+  - original release year
   - price
 
 ##### Expected output

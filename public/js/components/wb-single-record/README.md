@@ -13,7 +13,6 @@ This component uses shadow DOM and its CSS styles are encapsulated and not affec
 | **Name**              | **Description**                   |
 |-----------------------|-----------------------------------|
 | **renderTemplates**   | Renders the HTML and CSS that are stored in separate files. |
-| **loadBaseURLClient** | Loads the base URL to use for communication with the backend. |
 | **connectedCallback** | Called when component is added to DOM. Sets up references and event listeners. |
 | **showSingleRecord**  | Sets the record data to be viewed.|
 | **createTracks**      | Creates tracks in tracks table. |

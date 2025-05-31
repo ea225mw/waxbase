@@ -41,7 +41,6 @@ customElements.define('wb-new-record',
      * Initial set up of the form for the record being added.
      */
     async newRecord () {
-      await this.loadBaseURLClient()
       this.createFormatOptions()
       this.createConditionOptions()
 

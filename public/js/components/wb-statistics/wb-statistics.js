@@ -1,6 +1,7 @@
 import { cssTemplate } from './wb-statistics.css.js'
 import { htmlTemplate } from './wb-statistics.html.js'
 import { renderTemplates } from '../../commonMethods.js'
+import { baseURLClient } from '../../config/variables.js'
 
 customElements.define('wb-statistics',
   /**
@@ -25,7 +26,8 @@ customElements.define('wb-statistics',
      * Called when the component is added to DOM.
      */
     connectedCallback () {
-      this.loadBaseURLClient()
+      this.#baseURLClient = baseURLClient
+      this.updateStatistics()
       this.#toggleStatisticsBtn.addEventListener('click', () => {
         this.#toggableDiv.classList.toggle('visible')
         if (this.#toggableDiv.classList.contains('visible')) {
@@ -34,16 +36,6 @@ customElements.define('wb-statistics',
           this.#toggleStatisticsBtn.querySelector('div').textContent = 'Show statistics'
         }
       })
-    }
-
-    /**
-     * Loads a base URL for easier change between dev and production.
-     */
-    async loadBaseURLClient () {
-      // eslint-disable-next-line import/no-absolute-path
-      const config = await import(new URL('../../config/variables.js', import.meta.url))
-      this.#baseURLClient = config.baseURLClient
-      this.updateStatistics()
     }
 
     /**

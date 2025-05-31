@@ -14,5 +14,4 @@ This component uses shadow DOM and its CSS styles are encapsulated and not affec
 |-----------------------|-----------------------------------|
 | **connectedCallback** | Called when the component is added to DOM.|
 | **renderTemplates**   | Renders the HTML and CSS that are stored in separate files. |
-| **loadBaseURLClient** | Loads the base URL to use for communication with the backend. |
 | **updateStatistics**  | Fetches collection status data from the database and updates the corresponding fields in the web component.|

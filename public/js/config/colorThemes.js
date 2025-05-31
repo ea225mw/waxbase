@@ -44,61 +44,81 @@ export const theme2 = {
   plusAndMinusBtnText: '#ECDFCC'
 }
 
-const testcolors2 =
-// eslint-disable-next-line
-/*css*/
-`
-buttonsPlates: #697565;
-mainBackground: #1E201E;
-generalText: #ECDFCC;
-oddRows: #3C3D37;
-evenRows: #4e5047;
-selectedRow: #ECDFCC;
-selectedRowText: #1E201E;
-statisticsParts: #4e5047;
-greyBtnText: #4e5047;
-shadedText: #d3c7b5;
-modal: #4e5047;
-inputAndSelect: #ECDFCC;
-plusAndMinusBtn: #4e5047;
-`
-
-const testcolors1 =
-// eslint-disable-next-line
-/*css*/
-`
-buttonsPlates: #89A8B2;
-mainBackground: #B3C8CF;
-oddRows: #cbc4b8;
-evenRows: #E5E1DA;
-color4: #F1F0E8;
-shadedText: #343434;
-`
+/* ------ THEME 3 --------------------------------------------------------------------------------- */
 
 export const theme3 = {
-  buttonsPlates: '#3D5300',
-  mainBackground: '#ABBA7C',
-  oddRows: '',
-  evenRows: '#FFE31A',
-  color4: '#F09319'
+  // #9FBB73 grön
+  // #D24545 röd
+  // #BF3131 mörkare röd
+
+  buttonsPlates: '#D24545',
+  mainBackground: '#9FBB73',
+  generalText: 'white',
+  oddRows: '#72884f',
+  evenRows: '#809858',
+  selectedRow: '#ECDFCC',
+  selectedRowText: '#1E201E',
+  statisticsParts: '#F1EB90',
+  greyBtnText: '#4e5047',
+  shadedText: '#d3c7b5',
+  lightText: 'white',
+  modal: '#72884f',
+  selectedTabAndForms: '#F1EB90',
+  tab: '#809858',
+  inputAndSelect: '#ECDFCC',
+  plusAndMinusBtn: '#4e5047',
+  plusAndMinusBtnText: '#ECDFCC'
 }
+
+/* ------ THEME 4 --------------------------------------------------------------------------------- */
 
 export const theme4 = {
-  buttons: '#257180',
-  mainBackground: '#F2E5BF',
-  oddRows: '',
-  evenRows: '#FD8B51',
-  color4: '#CB6040'
+  // vindröd: #B82132
+  // gammelrosa: #D2665A
+  // persika: #f2bc8c;
+  // persika variant: #fec592;
+  // rosagrå: #F6DED8;
+
+  buttonsPlates: '#D2665A',
+  mainBackground: '#F6DED8',
+  generalText: '',
+  th: '#B82132',
+  oddRows: '#f2bc8c',
+  evenRows: '#fec592',
+  selectedRow: '',
+  selectedRowText: '',
+  statisticsParts: '',
+  greyBtnText: '',
+  shadedText: '',
+  lightText: '#F6DED8',
+  modal: '',
+  selectedTabAndForms: '',
+  tab: '',
+  inputAndSelect: '',
+  plusAndMinusBtn: '',
+  plusAndMinusBtnText: ''
 }
 
-/* export const theme = {
-  buttons: '#CD5656',
-  mainBackground: '#FFFBDE',
-  evenRows: '#faf4c3',
-  oddRows: 'gray',
-  color4: '#096B68'
-} */
-
+const emptyTheme = {
+  buttonsPlates: '',
+  mainBackground: '',
+  generalText: '',
+  th: '',
+  oddRows: '',
+  evenRows: '',
+  selectedRow: '',
+  selectedRowText: '',
+  statisticsParts: '',
+  greyBtnText: '',
+  shadedText: '',
+  lightText: '',
+  modal: '',
+  selectedTabAndForms: '',
+  tab: '',
+  inputAndSelect: '',
+  plusAndMinusBtn: '',
+  plusAndMinusBtnText: ''
+}
 /**
  * Returns the theme with the number of parameter id.
  *

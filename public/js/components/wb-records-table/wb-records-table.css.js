@@ -52,11 +52,12 @@ text-align: center;
 }
 
 th {
-  border-bottom: solid black 3px;
+  border-bottom: solid black 2px;
   border-left: solid rgb(126, 126, 126) 2px;
   border-top: solid rgb(126, 126, 126) 2px;
   font-size: 106%;
-  background-color:${theme.mainBackground};
+  background-color: ${theme.th};
+  color: ${theme.generalText};
 }
 
 th:nth-last-child(n) {

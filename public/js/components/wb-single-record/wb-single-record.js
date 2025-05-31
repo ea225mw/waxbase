@@ -2,6 +2,7 @@ import '../wb-edit-record/wb-edit-record.js'
 import { cssTemplate } from './wb-single-record.css.js'
 import { htmlTemplate } from './wb-single-record.html.js'
 import { renderTemplates } from '../../commonMethods.js'
+import { baseURLClient } from '../../config/variables.js'
 
 const pathToModule = import.meta.url
 const defaultImagePath = new URL('./images/default.svg', pathToModule)
@@ -35,17 +36,7 @@ customElements.define('wb-single-record',
       super()
       this.attachShadow({ mode: 'open' })
       renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
-      this.loadBaseURLClient()
-    }
-
-    /**
-     * Loads the base URL to use for communication with the backend.
-     * Is set differently for dev and production.
-     */
-    async loadBaseURLClient () {
-      // eslint-disable-next-line import/no-absolute-path
-      const config = await import(new URL('../../config/variables.js', import.meta.url))
-      this.#baseURLClient = config.baseURLClient
+      this.#baseURLClient = baseURLClient
     }
 
     /**

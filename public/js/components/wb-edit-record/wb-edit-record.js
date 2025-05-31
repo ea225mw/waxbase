@@ -34,6 +34,7 @@ customElements.define('wb-edit-record',
      */
     connectedCallback () {
       super.connectedCallback()
+
       // SETTING UP REFERENCES
       this.#cancel = this.shadowRoot.querySelector('#cancel')
       this.#submit = this.shadowRoot.querySelector('#submit')
@@ -55,9 +56,6 @@ customElements.define('wb-edit-record',
      * @param {number} recordIndex - The index of the record to be displayed.
      */
     async showEditView (recordIndex) {
-      await this.loadBaseURLClient()
-      // await this.getAllArtists()
-
       const response = await fetch(`${this.baseURLClient}records/viewSingleAlbum`, {
         method: 'POST',
         headers: {
@@ -105,7 +103,7 @@ customElements.define('wb-edit-record',
       }
 
       for (const key in fieldMap) {
-        let valueFromRecord = record[key] // Example: value = record.price
+        let valueFromRecord = record[key] // Example: valueFromRecord = record.price
 
         if (valueFromRecord) {
           // If value is an object instead of a string:

@@ -1,4 +1,5 @@
 import { validateSeconds, validateMinutes } from '../../config/validations.js'
+import { baseURLClient } from '../../config/variables.js'
 
 /**
  * Defines a class with common methods for the wb-edit-record and wb-new-record components.
@@ -32,7 +33,8 @@ export class EditRecordBaseClass extends HTMLElement {
   /**
    * Called when the component that inherits from this class is added to DOM.
    */
-  connectedCallback () {
+  async connectedCallback () {
+    this.#baseURLClient = baseURLClient
     /* ---------- REFERENCES ---------- */
     this.#formatId = this.shadowRoot.querySelector('select[name="formatId"]')
     this.#artistSuggestionsList = this.shadowRoot.querySelector('#artistSuggestions')
@@ -291,16 +293,6 @@ export class EditRecordBaseClass extends HTMLElement {
     this.#allFormats = formats
     this.#allConditions = conditions
     this.#allStores = stores
-  }
-
-  /**
-   * Loads the base URL to use for communication with the backend.
-   * Is set differently for dev and production.
-   */
-  async loadBaseURLClient () {
-    // eslint-disable-next-line import/no-absolute-path
-    const config = await import(new URL('../../config/variables.js', import.meta.url))
-    this.#baseURLClient = config.baseURLClient
   }
 
   /**
