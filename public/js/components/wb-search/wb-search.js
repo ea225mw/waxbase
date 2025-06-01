@@ -1,6 +1,7 @@
 import { cssTemplate } from './wb-search.css.js'
 import { htmlTemplate } from './wb-search.html.js'
 import { baseURLClient } from '../../config/variables.js'
+import { renderTemplates } from '../../commonMethods.js'
 
 customElements.define('wb-search',
   /**
@@ -8,9 +9,14 @@ customElements.define('wb-search',
    */
   class extends HTMLElement {
     #baseURLClient
+    #searchBtn
+    #artistInput
+    #titleInput
+    #formatInput
+    #catNrInput
 
     /**
-     *
+     * Creates a new instance of the wb-search web component.
      */
     constructor () {
       super()
@@ -19,22 +25,34 @@ customElements.define('wb-search',
     }
 
     /**
-     *
+     * Called when the web component is added to DOM.
      */
     connectedCallback () {
+      // ------------- REFERENCS --------------------
       this.#baseURLClient = baseURLClient
+      this.#searchBtn = this.shadowRoot.querySelector('#searchSubmit')
+      this.#artistInput = this.shadowRoot.querySelector('input[name="artist"]')
+      this.#titleInput = this.shadowRoot.querySelector('input[name="title"]')
+      this.#formatInput = this.shadowRoot.querySelector('input[name="format"]')
+      this.#catNrInput = this.shadowRoot.querySelector('input[name="catno"]')
+
+      // ------------- EVENT LISTENERS --------------
+      this.#searchBtn.addEventListener('click', () => {
+        this.searchRecord()
+      })
     }
 
     /**
-     *
+     * Sends the search query to backend.
      */
     async searchRecord () {
       const data = {
-        artist: this.shadowRoot.querySelector('input[name="artist"]').value,
-        title: this.shadowRoot.querySelector('input[name="title"]').value,
-        format: this.shadowRoot.querySelector('input[name="format"]').value
+        artist: this.#artistInput.value,
+        title: this.#titleInput.value,
+        format: this.#formatInput.value,
+        catno: this.#catNrInput.value
       }
-      const response = await fetch(`${this.#baseURLClient}records/search`, {
+      const response = await fetch(`${this.#baseURLClient}search`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

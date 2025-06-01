@@ -1,5 +1,4 @@
 /* A file with methods common to many components */
-import { baseURLClient } from './config/variables.js'
 
 /**
  * Renders <style> and <template> elements from template files.
