@@ -145,7 +145,7 @@ async function seed () {
       artistId: artist1.id,
       price: 50,
       imgURL: './images/David_Bowie_-_Heroes.png',
-      storeId: null,
+      storeId: store1.id,
       formatId: format1.id,
       sleeveConditionId: conditionVG.id,
       mediaConditionId: conditionNM.id,

@@ -59,8 +59,49 @@ customElements.define('wb-search',
         },
         body: JSON.stringify(data)
       })
-      const result = await response.json()
-      console.log(result)
+      const discogsData = await response.json()
+      // console.log(discogsData)
+
+      if (discogsData.typeOfResponse === 'OneSingleRecord') {
+        this.prepareOneSingleRecord(discogsData.data)
+      }
+
+      if (discogsData.typeOfResponse === 'MultipleRecords') {
+        this.prepareMultipleRecords(discogsData.data)
+      }
+    }
+
+    /**
+     *
+     * @param data
+     */
+    prepareOneSingleRecord (data) {
+      console.log(data)
+    }
+
+    /**
+     *
+     * @param data
+     */
+    prepareMultipleRecords (data) {
+      console.log(data.results)
+      /*
+      if (typeof discogsData !== 'string') {
+        Object.entries(discogsData).forEach(element => {
+          element.artists.forEach((artist) => {
+            console.log(artist.name)
+          })
+          console.log(element.title)
+          element.tracklist.forEach((track) => {
+            let duration = ''
+            if (track.duration) {
+              duration = `- ${track.duration}`
+            }
+            console.log(`${track.title} ${duration}`)
+          })
+          console.log(element.year)
+        })
+      } */
     }
   }
 )
