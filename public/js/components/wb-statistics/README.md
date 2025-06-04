@@ -13,5 +13,4 @@ This component uses shadow DOM and its CSS styles are encapsulated and not affec
 | **Name**              | **Description**                   |
 |-----------------------|-----------------------------------|
 | **connectedCallback** | Called when the component is added to DOM.|
-| **renderTemplates**   | Renders the HTML and CSS that are stored in separate files. |
 | **updateStatistics**  | Fetches collection status data from the database and updates the corresponding fields in the web component.|

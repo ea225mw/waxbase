@@ -12,7 +12,6 @@ This component uses shadow DOM and its CSS styles are encapsulated and not affec
 
 | **Name**              | **Description**                   |
 |-----------------------|-----------------------------------|
-| **renderTemplates** | Renders the HTML and CSS that are stored in separate files. |
 | **connectedCallback** | Called when the component is added to DOM. |
 | **getAllRecordsData** | Called in connectedCallback and fetches all records from the database and displays them in the table. |
 | **setRecordData** | Sets the data for every record in the database and adds it to the table. |

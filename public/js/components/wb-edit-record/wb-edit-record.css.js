@@ -35,17 +35,16 @@ export const cssTemplate =
       ". b" 50px
       / auto 150px;
       position: absolute;
-      top: 50%;
+      top: 200px;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%);
       background-color: ${theme.modal};
       padding: 15px;
       border-radius: 8px;
       box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.861);
-      min-width: 300px;
       border: solid black 2px;
       width: 800px;
-      height: 600px;
+      min-height: 600px;
     }
 
     form {
