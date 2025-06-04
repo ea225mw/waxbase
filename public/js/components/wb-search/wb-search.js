@@ -10,10 +10,12 @@ customElements.define('wb-search',
   class extends HTMLElement {
     #baseURLClient
     #searchBtn
+    #cancelSearchBtn
     #artistInput
     #titleInput
     #formatInput
     #catNrInput
+    #searchResultTable
 
     /**
      * Creates a new instance of the wb-search web component.
@@ -31,14 +33,37 @@ customElements.define('wb-search',
       // ------------- REFERENCS --------------------
       this.#baseURLClient = baseURLClient
       this.#searchBtn = this.shadowRoot.querySelector('#searchSubmit')
+      this.#cancelSearchBtn = this.shadowRoot.querySelector('#cancelSearch')
       this.#artistInput = this.shadowRoot.querySelector('input[name="artist"]')
       this.#titleInput = this.shadowRoot.querySelector('input[name="title"]')
       this.#formatInput = this.shadowRoot.querySelector('input[name="format"]')
       this.#catNrInput = this.shadowRoot.querySelector('input[name="catno"]')
+      this.#searchResultTable = this.shadowRoot.querySelector('#searchResultTable')
 
       // ------------- EVENT LISTENERS --------------
-      this.#searchBtn.addEventListener('click', () => {
+      this.#searchBtn.addEventListener('click', (event) => {
+        event.preventDefault()
         this.searchRecord()
+      })
+      this.#cancelSearchBtn.addEventListener('click', (event) => {
+        event.preventDefault()
+        this.remove()
+      })
+      this.#searchResultTable.addEventListener('click', (event) => {
+        const button = event.target.closest('button')
+        if (button) {
+          this.dispatchEvent(new CustomEvent('getOneResourceFromDiscogs', {
+            detail: {
+              resource_url: button.dataset.resource_url
+            }
+          }))
+          return
+        }
+
+        const row = event.target.closest('tr.searchResultTableRow')
+        if (row) {
+          this.highlightRow(row)
+        }
       })
     }
 
@@ -61,6 +86,10 @@ customElements.define('wb-search',
       })
       const discogsData = await response.json()
       // console.log(discogsData)
+
+      if (discogsData.typeOfResponse === 'NoResults') {
+        console.log(discogsData.message)
+      }
 
       if (discogsData.typeOfResponse === 'OneSingleRecord') {
         this.prepareOneSingleRecord(discogsData.data)
@@ -85,23 +114,53 @@ customElements.define('wb-search',
      */
     prepareMultipleRecords (data) {
       console.log(data.results)
-      /*
-      if (typeof discogsData !== 'string') {
-        Object.entries(discogsData).forEach(element => {
-          element.artists.forEach((artist) => {
-            console.log(artist.name)
-          })
-          console.log(element.title)
-          element.tracklist.forEach((track) => {
-            let duration = ''
-            if (track.duration) {
-              duration = `- ${track.duration}`
-            }
-            console.log(`${track.title} ${duration}`)
-          })
-          console.log(element.year)
+
+      this.#searchResultTable.innerHTML = ''
+
+      data.results.forEach((record) => {
+        const tr = document.createElement('tr')
+        tr.classList.add('searchResultTableRow')
+
+        const [catnoTD, titleTD, yearTD, countryTD, formatTD, addTD] = ['td', 'td', 'td', 'td', 'td', 'td'].map(tag => document.createElement(tag))
+        catnoTD.textContent = record.catno
+        titleTD.textContent = record.title
+        yearTD.textContent = record.year
+        countryTD.textContent = record.country
+
+        record.format.forEach((formatTag) => {
+          formatTD.textContent += formatTag + ', '
         })
-      } */
+        formatTD.textContent = formatTD.textContent.slice(0, -2)
+
+        addTD.classList.add('addToCollectionTD')
+        const addBtn = document.createElement('button')
+        addBtn.textContent = 'Add to collection'
+        addBtn.dataset.resource_url = record.resource_url
+        addTD.append(addBtn)
+
+        tr.append(catnoTD, titleTD, yearTD, countryTD, formatTD, addTD)
+        this.#searchResultTable.append(tr)
+      })
+    }
+
+    /**
+     * Highlights a row in the record table.
+     *
+     * @param {HTMLTableRowElement} row - The table row to highlight.
+     */
+    highlightRow (row) {
+      this.shadowRoot.querySelectorAll('.searchResultTableRow').forEach(r => r.classList.remove('selected'))
+      row.classList.add('selected')
+      this.handleAddToCollection(row)
+    }
+
+    /**
+     *
+     * @param row
+     */
+    handleAddToCollection (row) {
+      this.shadowRoot.querySelectorAll('.addToCollectionTD').forEach(td => { td.style.display = 'none' })
+      row.querySelector('.addToCollectionTD').style.display = 'inline'
     }
   }
 )

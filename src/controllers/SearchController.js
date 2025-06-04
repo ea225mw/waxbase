@@ -40,7 +40,7 @@ export class SearchController {
 
     // If the search results in no matches:
     if (discogsData.pagination.items === 0) {
-      res.json('No results on that search.')
+      res.json({ typeOfResponse: 'NoResults', message: 'No results on that search.' })
       return
     }
 
@@ -101,4 +101,19 @@ export class SearchController {
     const resource = await response.json()
     return resource
   }
+
+  /**
+   *
+   * @param discogsData
+   */
+  /* async prepareMultipleRecords (discogsData) {
+    const preparedData = []
+    discogsData.results.forEach(async (element) => {
+      // console.log(element.resource_url)
+      const response = await this.fetchOneResource(element.resource_url)
+      const resource = await response.json()
+      preparedData.push(resource)
+    })
+    return preparedData
+  } */
 }

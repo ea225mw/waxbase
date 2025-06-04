@@ -51,7 +51,7 @@ footer {
   justify-self: center;
 }
 
-#addRecordBtn {
+#addRecordBtn, #searchReleaseBtn {
   height: 50px;
   width: 60px;
   border-radius: 5px;

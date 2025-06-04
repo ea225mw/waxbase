@@ -3,6 +3,7 @@ import './components/wb-records-table/wb-records-table.js'
 import './components/wb-edit-record/wb-edit-record.js'
 import './components/wb-edit-record/wb-new-record.js'
 import './components/wb-statistics/wb-statistics.js'
+import './components/wb-search/wb-search.js'
 import { baseURLClient } from './config/variables.js'
 import { getTheme, themeID } from './config/colorThemes.js'
 
@@ -86,5 +87,14 @@ addRecordBtn.addEventListener('click', () => {
     wbSingleRecord.showSingleRecord(event.detail.addedRecord)
     document.querySelector('#noRecordSelected').style.display = 'none'
     wbStatistics.updateStatistics()
+  })
+})
+
+const searchReleaseBtn = document.querySelector('#searchReleaseBtn')
+searchReleaseBtn.addEventListener('click', () => {
+  const wbSearch = document.createElement('wb-search')
+  document.body.append(wbSearch)
+  wbSearch.addEventListener('getOneResourceFromDiscogs', (event) => {
+    console.log(event.detail.resource_url)
   })
 })

@@ -2,7 +2,6 @@ import { cssTemplate } from './wb-records-table.css.js'
 import { htmlTemplate } from './wb-records-table.html.js'
 import { baseURLClient } from '../../config/variables.js'
 import { renderTemplates } from '../../commonMethods.js'
-import '../wb-search/wb-search.js'
 
 customElements.define('wb-records-table',
   /**
@@ -30,8 +29,6 @@ customElements.define('wb-records-table',
       this.#baseURLClient = baseURLClient
       await this.getAllRecordsData()
       this.#allRecordsTable.addEventListener('click', (event) => this.getSingleRecord(event))
-      const search = document.createElement('wb-search')
-      this.shadowRoot.append(search)
     }
 
     /**
