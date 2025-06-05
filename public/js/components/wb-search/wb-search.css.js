@@ -18,11 +18,6 @@ input {
   margin-bottom: 15px;
 }
 
-button {
-  max-width: 250px;
-  margin-top: 15px;
-}
-
 label {
   margin-bottom: 3px;
 }
@@ -43,19 +38,26 @@ div {
 #searchWrapper {
   display: flex;
   position: absolute;
-  top: 30%;
-  left: 30%;
-  transform: translate(-50%, -50%);
+  top: 15vh;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 #searchResultDiv {
   background-color: #89A8B2;
-  min-width: 800px;
+  min-width: 50vw;
+  max-height: 75vh;
   padding: 20px;
 }
 
 h1 {
   font-size: 20px;
+}
+
+#scroll-container {
+  position: relative;
+  overflow-y: auto;
+  max-height: 70vh;
 }
 
 #searchResultTable {
@@ -66,6 +68,23 @@ h1 {
 
 #searchResultTable tr {
   cursor: default;
+}
+
+#searchResultTable th {
+  padding: 3px 15px;
+  border-left: solid 0.5px black;
+  position: sticky;
+  box-shadow: 0px 1px 0px black;  
+  top: 0;
+  z-index: 2;
+  background-color: lightblue;
+}
+
+.formatTD {
+  max-width: 20vw;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 #searchResultTable tr:nth-child(odd) {
@@ -88,12 +107,16 @@ h1 {
 
 #searchResultTable td.addToCollectionTD {
   display: none;
+  align-items: center;
   color: white;
   border: none; 
 }
 
 #searchResultTable button {
-  margin: 2px;
+  max-width: 250px;
+  white-space: nowrap;
+  border: solid 1px black;
+  padding: 1px;
 }
 
 #buttonsDiv {

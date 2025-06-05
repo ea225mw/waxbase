@@ -22,9 +22,21 @@ export const htmlTemplate =
     </div>
     <div id="searchResultDiv">
       <h1>Search results</h1>
-    <table id="searchResultTable">
-
-    </table>
+      <div id="scroll-container">
+        <table id="searchResultTable">
+          <thead>
+            <tr>
+              <th>Catalog number</th>
+              <th>Artist and title</th>
+              <th>Year</th>
+              <th>Country</th>
+              <th>Format</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

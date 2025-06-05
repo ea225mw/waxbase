@@ -31,6 +31,12 @@ async function seed () {
     const store6 = await models.store.create({
       storeName: '2:a Långgatans Skivhandel'
     })
+    const store7 = await models.store.create({
+      storeName: 'Bengans, Göteborg'
+    })
+    const store8 = await models.store.create({
+      storeName: 'Skivstället'
+    })
 
     // FORMATS
     const format1 = await models.format.create({
@@ -109,6 +115,26 @@ async function seed () {
     const artist12 = await models.artist.create({
       firstName: 'Tomas',
       lastName: 'Andersson Wij',
+      the: null
+    })
+    const artist13 = await models.artist.create({
+      firstName: 'Donald',
+      lastName: 'Fagen',
+      the: null
+    })
+    const artist14 = await models.artist.create({
+      firstName: 'Marc',
+      lastName: 'Cohn',
+      the: null
+    })
+    const artist15 = await models.artist.create({
+      firstName: null,
+      lastName: 'Clawfinger',
+      the: null
+    })
+    const artist16 = await models.artist.create({
+      firstName: 'Miles',
+      lastName: 'Davis',
       the: null
     })
 
@@ -293,6 +319,58 @@ async function seed () {
       mediaConditionId: conditionNM.id,
       rpm: null
     })
+    const album13 = await models.album.create({
+      albumTitle: 'The Nightfly',
+      releaseYear: 1982,
+      origReleaseYear: 1982,
+      artistId: artist13.id,
+      price: 60,
+      imgURL: './images/the_nightfly.jpg',
+      storeId: store7.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionEX.id,
+      mediaConditionId: conditionM.id,
+      rpm: null
+    })
+    const album14 = await models.album.create({
+      albumTitle: 's/t',
+      releaseYear: 1991,
+      origReleaseYear: 1991,
+      artistId: artist14.id,
+      price: 50,
+      imgURL: './images/marc_cohn_s_t.jpg',
+      storeId: store8.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionVG.id,
+      mediaConditionId: conditionVG.id,
+      rpm: null
+    })
+    const album15 = await models.album.create({
+      albumTitle: 'Deaf Dumb Blind',
+      releaseYear: 1993,
+      origReleaseYear: 1993,
+      artistId: artist15.id,
+      price: 35,
+      imgURL: null,
+      storeId: store8.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionG.id,
+      mediaConditionId: conditionG.id,
+      rpm: null
+    })
+    const album16 = await models.album.create({
+      albumTitle: 'Kind Of Blue',
+      releaseYear: 1997,
+      origReleaseYear: 1959,
+      artistId: artist16.id,
+      price: 99,
+      imgURL: null,
+      storeId: store4.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionM.id,
+      mediaConditionId: conditionM.id,
+      rpm: null
+    })
 
     await models.track.bulkCreate([
       { trackIndex: 1, trackTitle: 'Beauty and the Beast', minutes: 3, seconds: 36, albumId: album1.id },
@@ -405,7 +483,42 @@ async function seed () {
       { trackIndex: 9, trackTitle: 'Där får jag andas ut (avsked till en svensk predikant)', minutes: 2, seconds: 38, albumId: album12.id },
       { trackIndex: 10, trackTitle: 'Guds röst', minutes: 4, seconds: 2, albumId: album12.id },
       { trackIndex: 11, trackTitle: 'Segla med', minutes: 5, seconds: 8, albumId: album12.id },
-      { trackIndex: 12, trackTitle: 'En värld som förtjänar dig', minutes: 6, seconds: 28, albumId: album12.id }
+      { trackIndex: 12, trackTitle: 'En värld som förtjänar dig', minutes: 6, seconds: 28, albumId: album12.id },
+      { trackIndex: 1, trackTitle: 'I.G.Y', minutes: 6, seconds: 5, albumId: album13.id },
+      { trackIndex: 2, trackTitle: 'Green Flower Street', minutes: 3, seconds: 40, albumId: album13.id },
+      { trackIndex: 3, trackTitle: 'Ruby Baby', minutes: 5, seconds: 38, albumId: album13.id },
+      { trackIndex: 4, trackTitle: 'Maxine', minutes: 3, seconds: 50, albumId: album13.id },
+      { trackIndex: 5, trackTitle: 'New Frontier', minutes: 6, seconds: 23, albumId: album13.id },
+      { trackIndex: 6, trackTitle: 'The Nightfly', minutes: 5, seconds: 45, albumId: album13.id },
+      { trackIndex: 7, trackTitle: 'The Goodbye Look', minutes: 4, seconds: 47, albumId: album13.id },
+      { trackIndex: 8, trackTitle: 'Walk Between The Raindrops', minutes: 2, seconds: 38, albumId: album13.id },
+      { trackIndex: 1, trackTitle: 'Walking In Memphis', minutes: 4, seconds: 18, albumId: album14.id },
+      { trackIndex: 2, trackTitle: 'Ghost Train', minutes: 4, seconds: 10, albumId: album14.id },
+      { trackIndex: 3, trackTitle: 'Silver Thunderbird', minutes: 4, seconds: 38, albumId: album14.id },
+      { trackIndex: 4, trackTitle: 'Dig Down Deep', minutes: 5, seconds: 8, albumId: album14.id },
+      { trackIndex: 5, trackTitle: 'Walk On Water', minutes: 4, seconds: 0, albumId: album14.id },
+      { trackIndex: 6, trackTitle: 'Miles Away', minutes: 3, seconds: 22, albumId: album14.id },
+      { trackIndex: 7, trackTitle: 'Saving The Best For Last', minutes: 5, seconds: 31, albumId: album14.id },
+      { trackIndex: 8, trackTitle: 'Strangers In A Car', minutes: 2, seconds: 46, albumId: album14.id },
+      { trackIndex: 9, trackTitle: '29 Ways', minutes: 3, seconds: 5, albumId: album14.id },
+      { trackIndex: 10, trackTitle: 'Perfect Love', minutes: 4, seconds: 18, albumId: album14.id },
+      { trackIndex: 11, trackTitle: 'True Companion', minutes: 4, seconds: 9, albumId: album14.id },
+      { trackIndex: 1, trackTitle: 'Nigger', minutes: 3, seconds: 47, albumId: album15.id },
+      { trackIndex: 2, trackTitle: 'Truth', minutes: 4, seconds: 12, albumId: album15.id },
+      { trackIndex: 3, trackTitle: 'Rosegrove', minutes: 4, seconds: 2, albumId: album15.id },
+      { trackIndex: 4, trackTitle: 'Don\'t Get Me Wrong', minutes: 3, seconds: 12, albumId: album15.id },
+      { trackIndex: 5, trackTitle: 'I Need You', minutes: 4, seconds: 58, albumId: album15.id },
+      { trackIndex: 6, trackTitle: 'Catch Me', minutes: 4, seconds: 39, albumId: album15.id },
+      { trackIndex: 7, trackTitle: 'Warfair', minutes: 3, seconds: 48, albumId: album15.id },
+      { trackIndex: 8, trackTitle: 'Wonderful World', minutes: 2, seconds: 40, albumId: album15.id },
+      { trackIndex: 9, trackTitle: 'Sad To See Your Sorrow', minutes: 5, seconds: 18, albumId: album15.id },
+      { trackIndex: 10, trackTitle: 'I Don\'t Care', minutes: 3, seconds: 11, albumId: album15.id },
+      { trackIndex: 1, trackTitle: 'So What', minutes: 9, seconds: 22, albumId: album16.id },
+      { trackIndex: 2, trackTitle: 'Freddie Freeloader', minutes: 9, seconds: 46, albumId: album16.id },
+      { trackIndex: 3, trackTitle: 'Blue In Green', minutes: 5, seconds: 37, albumId: album16.id },
+      { trackIndex: 4, trackTitle: 'All Blues', minutes: 11, seconds: 33, albumId: album16.id },
+      { trackIndex: 5, trackTitle: 'Flamenco Sketches', minutes: 9, seconds: 26, albumId: album16.id },
+      { trackIndex: 6, trackTitle: 'Flamenco Sketches (alternate take)', minutes: 9, seconds: 32, albumId: album16.id }
     ])
 
     console.log('Testdata har lagts in!')

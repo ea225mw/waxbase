@@ -115,7 +115,7 @@ customElements.define('wb-search',
     prepareMultipleRecords (data) {
       console.log(data.results)
 
-      this.#searchResultTable.innerHTML = ''
+      this.#searchResultTable.querySelector('tbody').innerHTML = ''
 
       data.results.forEach((record) => {
         const tr = document.createElement('tr')
@@ -127,10 +127,13 @@ customElements.define('wb-search',
         yearTD.textContent = record.year
         countryTD.textContent = record.country
 
+        // catnoTD.classList.add('catno')
+
         record.format.forEach((formatTag) => {
           formatTD.textContent += formatTag + ', '
         })
         formatTD.textContent = formatTD.textContent.slice(0, -2)
+        formatTD.classList.add('formatTD')
 
         addTD.classList.add('addToCollectionTD')
         const addBtn = document.createElement('button')
@@ -139,7 +142,7 @@ customElements.define('wb-search',
         addTD.append(addBtn)
 
         tr.append(catnoTD, titleTD, yearTD, countryTD, formatTD, addTD)
-        this.#searchResultTable.append(tr)
+        this.#searchResultTable.querySelector('tbody').append(tr)
       })
     }
 
@@ -160,7 +163,7 @@ customElements.define('wb-search',
      */
     handleAddToCollection (row) {
       this.shadowRoot.querySelectorAll('.addToCollectionTD').forEach(td => { td.style.display = 'none' })
-      row.querySelector('.addToCollectionTD').style.display = 'inline'
+      row.querySelector('.addToCollectionTD').style.display = 'flex'
     }
   }
 )
