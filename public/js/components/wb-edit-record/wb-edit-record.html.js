@@ -15,9 +15,9 @@ export const htmlTemplate =
         <label for="albumTitle">Album Title</label>
         <input type="text" name="albumTitle">
 
-        <label for="artist">Artist</label>
+        <label for="artistDisplayName">Artist</label>
         <div class="inputWithSuggestions">
-          <input type="text" name="artist">
+          <input type="text" name="artistDisplayName">
           <ul id="artistSuggestions" class="suggestions"></ul>
         </div>
         <input type="hidden" name="artistId" id="artistIdHidden" value="">

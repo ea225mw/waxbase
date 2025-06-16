@@ -40,13 +40,82 @@ customElements.define('wb-new-record',
     /**
      * Initial set up of the form for the record being added.
      */
-    async newRecord () {
+    async newEmptyRecord () {
       this.createFormatOptions()
       this.createConditionOptions()
 
       this.style.display = 'block'
       document.body.style.pointerEvents = 'none'
       this.style.pointerEvents = 'auto'
+    }
+
+    /**
+     *
+     *
+     * @param {JSON} discogsRecord - The JSON response from Discogs API.
+     */
+    newDiscogsRecord (discogsRecord) {
+      this.createFormatOptions()
+      this.createConditionOptions()
+      console.log(discogsRecord)
+
+      this.artistInput.value = discogsRecord.artists[0].name || discogsRecord.artists_sort
+
+      this.albumTitle.value = discogsRecord.title || ''
+      this.formatId.value = String(this.getFormat(discogsRecord))
+      this.releaseYear.value = discogsRecord.year || ''
+
+      const transformedTracklist = this.transformDiscogsTracklist(discogsRecord.tracklist)
+      this.populateTracks(transformedTracklist)
+
+      this.style.display = 'block'
+    }
+
+    /**
+     * Prepares the Discogs release tracklist to work with method populateTracks().
+     *
+     * @param {Array} tracklist - The tracklist from the Discogs release.
+     * @returns {Array} - The transformed tracklist
+     */
+    transformDiscogsTracklist (tracklist) {
+      const transformedTracklist = []
+      let min = ''
+      let sec = ''
+
+      tracklist.forEach(element => {
+        if (element.duration !== '') {
+          const durationSplit = element.duration.split(':')
+          min = durationSplit[0]
+          sec = durationSplit[1]
+        }
+
+        const track = {
+          trackIndex: element.position,
+          trackTitle: element.title,
+          minutes: min,
+          seconds: sec
+        }
+        transformedTracklist.push(track)
+      })
+      return transformedTracklist
+    }
+
+    /**
+     *
+     * @param record
+     */
+    getFormat (record) {
+      let formatID = null
+      if (record.formats) {
+        if (record.formats[0].descriptions.find((element) => element === 'CD') || record.formats[0].name === 'CD') {
+          formatID = 1
+          console.log('Hello from CD')
+        } else if (record.formats[0].descriptions.find((element) => element === 'LP') || record.formats[0].name === 'LP') {
+          console.log('Hello from LP')
+          formatID = 2
+        }
+      }
+      return formatID
     }
 
     /**

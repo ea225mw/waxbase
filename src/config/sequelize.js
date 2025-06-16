@@ -18,6 +18,7 @@ export const sequelize = new Sequelize({
 const Artist = sequelize.define('artist', {
   firstName: DataTypes.TEXT,
   lastName: DataTypes.TEXT,
+  displayName: DataTypes.TEXT,
   the: DataTypes.TEXT
 })
 

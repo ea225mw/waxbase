@@ -126,17 +126,6 @@ export class RecordController {
   }
 
   /**
-   * Responds with the album called up in getAlbumById and returns it as JSON.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express respone object.
-   */
-  async getSingleAlbum (req, res) {
-    const album = await this.getAlbumById(req.body.id)
-    res.json(album)
-  }
-
-  /**
    * Gets and returns the total amount spent on the collection.
    *
    * @param {object} req - Express request object.
@@ -147,6 +136,17 @@ export class RecordController {
     const albumCount = await models.album.count()
 
     res.json({ totalPrice, albumCount })
+  }
+
+  /**
+   * Responds with the album called up in getAlbumById and returns it as JSON.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express respone object.
+   */
+  async getSingleAlbum (req, res) {
+    const album = await this.getAlbumById(req.body.id)
+    res.json(album)
   }
 
   /**
@@ -163,10 +163,7 @@ export class RecordController {
           {
             model: models.artist,
             attributes: [
-              [
-                sequelize.literal(`${this.#concatFullName}`),
-                'fullName'
-              ]
+              'displayName'
             ]
           },
           {
@@ -210,7 +207,7 @@ export class RecordController {
       artistId: req.body.artistId || null,
       mediaConditionId: req.body.mediaConditionId || null,
       sleeveConditionId: req.body.sleeveConditionId || null,
-      rpm: req.body.rpm
+      rpm: req.body.rpm || null
     }
     return dataToSave
   }
@@ -290,6 +287,11 @@ export class RecordController {
     try {
       const dataToSave = this.mapDataFromReqToAlbum(req)
 
+      if (dataToSave.artistId === null && req.artistDisplayName !== '') {
+        const newArtist = await models.artist.create({ displayName: req.body.artistDisplayName })
+        dataToSave.artistId = newArtist.id
+      }
+
       const album = await models.album.create({ ...dataToSave })
 
       await this.prepareTracks(req.body.tracks, album)
@@ -322,39 +324,5 @@ export class RecordController {
     } catch (error) {
       res.status(404).send('Album not found')
     }
-  }
-
-  /**
-   * Searches for a record on Discogs based on artist, record title and format.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express respone object.
-   */
-  async searchRecord (req, res) {
-    const url = new URL(process.env.DISCOGS_API_URL)
-
-    const mapping = {
-      artist: req.body.artist,
-      title: req.body.title,
-      format: req.body.format
-    }
-
-    for (const key in mapping) {
-      const value = req.body[key]
-      if (value) {
-        url.searchParams.append(`${key}`, value)
-      }
-    }
-
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Discogs token=${process.env.DISCOGS_TOKEN}`
-      }
-    })
-
-    if (!response.ok) throw new Error('API-anrop misslyckades')
-
-    const data = await response.json()
-    res.json(data)
   }
 }

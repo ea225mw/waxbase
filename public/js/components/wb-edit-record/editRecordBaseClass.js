@@ -18,6 +18,9 @@ export class EditRecordBaseClass extends HTMLElement {
   #storeSuggestionsList
   #storeInput
   #storeIdHidden
+  #albumTitle
+  #store
+  #price
   #releaseYear
   #origReleaseYear
   #imgURLHidden
@@ -38,7 +41,7 @@ export class EditRecordBaseClass extends HTMLElement {
     /* ---------- REFERENCES ---------- */
     this.#formatId = this.shadowRoot.querySelector('select[name="formatId"]')
     this.#artistSuggestionsList = this.shadowRoot.querySelector('#artistSuggestions')
-    this.#artistInput = this.shadowRoot.querySelector('input[name="artist"]')
+    this.#artistInput = this.shadowRoot.querySelector('input[name="artistDisplayName"]')
     this.#artistIdHidden = this.shadowRoot.querySelector('#artistIdHidden')
     this.#storeSuggestionsList = this.shadowRoot.querySelector('#storeSuggestions')
     this.#storeInput = this.shadowRoot.querySelector('input[name="store"]')
@@ -54,10 +57,17 @@ export class EditRecordBaseClass extends HTMLElement {
     this.#removeTrackConfirmMsg = this.shadowRoot.querySelector('#removeTrackConfirmMsg')
     this.#removeTrackCancel = this.shadowRoot.querySelector('#removeTrackCancel')
     this.#removeTrackSubmit = this.shadowRoot.querySelector('#removeTrackSubmit')
+    this.#albumTitle = this.shadowRoot.querySelector('input[name="albumTitle"]')
+    this.#store = this.shadowRoot.querySelector('input[name="store"]')
+    this.#price = this.shadowRoot.querySelector('input[name="price"]')
 
     /* ---------- EVENT LISTENERS ------------------------------------------------------------------------- */
     this.#artistInput.addEventListener('input', () => {
       this.listenForArtistInput()
+    })
+
+    this.#storeInput.addEventListener('input', () => {
+      this.listenForStoreInput()
     })
 
     this.#artistSuggestionsList.addEventListener('click', event => {
@@ -66,10 +76,6 @@ export class EditRecordBaseClass extends HTMLElement {
         this.#artistIdHidden.value = event.target.dataset.id
         this.artistSuggestionsList.innerHTML = ''
       }
-    })
-
-    this.#storeInput.addEventListener('input', () => {
-      this.listenForStoreInput()
     })
 
     this.#storeSuggestionsList.addEventListener('click', event => {
@@ -281,6 +287,33 @@ export class EditRecordBaseClass extends HTMLElement {
   }
 
   /**
+   * Getter for #albumTitle.
+   *
+   * @returns {HTMLInputElement} - input[name="albumTitle"]
+   */
+  get albumTitle () {
+    return this.#albumTitle
+  }
+
+  /**
+   * Getter from #store.
+   *
+   * @returns {HTMLInputElement} - input[name="store"]
+   */
+  get store () {
+    return this.#store
+  }
+
+  /**
+   * Getter for #price.
+   *
+   * @returns {HTMLInputElement} - input[name="price"]
+   */
+  get price () {
+    return this.#price
+  }
+
+  /**
    * Sets all common collection data (fetched in index.js) to variables.
    *
    * @param {Array} artists - The artists array.
@@ -339,6 +372,38 @@ export class EditRecordBaseClass extends HTMLElement {
       this.shadowRoot.querySelector('select[name="mediaConditionId"]').append(option)
       const optionCopy = option.cloneNode(true)
       this.shadowRoot.querySelector('select[name="sleeveConditionId"]').append(optionCopy)
+    })
+  }
+
+  /**
+   * Populates the tracks tab with all tracks from the record object.
+   *
+   * @param {Array} tracks - The trackslist array from the record object.
+   */
+  populateTracks (tracks) {
+    Object.values(tracks).forEach((track) => {
+      const [div, trackIndex, trackTitleField, trackMinutesField, trackSecondsField] = ['div', 'div', 'input', 'input', 'input'].map(tag => document.createElement(tag))
+
+      div.classList.add('editTracksContainer')
+      div.dataset.id = track.id
+
+      trackIndex.textContent = `${track.trackIndex}.`
+      trackIndex.classList.add('trackIndexDiv')
+      trackIndex.dataset.trackIndex = `${track.trackIndex}`
+
+      trackTitleField.classList.add('trackTitle')
+      trackTitleField.value = track.trackTitle
+
+      trackMinutesField.classList.add('minutesField')
+      trackMinutesField.value = track.minutes
+      trackMinutesField.dataset.valid = 'true'
+
+      trackSecondsField.classList.add('secondsField')
+      trackSecondsField.value = String(track.seconds).padStart(2, '0')
+      trackSecondsField.dataset.valid = 'true'
+
+      div.append(trackIndex, trackTitleField, trackMinutesField, trackSecondsField)
+      this.tracksWrapper.append(div)
     })
   }
 

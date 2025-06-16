@@ -35,7 +35,7 @@ export const cssTemplate =
       ". b" 50px
       / auto 150px;
       position: absolute;
-      top: 200px;
+      top: 50%;
       left: 50%;
       transform: translate(-50%);
       background-color: ${theme.modal};
@@ -44,7 +44,7 @@ export const cssTemplate =
       box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.861);
       border: solid black 2px;
       width: 800px;
-      min-height: 600px;
+      height: 600px;
     }
 
     form {

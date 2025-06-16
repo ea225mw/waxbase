@@ -16,3 +16,23 @@ export function renderTemplates (cssTemplate, htmlTemplate, shadowRoot) {
 
   shadowRoot.append(style, template.content.cloneNode(true))
 }
+
+/**
+ * Used in wb-edit-record and wb-new-record.
+ *
+ * @param {} context - The context onto which the function is applied (this).
+ * @returns {object} - The field map object.
+ */
+export function getFieldMap (context) {
+  return {
+    artist: context.artistInput,
+    albumTitle: context.albumTitle,
+    releaseYear: context.releaseYear,
+    origReleaseYear: context.origReleaseYear,
+    store: context.store,
+    price: context.price,
+    artistId: context.artistIdHidden,
+    storeId: context.storeIdHidden,
+    imgURL: context.imgURLHidden
+  }
+}

@@ -120,7 +120,7 @@ customElements.define('wb-single-record',
             } else if (key === 'store') {
               value = value.storeName
             } else if (key === 'artist') {
-              value = value.fullName || [value.firstName, value.lastName].filter(Boolean).join(' ')
+              value = value.displayName || [value.firstName, value.lastName].filter(Boolean).join(' ')
             } else if (key === 'mediaCondition' || key === 'sleeveCondition') {
               value = value.conditionName
             }

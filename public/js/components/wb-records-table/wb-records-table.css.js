@@ -17,6 +17,7 @@ export const cssTemplate =
 }
 
 #allRecordsTable  {
+  font-size: 1 rem;
   display: block;
   border-collapse: collapse;
   padding: 10px;
@@ -55,7 +56,7 @@ th {
   border-bottom: solid black 2px;
   border-left: solid rgb(126, 126, 126) 2px;
   border-top: solid rgb(126, 126, 126) 2px;
-  font-size: 106%;
+  font-size: 1.1rem;
   background-color: ${theme.th};
   color: ${theme.generalText};
 }

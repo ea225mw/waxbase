@@ -2,14 +2,24 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 17px;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+}
+
 #page {
   display: grid;
   grid-template: 
-  "header header" 100px
+  "header header" 3.9rem
   "main single" auto
-  "footer single" 100px
+  "footer single" 5rem
   /6fr 4fr;
-  height: 98vh;
+  height: 100vh;
+  max-height: 100vh;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
@@ -19,9 +29,9 @@
 
 #headerDiv {
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 25px;
+  font-size: 1.8rem;
   grid-area: header;
-  height: 60px;
+  height: 100%;
   display: flex;
   gap: 20px;
   align-items: center;
@@ -45,18 +55,18 @@ footer {
 }
 
 #noRecordSelected {
-  font-size: 35px;
+  font-size: 2.3rem;
   grid-area: single;
   align-self: center;
   justify-self: center;
 }
 
-#addRecordBtn {
-  height: 50px;
-  width: 60px;
-  border-radius: 5px;
+#addRecordBtn, #searchReleaseBtn {
+  height: 3rem;
+  width: 4rem;
+  border-radius: 0.35rem;
   border: none;
-  font-size: 16px;
+  font-size: 1rem;
   background-color: #E5E1DA;
 }
 

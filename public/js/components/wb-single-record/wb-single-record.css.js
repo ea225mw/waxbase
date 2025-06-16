@@ -15,7 +15,8 @@ export const cssTemplate =
     visibility: hidden;
     margin: 10px;
     margin-left: 20px;
-    overflow: auto;
+    overflow-y: auto;
+    height: 98%;
   }
 
   #imgTitleArtist {
@@ -142,13 +143,6 @@ export const cssTemplate =
     background-color: ${theme.oddRows};
   }
 
-  caption {
-    text-align: left;
-    font-size: 120%;
-    border-bottom: solid black 2px;
-    margin-bottom: 5px;
-  }
-
   .dataBox {
     display: flex;
     align-items: center;
@@ -161,8 +155,9 @@ export const cssTemplate =
   }
 
   #detailsHeader {
-    font-size: 120%;
-    margin-top: 20px;
+    font-size: 1.2rem;
+    margin-top: 1.1rem;
+    margin-bottom: 0.25rem;
   }
 
   .flexbox {
@@ -181,7 +176,7 @@ export const cssTemplate =
     text-decoration: underline;
     font-style: italic;
     font-weight: 600;
-    font-size: 110%;
+    font-size: 1rem;
   }
 
   #cancelConfirm, #submitConfirm {
