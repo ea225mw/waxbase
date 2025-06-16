@@ -9,7 +9,7 @@ export class SearchController {
    * @param {object} res - Express respone object.
    */
   async searchRecord (req, res) {
-    const url = new URL(process.env.DISCOGS_API_URL)
+    const discogsURL = new URL(process.env.DISCOGS_API_URL)
 
     // console.log('req.body: ', req.body)
 
@@ -19,24 +19,24 @@ export class SearchController {
       format: req.body.format,
       catno: req.body.catno
     }
-
+    discogsURL.searchParams.append('type', 'release')
     for (const key in mapping) {
       const value = req.body[key]
       if (value) {
-        url.searchParams.append(`${key}`, value)
+        discogsURL.searchParams.append(`${key}`, value)
       }
     }
 
     // console.log('updated url: ', url)
 
-    const searchResponse = await fetch(url, {
+    const searchResponse = await fetch(discogsURL, {
       headers: {
         Authorization: `Discogs token=${process.env.DISCOGS_TOKEN}`
       }
     })
 
     const discogsData = await searchResponse.json()
-    console.log('discogsData: ', discogsData)
+    // console.log('discogsData: ', discogsData)
 
     // If the search results in no matches:
     if (discogsData.pagination.items === 0) {
@@ -45,18 +45,18 @@ export class SearchController {
     }
 
     // If the search results in only one match:
-    if (discogsData.pagination.items === 1) {
+    /* if (discogsData.pagination.items === 1) {
       console.log('Hello from length of one in data.results')
-      const resource = await this.fetchOneResource(discogsData.results[0].resource_url)
+      const resource = await this.fetchOneDiscogsResource(discogsData.results[0].resource_url)
       const returnedObject = {
         typeOfResponse: 'OneSingleRecord',
         data: resource
       }
       res.json(returnedObject)
       return
-    }
+    } */
 
-    if (discogsData.pagination.items > 1) {
+    if (discogsData.pagination.items >= 1) {
       const returnedObject = {
         typeOfResponse: 'MultipleRecords',
         data: discogsData
@@ -92,7 +92,8 @@ export class SearchController {
    *
    * @param url
    */
-  async fetchOneResource (url) {
+  async fetchOneDiscogsResource (url) {
+    console.log('url in fetchOneDiscogsResource', url)
     const response = await fetch(url, {
       headers: {
         Authorization: `Discogs token=${process.env.DISCOGS_TOKEN}`
@@ -100,6 +101,16 @@ export class SearchController {
     })
     const resource = await response.json()
     return resource
+  }
+
+  /**
+   *
+   * @param req
+   * @param res
+   */
+  async getDiscogsResource (req, res) {
+    const resource = await this.fetchOneDiscogsResource(req.body.resource_url)
+    res.json(resource)
   }
 
   /**

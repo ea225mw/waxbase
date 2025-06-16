@@ -1,7 +1,7 @@
 import { EditRecordBaseClass } from './editRecordBaseClass.js'
 import { cssTemplate } from './wb-edit-record.css.js'
 import { htmlTemplate } from './wb-edit-record.html.js'
-import { renderTemplates } from '../../commonMethods.js'
+import { renderTemplates, getFieldMap } from '../../commonMethods.js'
 
 const pathToModule = import.meta.url
 const defaultImagePath = new URL('./images/default.svg', pathToModule)
@@ -14,9 +14,6 @@ customElements.define('wb-edit-record',
     #cancel
     #submit
     #tabsDiv
-    #albumTitle
-    #store
-    #price
     #recordIndexHiddenInput
     #allConditions = []
 
@@ -39,9 +36,6 @@ customElements.define('wb-edit-record',
       this.#cancel = this.shadowRoot.querySelector('#cancel')
       this.#submit = this.shadowRoot.querySelector('#submit')
       this.#tabsDiv = this.shadowRoot.querySelector('#tabsDiv')
-      this.#albumTitle = this.shadowRoot.querySelector('input[name="albumTitle"]')
-      this.#store = this.shadowRoot.querySelector('input[name="store"]')
-      this.#price = this.shadowRoot.querySelector('input[name="price"]')
       this.#recordIndexHiddenInput = this.shadowRoot.querySelector('#recordIndex')
 
       /* ---------- EVENT LISTENERS ---------- */
@@ -90,17 +84,7 @@ customElements.define('wb-edit-record',
      * @param {object} record - The record object.
      */
     populateForm (record) {
-      const fieldMap = {
-        artist: this.artistInput,
-        albumTitle: this.#albumTitle,
-        releaseYear: this.releaseYear,
-        origReleaseYear: this.origReleaseYear,
-        store: this.#store,
-        price: this.#price,
-        artistId: this.artistIdHidden,
-        storeId: this.storeIdHidden,
-        imgURL: this.imgURLHidden
-      }
+      const fieldMap = getFieldMap(this)
 
       for (const key in fieldMap) {
         let valueFromRecord = record[key] // Example: valueFromRecord = record.price
@@ -109,7 +93,7 @@ customElements.define('wb-edit-record',
           // If value is an object instead of a string:
           if (typeof valueFromRecord === 'object' && valueFromRecord !== null) {
             if (key === 'store') {
-              this.#store.dataset.id = record.storeId
+              this.store.dataset.id = record.storeId
               valueFromRecord = valueFromRecord.storeName
             } else if (key === 'artist') {
               valueFromRecord = valueFromRecord.fullName || [valueFromRecord.firstName, valueFromRecord.lastName].filter(Boolean).join(' ')
@@ -123,42 +107,10 @@ customElements.define('wb-edit-record',
         }
       }
       if (record.tracks) {
-        this.populateTracks(record)
+        this.populateTracks(record.tracks)
       }
       this.setRPMs(record)
       this.shadowRoot.querySelector('#frontCover').src = record.imgURL || defaultImagePath
-    }
-
-    /**
-     * Populates the tracks tab with all tracks from the record object.
-     *
-     * @param {object} record - The record object.
-     */
-    populateTracks (record) {
-      Object.values(record.tracks).forEach((track) => {
-        const [div, trackIndex, trackTitleField, trackMinutesField, trackSecondsField] = ['div', 'div', 'input', 'input', 'input'].map(tag => document.createElement(tag))
-
-        div.classList.add('editTracksContainer')
-        div.dataset.id = track.id
-
-        trackIndex.textContent = `${track.trackIndex}.`
-        trackIndex.classList.add('trackIndexDiv')
-        trackIndex.dataset.trackIndex = `${track.trackIndex}`
-
-        trackTitleField.classList.add('trackTitle')
-        trackTitleField.value = track.trackTitle
-
-        trackMinutesField.classList.add('minutesField')
-        trackMinutesField.value = track.minutes
-        trackMinutesField.dataset.valid = 'true'
-
-        trackSecondsField.classList.add('secondsField')
-        trackSecondsField.value = String(track.seconds).padStart(2, '0')
-        trackSecondsField.dataset.valid = 'true'
-
-        div.append(trackIndex, trackTitleField, trackMinutesField, trackSecondsField)
-        this.tracksWrapper.append(div)
-      })
     }
 
     /**

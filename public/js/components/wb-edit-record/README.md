@@ -39,7 +39,7 @@ This component uses shadow DOM and its CSS styles are encapsulated and not affec
 | Name                  | Description                       |
 |-----------------------|-----------------------------------|
 | **connectedCallback** | Called when component is added to DOM. Sets up references and event listeners. |
-| **newRecord** | Initial set up of the form for the record that's going to be added. |
+| **newEmptyRecord** | Initial set up of the form for the record that's going to be added. |
 | **submit** | Submits the form to web server. Differs from the *submit* method in wb-edit-record. |
 
 ## Events

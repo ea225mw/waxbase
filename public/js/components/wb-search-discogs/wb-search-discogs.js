@@ -1,9 +1,9 @@
-import { cssTemplate } from './wb-search.css.js'
-import { htmlTemplate } from './wb-search.html.js'
+import { cssTemplate } from './wb-search-discogs.css.js'
+import { htmlTemplate } from './wb-search-discogs.html.js'
 import { baseURLClient } from '../../config/variables.js'
 import { renderTemplates } from '../../commonMethods.js'
 
-customElements.define('wb-search',
+customElements.define('wb-search-discogs',
   /**
    *
    */
@@ -18,7 +18,7 @@ customElements.define('wb-search',
     #searchResultTable
 
     /**
-     * Creates a new instance of the wb-search web component.
+     * Creates a new instance of the wb-search-discogs web component.
      */
     constructor () {
       super()

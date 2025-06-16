@@ -55,86 +55,132 @@ async function seed () {
     const artist1 = await models.artist.create({
       firstName: 'David',
       lastName: 'Bowie',
+      displayName: 'David Bowie',
       the: null
     })
     const artist2 = await models.artist.create({
       firstName: null,
       lastName: 'Eagles',
+      displayName: 'The Eagles',
       the: 'The'
     })
     const artist3 = await models.artist.create({
       firstName: 'Billy',
       lastName: 'Joel',
+      displayName: 'Billy Joel',
       the: null
     })
     const artist4 = await models.artist.create({
       firstName: 'Michael',
       lastName: 'Jackson',
+      displayName: 'Michael Jackson',
       the: null
     })
     const artist5 = await models.artist.create({
       firstName: 'Emmylou',
       lastName: 'Harris',
+      displayName: 'Emmylou Harris',
       the: null
     })
     const artist6 = await models.artist.create({
       firstName: null,
       lastName: 'Sha-Boom',
+      displayName: 'Sha-Boom',
       the: null
     })
 
     const artist7 = await models.artist.create({
       firstName: 'Bob',
       lastName: 'Marley',
+      displayName: 'Bob Marley',
       the: null
     })
 
     const artist8 = await models.artist.create({
       firstName: 'Mark',
       lastName: 'Knopfler',
+      displayName: 'Mark Knopfler',
       the: null
     })
 
     const artist9 = await models.artist.create({
       firstName: null,
       lastName: 'Manhattan Transfer',
+      displayName: 'The Manhattan Transfer',
       the: 'The'
     })
 
     const artist10 = await models.artist.create({
       firstName: 'Al',
       lastName: 'Jarreau',
+      displayName: 'Al Jarreau',
       the: null
     })
 
     const artist11 = await models.artist.create({
       firstName: null,
       lastName: 'Aerosmith',
+      displayName: 'Aerosmith',
       the: null
     })
     const artist12 = await models.artist.create({
       firstName: 'Tomas',
       lastName: 'Andersson Wij',
+      displayName: 'Tomas Andersson Wij',
       the: null
     })
     const artist13 = await models.artist.create({
       firstName: 'Donald',
       lastName: 'Fagen',
+      displayName: 'Donald Fagen',
       the: null
     })
     const artist14 = await models.artist.create({
       firstName: 'Marc',
       lastName: 'Cohn',
+      displayName: 'Marc Cohn',
       the: null
     })
     const artist15 = await models.artist.create({
       firstName: null,
       lastName: 'Clawfinger',
+      displayName: 'Clawfinger',
       the: null
     })
     const artist16 = await models.artist.create({
       firstName: 'Miles',
       lastName: 'Davis',
+      displayName: 'Miles Davis',
+      the: null
+    })
+    const artist17 = await models.artist.create({
+      firstName: null,
+      lastName: 'Def Leppard',
+      displayName: 'Def Leppard',
+      the: null
+    })
+    const artist18 = await models.artist.create({
+      firstName: null,
+      lastName: 'Dream Theater',
+      displayName: 'Dream Theater',
+      the: null
+    })
+    const artist19 = await models.artist.create({
+      firstName: null,
+      lastName: 'Earth Wind & Fire',
+      displayName: 'Earth Wind & Fire',
+      the: null
+    })
+    const artist20 = await models.artist.create({
+      firstName: 'John',
+      lastName: 'Fogerty',
+      displayName: 'John Fogerty',
+      the: null
+    })
+    const artist21 = await models.artist.create({
+      firstName: 'Kirk',
+      lastName: 'Franklin',
+      displayName: 'Kirk Franklin',
       the: null
     })
 
@@ -371,6 +417,110 @@ async function seed () {
       mediaConditionId: conditionM.id,
       rpm: null
     })
+    const album17 = await models.album.create({
+      albumTitle: 'Adreanlize',
+      releaseYear: 1992,
+      origReleaseYear: 1992,
+      artistId: artist17.id,
+      price: 149,
+      imgURL: null,
+      storeId: store2.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionNM.id,
+      mediaConditionId: conditionVG.id,
+      rpm: null
+    })
+    const album18 = await models.album.create({
+      albumTitle: 'Images And Words',
+      releaseYear: 1992,
+      origReleaseYear: 1992,
+      artistId: artist18.id,
+      price: 79,
+      imgURL: null,
+      storeId: store5.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionEX.id,
+      mediaConditionId: conditionNM.id,
+      rpm: null
+    })
+    const album19 = await models.album.create({
+      albumTitle: 'Awake',
+      releaseYear: 1994,
+      origReleaseYear: 1994,
+      artistId: artist18.id,
+      price: 89,
+      imgURL: null,
+      storeId: store2.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionVG.id,
+      mediaConditionId: conditionVG.id,
+      rpm: null
+    })
+    const album20 = await models.album.create({
+      albumTitle: 'Falling Into Infinity',
+      releaseYear: 1997,
+      origReleaseYear: 1997,
+      artistId: artist18.id,
+      price: 119,
+      imgURL: './images/dream_theater_falling_into_infinity.jpg',
+      storeId: store3.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionM.id,
+      mediaConditionId: conditionEX.id,
+      rpm: null
+    })
+    const album21 = await models.album.create({
+      albumTitle: 'All \'N All',
+      releaseYear: 1977,
+      origReleaseYear: 1977,
+      artistId: artist19.id,
+      price: 50,
+      imgURL: './images/ewf_all_n_all.jpg',
+      storeId: store6.id,
+      formatId: format2.id,
+      sleeveConditionId: conditionNM.id,
+      mediaConditionId: conditionEX.id,
+      rpm: null
+    })
+    const album22 = await models.album.create({
+      albumTitle: 'Blue Moon Swamp',
+      releaseYear: 2004,
+      origReleaseYear: 1998,
+      artistId: artist20.id,
+      price: 99,
+      imgURL: './images/blue_moon_swamp.jpg',
+      storeId: store8.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionEX.id,
+      mediaConditionId: conditionG.id,
+      rpm: null
+    })
+    const album23 = await models.album.create({
+      albumTitle: 'Kirk Franklin And The Family',
+      releaseYear: 1993,
+      origReleaseYear: 1993,
+      artistId: artist21.id,
+      price: 20,
+      imgURL: './images/414DWT801PL.jpg',
+      storeId: store7.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionNM.id,
+      mediaConditionId: conditionM.id,
+      rpm: null
+    })
+    const album24 = await models.album.create({
+      albumTitle: 'The Rebirth Of Kirk Franklin',
+      releaseYear: 2002,
+      origReleaseYear: 2002,
+      artistId: artist21.id,
+      price: 40,
+      imgURL: './images/71ougyp4CNL.jpg',
+      storeId: store6.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionG.id,
+      mediaConditionId: conditionG.id,
+      rpm: null
+    })
 
     await models.track.bulkCreate([
       { trackIndex: 1, trackTitle: 'Beauty and the Beast', minutes: 3, seconds: 36, albumId: album1.id },
@@ -518,7 +668,96 @@ async function seed () {
       { trackIndex: 3, trackTitle: 'Blue In Green', minutes: 5, seconds: 37, albumId: album16.id },
       { trackIndex: 4, trackTitle: 'All Blues', minutes: 11, seconds: 33, albumId: album16.id },
       { trackIndex: 5, trackTitle: 'Flamenco Sketches', minutes: 9, seconds: 26, albumId: album16.id },
-      { trackIndex: 6, trackTitle: 'Flamenco Sketches (alternate take)', minutes: 9, seconds: 32, albumId: album16.id }
+      { trackIndex: 6, trackTitle: 'Flamenco Sketches (alternate take)', minutes: 9, seconds: 32, albumId: album16.id },
+      { trackIndex: 1, trackTitle: 'Let\'s Get Rocked', minutes: 4, seconds: 56, albumId: album17.id },
+      { trackIndex: 2, trackTitle: 'Heaven Is', minutes: 3, seconds: 37, albumId: album17.id },
+      { trackIndex: 3, trackTitle: 'Make Love Like A Man', minutes: 4, seconds: 13, albumId: album17.id },
+      { trackIndex: 4, trackTitle: 'Tonight', minutes: 4, seconds: 3, albumId: album17.id },
+      { trackIndex: 5, trackTitle: 'White Lightning', minutes: 7, seconds: 37, albumId: album17.id },
+      { trackIndex: 6, trackTitle: 'Stand Up (Kick Love Into Motion', minutes: 4, seconds: 31, albumId: album17.id },
+      { trackIndex: 7, trackTitle: 'Personal Property', minutes: 4, seconds: 20, albumId: album17.id },
+      { trackIndex: 8, trackTitle: 'Have You Ever Needed Someone So Bad', minutes: 5, seconds: 25, albumId: album17.id },
+      { trackIndex: 9, trackTitle: 'I Wanna Touch U', minutes: 3, seconds: 13, albumId: album17.id },
+      { trackIndex: 10, trackTitle: 'Tear It Down', minutes: 3, seconds: 38, albumId: album17.id },
+      { trackIndex: 1, trackTitle: 'Pull Me Under', minutes: 8, seconds: 11, albumId: album18.id },
+      { trackIndex: 2, trackTitle: 'Another Day', minutes: 4, seconds: 22, albumId: album18.id },
+      { trackIndex: 3, trackTitle: 'Take The Time', minutes: 8, seconds: 21, albumId: album18.id },
+      { trackIndex: 4, trackTitle: 'Surrounded', minutes: 5, seconds: 28, albumId: album18.id },
+      { trackIndex: 5, trackTitle: 'Metropolis - part 1 "The Miracle And The Sleeper"', minutes: 9, seconds: 30, albumId: album18.id },
+      { trackIndex: 6, trackTitle: 'Under A Glass Moon', minutes: 7, seconds: 2, albumId: album18.id },
+      { trackIndex: 7, trackTitle: 'Wait For Sleep', minutes: 2, seconds: 31, albumId: album18.id },
+      { trackIndex: 8, trackTitle: 'Learning To Live', minutes: 11, seconds: 30, albumId: album18.id },
+      { trackIndex: 1, trackTitle: '6:00', minutes: 5, seconds: 31, albumId: album19.id },
+      { trackIndex: 2, trackTitle: 'Caught In A Web', minutes: 5, seconds: 28, albumId: album19.id },
+      { trackIndex: 3, trackTitle: 'Innocence Faded', minutes: 5, seconds: 43, albumId: album19.id },
+      { trackIndex: 4, trackTitle: 'Erotomania', minutes: 6, seconds: 45, albumId: album19.id },
+      { trackIndex: 5, trackTitle: 'Voices', minutes: 9, seconds: 53, albumId: album19.id },
+      { trackIndex: 6, trackTitle: 'The Silent Man', minutes: 3, seconds: 48, albumId: album19.id },
+      { trackIndex: 7, trackTitle: 'The Mirror', minutes: 6, seconds: 45, albumId: album19.id },
+      { trackIndex: 8, trackTitle: 'Lie', minutes: 6, seconds: 34, albumId: album19.id },
+      { trackIndex: 9, trackTitle: 'Lifting Shadows Off A Dream', minutes: 6, seconds: 5, albumId: album19.id },
+      { trackIndex: 10, trackTitle: 'Scarred', minutes: 11, seconds: 0, albumId: album19.id },
+      { trackIndex: 11, trackTitle: 'Space-Dye Vest', minutes: 7, seconds: 29, albumId: album19.id },
+      { trackIndex: 1, trackTitle: 'New Millennium', minutes: 8, seconds: 20, albumId: album20.id },
+      { trackIndex: 2, trackTitle: 'You Not Me', minutes: 4, seconds: 58, albumId: album20.id },
+      { trackIndex: 3, trackTitle: 'Peruvian Skies', minutes: 6, seconds: 43, albumId: album20.id },
+      { trackIndex: 4, trackTitle: 'Hollow Years', minutes: 5, seconds: 53, albumId: album20.id },
+      { trackIndex: 5, trackTitle: 'Burning My Soul', minutes: 5, seconds: 29, albumId: album20.id },
+      { trackIndex: 6, trackTitle: 'Hell\'s Kitchen', minutes: 4, seconds: 16, albumId: album20.id },
+      { trackIndex: 7, trackTitle: 'Lines In The Sand', minutes: 12, seconds: 5, albumId: album20.id },
+      { trackIndex: 8, trackTitle: 'Take Away My Pain', minutes: 6, seconds: 3, albumId: album20.id },
+      { trackIndex: 9, trackTitle: 'Just Let Me Breath', minutes: 5, seconds: 28, albumId: album20.id },
+      { trackIndex: 10, trackTitle: 'Anna Lee', minutes: 5, seconds: 51, albumId: album20.id },
+      { trackIndex: 11, trackTitle: 'Trial Of Tears', minutes: 13, seconds: 7, albumId: album20.id },
+      { trackIndex: 1, trackTitle: 'Serpentine Fire', minutes: 3, seconds: 50, albumId: album21.id },
+      { trackIndex: 2, trackTitle: 'Fantasy', minutes: 4, seconds: 37, albumId: album21.id },
+      { trackIndex: 3, trackTitle: 'In The Marketplace (Interlude)', minutes: 0, seconds: 43, albumId: album21.id },
+      { trackIndex: 4, trackTitle: 'Jupiter', minutes: 3, seconds: 11, albumId: album21.id },
+      { trackIndex: 5, trackTitle: 'Love\'s Holiday ', minutes: 4, seconds: 22, albumId: album21.id },
+      { trackIndex: 6, trackTitle: 'Brazilian Rhyme (Interlude)', minutes: 1, seconds: 20, albumId: album21.id },
+      { trackIndex: 7, trackTitle: 'I\'ll Write A Song For You', minutes: 5, seconds: 24, albumId: album21.id },
+      { trackIndex: 8, trackTitle: 'Magic Mind', minutes: 3, seconds: 39, albumId: album21.id },
+      { trackIndex: 9, trackTitle: 'Runnin\'', minutes: 5, seconds: 51, albumId: album21.id },
+      { trackIndex: 10, trackTitle: 'Brazilian Rhyme (Interlude)', minutes: 0, seconds: 53, albumId: album21.id },
+      { trackIndex: 11, trackTitle: 'Be Ever Wonderful', minutes: 5, seconds: 8, albumId: album21.id },
+      { trackIndex: 1, trackTitle: 'Southern Streamline', minutes: 3, seconds: 56, albumId: album22.id },
+      { trackIndex: 2, trackTitle: 'Hot Rod Heart', minutes: 3, seconds: 26, albumId: album22.id },
+      { trackIndex: 3, trackTitle: 'Blueboy', minutes: 4, seconds: 4, albumId: album22.id },
+      { trackIndex: 4, trackTitle: 'A Hundered And Ten In The Shade', minutes: 4, seconds: 19, albumId: album22.id },
+      { trackIndex: 5, trackTitle: 'Rattlesnake Highway', minutes: 4, seconds: 17, albumId: album22.id },
+      { trackIndex: 6, trackTitle: 'Bring It Down To Jelly Road', minutes: 2, seconds: 37, albumId: album22.id },
+      { trackIndex: 7, trackTitle: 'Walking In A Hurricane', minutes: 3, seconds: 41, albumId: album22.id },
+      { trackIndex: 8, trackTitle: 'Swamp River Days', minutes: 3, seconds: 37, albumId: album22.id },
+      { trackIndex: 9, trackTitle: 'Rambunctions Boy', minutes: 3, seconds: 52, albumId: album22.id },
+      { trackIndex: 10, trackTitle: 'Joy Of My Life', minutes: 3, seconds: 52, albumId: album22.id },
+      { trackIndex: 11, trackTitle: 'Blue Moon Nights', minutes: 2, seconds: 33, albumId: album22.id },
+      { trackIndex: 12, trackTitle: 'Bad Bad Boy', minutes: 4, seconds: 27, albumId: album22.id },
+      { trackIndex: 1, trackTitle: 'Why We Sing', minutes: 5, seconds: 54, albumId: album23.id },
+      { trackIndex: 2, trackTitle: 'He\'s Able', minutes: 4, seconds: 5, albumId: album23.id },
+      { trackIndex: 3, trackTitle: 'Silver & Gold', minutes: 4, seconds: 51, albumId: album23.id },
+      { trackIndex: 4, trackTitle: 'Call On The Lord', minutes: 3, seconds: 31, albumId: album23.id },
+      { trackIndex: 5, trackTitle: 'Real Love', minutes: 5, seconds: 22, albumId: album23.id },
+      { trackIndex: 6, trackTitle: 'He Can Handle It', minutes: 5, seconds: 6, albumId: album23.id },
+      { trackIndex: 7, trackTitle: 'A Letter From My Friend', minutes: 5, seconds: 41, albumId: album23.id },
+      { trackIndex: 8, trackTitle: 'The Family Worship Medley', minutes: 7, seconds: 55, albumId: album23.id },
+      { trackIndex: 9, trackTitle: 'Speak To Me', minutes: 4, seconds: 19, albumId: album23.id },
+      { trackIndex: 10, trackTitle: 'Till We Meet Again', minutes: 7, seconds: 10, albumId: album23.id },
+      { trackIndex: 1, trackTitle: 'Intro', minutes: 2, seconds: 19, albumId: album24.id },
+      { trackIndex: 2, trackTitle: 'Hosanna', minutes: 5, seconds: 7, albumId: album24.id },
+      { trackIndex: 3, trackTitle: 'Caught Up', minutes: 5, seconds: 57, albumId: album24.id },
+      { trackIndex: 4, trackTitle: '911', minutes: 4, seconds: 41, albumId: album24.id },
+      { trackIndex: 5, trackTitle: 'The Blood Song', minutes: 5, seconds: 36, albumId: album24.id },
+      { trackIndex: 6, trackTitle: 'Brighter Day', minutes: 5, seconds: 40, albumId: album24.id },
+      { trackIndex: 7, trackTitle: 'My Life, My Love, My All', minutes: 6, seconds: 22, albumId: album24.id },
+      { trackIndex: 8, trackTitle: 'Lookin\' Out For Me', minutes: 5, seconds: 53, albumId: album24.id },
+      { trackIndex: 9, trackTitle: 'He Reigns/Awesome God', minutes: 4, seconds: 25, albumId: album24.id },
+      { trackIndex: 10, trackTitle: 'Interlude', minutes: 2, seconds: 37, albumId: album24.id },
+      { trackIndex: 11, trackTitle: 'Don\'t Cry', minutes: 6, seconds: 8, albumId: album24.id },
+      { trackIndex: 12, trackTitle: 'The Transition', minutes: 0, seconds: 46, albumId: album24.id },
+      { trackIndex: 13, trackTitle: 'Always', minutes: 6, seconds: 44, albumId: album24.id },
+      { trackIndex: 14, trackTitle: 'When I Get There', minutes: 5, seconds: 41, albumId: album24.id },
+      { trackIndex: 15, trackTitle: 'Interlude - Pt. Two', minutes: 0, seconds: 43, albumId: album24.id },
+      { trackIndex: 16, trackTitle: 'Outro (The Blood)', minutes: 5, seconds: 9, albumId: album24.id }
     ])
 
     console.log('Testdata har lagts in!')

@@ -3,7 +3,7 @@ import './components/wb-records-table/wb-records-table.js'
 import './components/wb-edit-record/wb-edit-record.js'
 import './components/wb-edit-record/wb-new-record.js'
 import './components/wb-statistics/wb-statistics.js'
-import './components/wb-search/wb-search.js'
+import './components/wb-search-discogs/wb-search-discogs.js'
 import { baseURLClient } from './config/variables.js'
 import { getTheme, themeID } from './config/colorThemes.js'
 
@@ -79,22 +79,64 @@ addRecordBtn.addEventListener('click', () => {
   const newRecordView = document.createElement('wb-new-record')
   document.body.append(newRecordView)
   newRecordView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
-  newRecordView.newRecord()
+  newRecordView.newEmptyRecord()
 
   newRecordView.addEventListener('recordAdded', (event) => {
-    wbRecordsTable.setRecordData(event.detail.addedRecord)
-    wbRecordsTable.selectRowToHighlight(event.detail.addedRecord.id)
-    wbSingleRecord.showSingleRecord(event.detail.addedRecord)
-    document.querySelector('#noRecordSelected').style.display = 'none'
-    wbStatistics.updateStatistics()
+    newRecordAdded(event)
   })
 })
+
+/**
+ *
+ * @param event
+ */
+function newRecordAdded (event) {
+  wbRecordsTable.setRecordData(event.detail.addedRecord)
+  wbRecordsTable.selectRowToHighlight(event.detail.addedRecord.id)
+  wbSingleRecord.showSingleRecord(event.detail.addedRecord)
+  document.querySelector('#noRecordSelected').style.display = 'none'
+  wbStatistics.updateStatistics()
+}
 
 const searchReleaseBtn = document.querySelector('#searchReleaseBtn')
 searchReleaseBtn.addEventListener('click', () => {
-  const wbSearch = document.createElement('wb-search')
-  document.body.append(wbSearch)
-  wbSearch.addEventListener('getOneResourceFromDiscogs', (event) => {
-    console.log(event.detail.resource_url)
+  const wbSearchDiscogs = document.createElement('wb-search-discogs')
+  document.body.append(wbSearchDiscogs)
+  wbSearchDiscogs.addEventListener('getOneResourceFromDiscogs', (event) => {
+    getOneResourceFromDiscogs(event.detail.resource_url)
   })
 })
+
+/**
+ *
+ * @param url
+ */
+async function getOneResourceFromDiscogs (url) {
+  const response = await fetch(`${baseURLClient}search/getDiscogsResource`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ resource_url: url })
+  })
+  const record = await response.json()
+  if (record) {
+    document.querySelector('wb-search-discogs').remove()
+    createNewDiscogsRecord(record)
+  }
+}
+
+/**
+ *
+ * @param record
+ */
+function createNewDiscogsRecord (record) {
+  // console.log('record in createNewDiscogsRecord: ', record)
+  const newDiscogsRecord = document.createElement('wb-new-record')
+  document.body.append(newDiscogsRecord)
+  newDiscogsRecord.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
+  newDiscogsRecord.newDiscogsRecord(record)
+  newDiscogsRecord.addEventListener('recordAdded', (event) => {
+    newRecordAdded(event)
+  })
+}

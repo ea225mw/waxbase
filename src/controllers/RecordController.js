@@ -126,17 +126,6 @@ export class RecordController {
   }
 
   /**
-   * Responds with the album called up in getAlbumById and returns it as JSON.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express respone object.
-   */
-  async getSingleAlbum (req, res) {
-    const album = await this.getAlbumById(req.body.id)
-    res.json(album)
-  }
-
-  /**
    * Gets and returns the total amount spent on the collection.
    *
    * @param {object} req - Express request object.
@@ -147,6 +136,17 @@ export class RecordController {
     const albumCount = await models.album.count()
 
     res.json({ totalPrice, albumCount })
+  }
+
+  /**
+   * Responds with the album called up in getAlbumById and returns it as JSON.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express respone object.
+   */
+  async getSingleAlbum (req, res) {
+    const album = await this.getAlbumById(req.body.id)
+    res.json(album)
   }
 
   /**
@@ -163,10 +163,7 @@ export class RecordController {
           {
             model: models.artist,
             attributes: [
-              [
-                sequelize.literal(`${this.#concatFullName}`),
-                'fullName'
-              ]
+              'displayName'
             ]
           },
           {
@@ -210,7 +207,7 @@ export class RecordController {
       artistId: req.body.artistId || null,
       mediaConditionId: req.body.mediaConditionId || null,
       sleeveConditionId: req.body.sleeveConditionId || null,
-      rpm: req.body.rpm
+      rpm: req.body.rpm || null
     }
     return dataToSave
   }
@@ -289,6 +286,11 @@ export class RecordController {
   async saveNewRecord (req, res) {
     try {
       const dataToSave = this.mapDataFromReqToAlbum(req)
+
+      if (dataToSave.artistId === null && req.artistDisplayName !== '') {
+        const newArtist = await models.artist.create({ displayName: req.body.artistDisplayName })
+        dataToSave.artistId = newArtist.id
+      }
 
       const album = await models.album.create({ ...dataToSave })
 
