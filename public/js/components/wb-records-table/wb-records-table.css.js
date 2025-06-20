@@ -7,29 +7,35 @@ export const cssTemplate =
 /*css*/`
 :host {
   grid-area: main;
-  margin: 20px;
+  margin: 1.25rem;
 }
 
 #tableWrapper {
   background-color: ${theme.buttonsPlates};
-  padding: 20px;
+  padding: 1.25rem;
   width: fit-content;
+}
+
+.scroll-container {
+  position: relative;
+  overflow-y: auto;
+  max-height: 80vh;
 }
 
 #allRecordsTable  {
   font-size: 1 rem;
   display: block;
   border-collapse: collapse;
-  padding: 10px;
-  border-spacing: 3px 3px;
+  padding: 0.625rem;
+  border-spacing: 0.1875rem 0.1875rem;
   background-color: ${theme.evenRows};
   width: fit-content;
 }
 
 #allRecordsTable th, #allRecordsTable td {
-  padding: 4px 10px;
-  height: 20px;
-  margin-top: 3px;
+  padding: 0.25rem 0.625rem;
+  height: 1.25rem;
+  margin-top: 0.1875rem;
   cursor: default;
 }
 
@@ -48,7 +54,7 @@ export const cssTemplate =
 }
 
 .centered {
-max-width: 100px;
+max-width: 6.25rem;
 text-align: center;
 }
 
@@ -67,7 +73,6 @@ th:nth-last-child(n) {
 
 td {
   border-left: solid lightgrey 1px;
-  font-size: 106%;
 }
 
 td:nth-last-child(n) {

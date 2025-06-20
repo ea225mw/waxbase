@@ -1,6 +1,7 @@
 const pathToModule = import.meta.url
 const editBtnImagePath = new URL('./images/editbtn.svg', pathToModule)
 const deleteBtnImagePath = new URL('./images/deletebtn.png', pathToModule)
+const warningSignPath = new URL('./images/warning_sign.png', pathToModule)
 
 export const htmlTemplate =
 // eslint-disable-next-line
@@ -17,7 +18,7 @@ export const htmlTemplate =
         <button id="deleteBtn"><img src="${deleteBtnImagePath}"></button>
       </div>
       <div id="confirmDeleteDiv">
-        <div id="warningSign"><p>!</p></div>
+        <div id="warningSignDiv"><img src="${warningSignPath}"></div>
         <div>Are you sure you want to delete this record?</div>
         <div id="confirmDeleteTitle"></div>
         <div>
@@ -65,9 +66,11 @@ export const htmlTemplate =
       </div>
     <div id="detailsHeader">Tracks</div>
     <div id="tracksDiv" class="dataBox">
-      <table id="tracksTable">
-      <!-- TRACKS CREATED DYNAMICALLY HERE -->
-      </table>
+      <div class="scroll-container">
+        <table id="tracksTable">
+          <!-- TRACKS CREATED DYNAMICALLY HERE -->
+        </table>
+      </div>
     </div>
   </div>
 `

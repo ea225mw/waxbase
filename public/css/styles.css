@@ -3,11 +3,12 @@
 }
 
 html {
-  font-size: 17px;
+  font-size: 16px;
 }
 
 body {
   height: 100vh;
+  max-height: 100vh;
   margin: 0;
 }
 
@@ -33,12 +34,12 @@ body {
   grid-area: header;
   height: 100%;
   display: flex;
-  gap: 20px;
+  gap: 1.176rem;
   align-items: center;
 }
 
 header {
-  margin-left: 20px;
+  margin-left: 1.176rem;
 }
 
 footer {
@@ -75,4 +76,12 @@ footer {
 }
 .test {
   background-color: #faf4c3;
+}
+
+@media screen and (max-width: 1920px) {
+
+html {
+  font-size: 14px;
+}
+
 }

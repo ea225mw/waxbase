@@ -18,18 +18,18 @@ export const cssTemplate =
 .toggableDiv {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 0.59rem;
   background-color: ${theme.buttonsPlates};
   width: fit-content;
   transform: scaleY(0);
   transform-origin: bottom;
   transition: 0.3s;
-  height: 65px;
-  border-top-right-radius: 20px;
+  height: 3.82rem;
+  border-top-right-radius: 1.18rem;
 }
   
 .parts:nth-last-child(n) {
-  margin-right: 20px;
+  margin-right: 1.18rem;
 }
 
 
@@ -39,28 +39,28 @@ export const cssTemplate =
 
 .parts {
   background-color: ${theme.statisticsParts};
-  border-top-right-radius: 20px;
-  margin-top: 10px;
+  border-top-right-radius: 1.18rem;
+  margin-top: 0.59rem;
   color: ${theme.generalText}
 }
 
 h1 {
-  font-size: 16px;
+  font-size: 0.94rem;
   font-weight: 600;
-  margin: 5px 10px;
+  margin: 0.3rem 0.59rem;
 }
 
 p {
-  margin: 5px 10px;
+  margin: 0.3rem 0.59rem;
 }
 
 #toggleStatisticsBtn {
-  width: 80px;
-  height: 80px;
+  width: 4.70rem;
+  height: 4.70rem;
   border-radius: 50%;
   background-color: ${theme.buttonsPlates};
   color: ${theme.lightText};
-  font-size: 16px;
+  font-size: 0.94rem;
   font-weight: 500;
   border: none;
   cursor: pointer;

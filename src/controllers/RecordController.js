@@ -32,11 +32,15 @@ export class RecordController {
    * @param {object} res - Express respone object.
    */
   async getCommonData (req, res) {
-    const allArtists = await this.getAllArtists()
-    const allFormats = await this.getAllFormats()
-    const allConditions = await this.getAllConditions()
-    const allStores = await this.getAllStores()
-    res.json({ allArtists, allFormats, allConditions, allStores })
+    try {
+      const allArtists = await this.getAllArtists()
+      const allFormats = await this.getAllFormats()
+      const allConditions = await this.getAllConditions()
+      const allStores = await this.getAllStores()
+      res.json({ allArtists, allFormats, allConditions, allStores })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   /**
@@ -52,18 +56,7 @@ export class RecordController {
         include: [
           {
             model: models.artist,
-            attributes: [
-              [
-                sequelize.literal(`
-                  CASE
-                    WHEN the IS NULL AND firstName IS NULL THEN lastName
-                    WHEN the IS NOT NULL THEN CONCAT(lastName, ', ', the)
-                    ELSE CONCAT(lastName, ', ', firstName)
-                  END
-                `),
-                'fullName'
-              ]
-            ]
+            attributes: ['sortName', 'displayName']
           },
           { model: models.store, ...this.#excludeTimestampsAndID },
           { model: models.format, ...this.#excludeTimestampsAndID },
@@ -85,11 +78,7 @@ export class RecordController {
   async getAllArtists () {
     const artists = await models.artist.findAll({
       attributes: [
-        'id', 'firstName', 'lastName', 'the',
-        [
-          sequelize.literal(`${this.#concatFullName}`),
-          'fullName'
-        ]
+        'id', 'firstName', 'lastName', 'displayName', 'sortName', 'the'
       ]
     })
     return artists
@@ -255,25 +244,29 @@ export class RecordController {
    * @param {object} album - The album object.
    */
   async prepareTracks (tracks, album) {
-    const allTracks = JSON.parse(tracks)
-    for (const trackData of allTracks) {
-      const existingTrack = await models.track.findByPk(trackData.id)
+    try {
+      const allTracks = JSON.parse(tracks)
+      for (const trackData of allTracks) {
+        const existingTrack = await models.track.findByPk(trackData.id)
 
-      if (existingTrack) {
-        await existingTrack.update({
-          trackTitle: trackData.trackTitle || null,
-          minutes: trackData.minutes || 0,
-          seconds: trackData.seconds || 0
-        })
-      } else {
-        await models.track.create({
-          trackIndex: trackData.trackIndex,
-          trackTitle: trackData.trackTitle || null,
-          minutes: trackData.minutes || null,
-          seconds: trackData.seconds || null,
-          albumId: album.id
-        })
+        if (existingTrack) {
+          await existingTrack.update({
+            trackTitle: trackData.trackTitle || null,
+            minutes: trackData.minutes || 0,
+            seconds: trackData.seconds || 0
+          })
+        } else {
+          await models.track.create({
+            trackIndex: trackData.trackIndex,
+            trackTitle: trackData.trackTitle || null,
+            minutes: trackData.minutes || null,
+            seconds: trackData.seconds || null,
+            albumId: album.id
+          })
+        }
       }
+    } catch (error) {
+      console.log(error)
     }
   }
 

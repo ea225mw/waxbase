@@ -13,23 +13,22 @@ export const cssTemplate =
 
   #singleRecordWrapper {
     visibility: hidden;
-    margin: 10px;
-    margin-left: 20px;
-    overflow-y: auto;
-    height: 98%;
+    margin: 0.588rem;
+    margin-left: 1.176rem;
+    height: 80vh;
   }
 
   #imgTitleArtist {
     display: grid;
     grid-template: 
-  "image titleArtist . editBtn" 60px
-  "image titleArtist confirmDelete confirmDelete" 220px
-  /280px auto 200px 130px;
+  "image titleArtist . editBtn" 3.53rem
+  "image titleArtist confirmDelete confirmDelete" 12.94rem
+  /16.47rem auto 11.76rem 7.65rem;
   }
 
   #albumCover {
     grid-area: image;
-    max-width: 250px;
+    max-width: 14.7rem;
     border: solid black 1px;
   }
 
@@ -40,7 +39,7 @@ export const cssTemplate =
   #buttons {
   grid-area: editBtn;
     display: flex;
-    gap: 10px;
+    gap: 0.588rem;
   }
 
   #confirmDeleteDiv {
@@ -49,14 +48,14 @@ export const cssTemplate =
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    width: 320px;
-    height: 180px;
+    width: 19rem;
+    height: 10.59rem;
     background-color: ${theme.statisticsParts};
     color: ${theme.generalText};
-    border-radius: 15px;
+    border-radius: 0.882rem;
     border: 1px solid black;
-    box-shadow: 4px 4px 8px gray;
-    margin-top: 15px;
+    box-shadow: 0.235rem 0.235rem 0.470rem gray;
+    margin-top: 0.882rem;
     transform: scaleY(0);
     transform-origin: top;
     transition: 0.35s;
@@ -67,18 +66,16 @@ export const cssTemplate =
     font-size: 120%;
   }
 
-  #warningSign {
+  #warningSignDiv {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
-    height: 60px;
-    background-color: red;
-    color: white;
-    font-family: "Nunito", sans-serif;
-    font-size: 50px;
-    font-weight: 600;
-    border-radius: 50%;
+    width: 3.53rem;
+    height: 3.53rem;
+  }
+
+  #warningSignDiv img {
+    width: 100%;
   }
 
   #editBtn, #deleteBtn {
@@ -89,16 +86,16 @@ export const cssTemplate =
     border-radius: 50%;
     background-color: ${theme.buttonsPlates};
     color: white;
-    width: 55px;
-    height: 55px;
+    width: 3.235rem;
+    height: 3.235rem;
   }
 
   #editBtn > img {
-    width: 48px;
+    width: 2.82rem;
   }
   
   #deleteBtn > img {
-    height: 35px;
+    height: 2.06rem;
   }
 
   #editBtn:hover {
@@ -112,7 +109,7 @@ export const cssTemplate =
 
   h1,
   h2 {
-    margin: 10px;
+    margin: 0.59rem;
   }
 
   table {
@@ -120,18 +117,18 @@ export const cssTemplate =
   }
 
   tr td:first-child {
-    padding-left: 7px;
-    padding-right: 5px;
+    padding-left: 0.411rem;
+    padding-right: 0.294rem;
   }
 
   tr td:last-child {
-    padding-left: 20px;
-    padding-right: 7px;  
+    padding-left: 1.176rem;
+    padding-right: 0.411rem;  
   }
 
   td {
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding-top: 0.235rem;
+    padding-bottom: 0.235rem;
 
   }
 
@@ -144,15 +141,22 @@ export const cssTemplate =
   }
 
   .dataBox {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px;
+    padding: 0.88rem;
     border: 1px solid black;
-    box-shadow: 4px 4px 7px gray;
+    box-shadow: 0.235rem 0.235rem 0.411rem gray;
     max-width: fit-content;
     background-color: ${theme.buttonsPlates};
   }
+
+  .scroll-container {
+  position: relative;
+  overflow-y: auto;
+  max-height: 15rem;
+}
 
   #detailsHeader {
     font-size: 1.2rem;
@@ -162,17 +166,17 @@ export const cssTemplate =
 
   .flexbox {
     display: flex;
-    gap: 5px;
+    gap: 0.294rem;
   }
 
   #detailsDiv {
     background-color: ${theme.evenRows};
-    padding: 10px;
+    padding: 0.588rem;
   }
 
   h4 {
-    margin-top: 9px;
-    margin-bottom: 3px;
+    margin-top: 0.529rem;
+    margin-bottom: 0.176rem;
     text-decoration: underline;
     font-style: italic;
     font-weight: 600;

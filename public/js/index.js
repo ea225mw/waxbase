@@ -69,6 +69,7 @@ wbSingleRecord.addEventListener('recordDeleted', (event) => {
  * Sets colors to certain elements.
  */
 function setColors () {
+  document.querySelector('body').style.backgroundColor = `${theme.mainBackground}`
   document.querySelector('#page').style.backgroundColor = `${theme.mainBackground}`
   document.querySelector('#headerDiv').style.backgroundColor = `${theme.buttonsPlates}`
 }

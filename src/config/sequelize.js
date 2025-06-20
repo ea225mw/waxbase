@@ -19,6 +19,7 @@ const Artist = sequelize.define('artist', {
   firstName: DataTypes.TEXT,
   lastName: DataTypes.TEXT,
   displayName: DataTypes.TEXT,
+  sortName: DataTypes.TEXT,
   the: DataTypes.TEXT
 })
 

@@ -32,19 +32,19 @@ export const cssTemplate =
       display: grid;
       grid-template:
       "a a" auto
-      ". b" 50px
-      / auto 150px;
+      ". b" 2.95rem
+      / auto 8.8rem;
       position: absolute;
-      top: 50%;
+      top: 10rem;
       left: 50%;
       transform: translate(-50%);
       background-color: ${theme.modal};
-      padding: 15px;
+      padding: 1rem;
       border-radius: 8px;
       box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.861);
       border: solid black 2px;
-      width: 800px;
-      height: 600px;
+      width: 47rem;
+      min-height: 35.3rem;
     }
 
     form {
@@ -118,8 +118,8 @@ export const cssTemplate =
     }
   
     input[type="radio"] {
-      margin-left: 3px;
-      margin-right: 20px;
+      margin-left: 0.2rem;
+      margin-right: 1.2rem;
     }
 
     .conditionLabel {
@@ -168,15 +168,15 @@ export const cssTemplate =
     }
 
     .minutesField, .secondsField {
-      max-width: 17px;
+      max-width: 1rem;
     }
 
     .trackTitle {
-      min-width: 300px;
+      min-width: 17.5rem;
     }
 
     #frontCover {
-      max-width: 150px;
+      max-width: 9rem;
     }
 
     .trackIndexDiv {

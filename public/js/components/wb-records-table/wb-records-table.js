@@ -98,7 +98,7 @@ customElements.define('wb-records-table',
         allTD.format.textContent = record.format.format
       }
       allTD.albumTitle.textContent = record.albumTitle
-      allTD.fullName.textContent = record.artist.fullName
+      allTD.fullName.textContent = record.artist.sortName || record.artist.displayName
       allTD.releaseYear.textContent = record.releaseYear
       allTD.price.textContent = record.price
       if (record.store) {

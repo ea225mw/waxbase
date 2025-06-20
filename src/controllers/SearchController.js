@@ -44,18 +44,6 @@ export class SearchController {
       return
     }
 
-    // If the search results in only one match:
-    /* if (discogsData.pagination.items === 1) {
-      console.log('Hello from length of one in data.results')
-      const resource = await this.fetchOneDiscogsResource(discogsData.results[0].resource_url)
-      const returnedObject = {
-        typeOfResponse: 'OneSingleRecord',
-        data: resource
-      }
-      res.json(returnedObject)
-      return
-    } */
-
     if (discogsData.pagination.items >= 1) {
       const returnedObject = {
         typeOfResponse: 'MultipleRecords',
@@ -63,44 +51,27 @@ export class SearchController {
       }
       res.json(returnedObject)
     }
-    /*
-    const masterReleasesURLs = new Set()
-
-    if (data.pagination.items > 1) {
-      data.results.forEach(element => {
-        if (element.master_url) {
-          masterReleasesURLs.add(element.master_url)
-        }
-      })
-      const masterReleasesURLsArray = [...masterReleasesURLs]
-    }
-
-    let masterReleasesURLsArray
-
-    if (masterReleasesURLs.size > 0) {
-      masterReleasesURLsArray = [...masterReleasesURLs]
-      Promise.all(masterReleasesURLsArray.map(url => fetch(url).then(response => response.json())))
-        .then(masterReleases => {
-        // Här har vi en array med resultaten från alla URL:er
-          console.log('results: ', masterReleases)
-          res.json(masterReleases)
-        })
-    } */
   }
 
   /**
+   * Get one specific Discogs release based on release ID.
    *
-   * @param url
+   * @param {URL} url - The Discogs API URL.
+   * @returns {object} - The release as a JSON object.
    */
   async fetchOneDiscogsResource (url) {
-    console.log('url in fetchOneDiscogsResource', url)
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Discogs token=${process.env.DISCOGS_TOKEN}`
-      }
-    })
-    const resource = await response.json()
-    return resource
+    // console.log('url in fetchOneDiscogsResource', url)
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Discogs token=${process.env.DISCOGS_TOKEN}`
+        }
+      })
+      const resource = await response.json()
+      return resource
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   /**
@@ -109,22 +80,11 @@ export class SearchController {
    * @param res
    */
   async getDiscogsResource (req, res) {
-    const resource = await this.fetchOneDiscogsResource(req.body.resource_url)
-    res.json(resource)
+    try {
+      const resource = await this.fetchOneDiscogsResource(req.body.resource_url)
+      res.json(resource)
+    } catch (error) {
+      console.log(error)
+    }
   }
-
-  /**
-   *
-   * @param discogsData
-   */
-  /* async prepareMultipleRecords (discogsData) {
-    const preparedData = []
-    discogsData.results.forEach(async (element) => {
-      // console.log(element.resource_url)
-      const response = await this.fetchOneResource(element.resource_url)
-      const resource = await response.json()
-      preparedData.push(resource)
-    })
-    return preparedData
-  } */
 }

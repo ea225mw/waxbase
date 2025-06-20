@@ -56,36 +56,42 @@ async function seed () {
       firstName: 'David',
       lastName: 'Bowie',
       displayName: 'David Bowie',
+      sortName: 'Bowie, David',
       the: null
     })
     const artist2 = await models.artist.create({
       firstName: null,
-      lastName: 'Eagles',
+      lastName: null,
       displayName: 'The Eagles',
+      sortName: 'Eagles, The',
       the: 'The'
     })
     const artist3 = await models.artist.create({
       firstName: 'Billy',
       lastName: 'Joel',
       displayName: 'Billy Joel',
+      sortName: 'Joel, Billy',
       the: null
     })
     const artist4 = await models.artist.create({
       firstName: 'Michael',
       lastName: 'Jackson',
       displayName: 'Michael Jackson',
+      sortName: 'Jackson, Michael',
       the: null
     })
     const artist5 = await models.artist.create({
       firstName: 'Emmylou',
       lastName: 'Harris',
       displayName: 'Emmylou Harris',
+      sortName: 'Harris, Emmylou',
       the: null
     })
     const artist6 = await models.artist.create({
       firstName: null,
-      lastName: 'Sha-Boom',
+      lastName: null,
       displayName: 'Sha-Boom',
+      sortName: 'Sha-Boom',
       the: null
     })
 
@@ -93,6 +99,7 @@ async function seed () {
       firstName: 'Bob',
       lastName: 'Marley',
       displayName: 'Bob Marley',
+      sortName: 'Marley, Bob',
       the: null
     })
 
@@ -100,13 +107,15 @@ async function seed () {
       firstName: 'Mark',
       lastName: 'Knopfler',
       displayName: 'Mark Knopfler',
+      sortName: 'Knopfler, Mark',
       the: null
     })
 
     const artist9 = await models.artist.create({
       firstName: null,
-      lastName: 'Manhattan Transfer',
+      lastName: null,
       displayName: 'The Manhattan Transfer',
+      sortName: 'Manhattan Transfer, The',
       the: 'The'
     })
 
@@ -114,73 +123,92 @@ async function seed () {
       firstName: 'Al',
       lastName: 'Jarreau',
       displayName: 'Al Jarreau',
+      sortName: 'Jarreau, Al',
       the: null
     })
 
     const artist11 = await models.artist.create({
       firstName: null,
-      lastName: 'Aerosmith',
+      lastName: null,
       displayName: 'Aerosmith',
+      sortName: 'Aerosmith',
       the: null
     })
     const artist12 = await models.artist.create({
       firstName: 'Tomas',
       lastName: 'Andersson Wij',
       displayName: 'Tomas Andersson Wij',
+      sortName: 'Andersson Wij, Tomas',
       the: null
     })
     const artist13 = await models.artist.create({
       firstName: 'Donald',
       lastName: 'Fagen',
       displayName: 'Donald Fagen',
+      sortName: 'Fagen, Donald',
       the: null
     })
     const artist14 = await models.artist.create({
       firstName: 'Marc',
       lastName: 'Cohn',
       displayName: 'Marc Cohn',
+      sortName: 'Cohn, Marc',
       the: null
     })
     const artist15 = await models.artist.create({
       firstName: null,
-      lastName: 'Clawfinger',
+      lastName: null,
       displayName: 'Clawfinger',
+      sortName: 'Clawfinger',
       the: null
     })
     const artist16 = await models.artist.create({
       firstName: 'Miles',
       lastName: 'Davis',
       displayName: 'Miles Davis',
+      sortName: 'Davis, Miles',
       the: null
     })
     const artist17 = await models.artist.create({
       firstName: null,
-      lastName: 'Def Leppard',
+      lastName: null,
       displayName: 'Def Leppard',
+      sortName: 'Def Leppard',
       the: null
     })
     const artist18 = await models.artist.create({
       firstName: null,
-      lastName: 'Dream Theater',
+      lastName: null,
       displayName: 'Dream Theater',
+      sortName: 'Dream Theater',
       the: null
     })
     const artist19 = await models.artist.create({
       firstName: null,
-      lastName: 'Earth Wind & Fire',
+      lastName: null,
       displayName: 'Earth Wind & Fire',
+      sortName: 'Earth Wind & Fire',
       the: null
     })
     const artist20 = await models.artist.create({
       firstName: 'John',
       lastName: 'Fogerty',
       displayName: 'John Fogerty',
+      sortName: 'Fogerty, John',
       the: null
     })
     const artist21 = await models.artist.create({
       firstName: 'Kirk',
       lastName: 'Franklin',
       displayName: 'Kirk Franklin',
+      sortName: 'Franklin, Kirk',
+      the: null
+    })
+    const artist22 = await models.artist.create({
+      firstName: 'Jim',
+      lastName: 'Lauderdale',
+      displayName: 'Jim Lauderdale',
+      sortName: 'Lauderdale, Jim',
       the: null
     })
 
@@ -521,6 +549,19 @@ async function seed () {
       mediaConditionId: conditionG.id,
       rpm: null
     })
+    const album25 = await models.album.create({
+      albumTitle: 'The Other Sessions',
+      releaseYear: 2001,
+      origReleaseYear: 2001,
+      artistId: artist22.id,
+      price: 10,
+      imgURL: null,
+      storeId: store3.id,
+      formatId: format1.id,
+      sleeveConditionId: conditionVG.id,
+      mediaConditionId: conditionVG.id,
+      rpm: null
+    })
 
     await models.track.bulkCreate([
       { trackIndex: 1, trackTitle: 'Beauty and the Beast', minutes: 3, seconds: 36, albumId: album1.id },
@@ -757,7 +798,19 @@ async function seed () {
       { trackIndex: 13, trackTitle: 'Always', minutes: 6, seconds: 44, albumId: album24.id },
       { trackIndex: 14, trackTitle: 'When I Get There', minutes: 5, seconds: 41, albumId: album24.id },
       { trackIndex: 15, trackTitle: 'Interlude - Pt. Two', minutes: 0, seconds: 43, albumId: album24.id },
-      { trackIndex: 16, trackTitle: 'Outro (The Blood)', minutes: 5, seconds: 9, albumId: album24.id }
+      { trackIndex: 16, trackTitle: 'Outro (The Blood)', minutes: 5, seconds: 9, albumId: album24.id },
+      { trackIndex: 1, trackTitle: 'If I Were You', minutes: 2, seconds: 51, albumId: album25.id },
+      { trackIndex: 2, trackTitle: 'Just To Get To You', minutes: 2, seconds: 37, albumId: album25.id },
+      { trackIndex: 3, trackTitle: 'I\'d Follow You Anywhere', minutes: 2, seconds: 46, albumId: album25.id },
+      { trackIndex: 4, trackTitle: 'What\'s On My Mind ', minutes: 3, seconds: 4, albumId: album25.id },
+      { trackIndex: 5, trackTitle: 'Merle World', minutes: 2, seconds: 28, albumId: album25.id },
+      { trackIndex: 6, trackTitle: 'You\'ll Know When It\'s Right', minutes: 3, seconds: 41, albumId: album25.id },
+      { trackIndex: 7, trackTitle: 'Honky Tonk Haze', minutes: 3, seconds: 42, albumId: album25.id },
+      { trackIndex: 8, trackTitle: 'First Things First', minutes: 2, seconds: 43, albumId: album25.id },
+      { trackIndex: 9, trackTitle: 'Oh My Goodness', minutes: 2, seconds: 5, albumId: album25.id },
+      { trackIndex: 10, trackTitle: 'Diesel, Diesel, Diesel', minutes: 2, seconds: 38, albumId: album25.id },
+      { trackIndex: 11, trackTitle: 'Born Believers', minutes: 2, seconds: 37, albumId: album25.id },
+      { trackIndex: 12, trackTitle: 'It\'s Not Too Late', minutes: 2, seconds: 48, albumId: album25.id }
     ])
 
     console.log('Testdata har lagts in!')
