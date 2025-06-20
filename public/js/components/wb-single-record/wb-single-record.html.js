@@ -28,45 +28,45 @@ export const htmlTemplate =
       </div>
     </div>
 
-    <div id="detailsHeader">Details</div>
-      <div class="dataBox">
-        <div id="detailsDiv">
-          <div class="flexbox">
-            <div>Format:</div>
-            <div id="format"></div>
-          </div>
-          <div class="flexbox">
-            <div>Store:</div>
-            <div id="store"></div>
-          </div>
-          <div class="flexbox">
-            <div>Price:</div>
-            <div id="price"></div>
-            <div>SEK</div>
-          </div>
-          <h4>Conditions</h4>
-          <div class="flexbox">
-            <div>Media:</div>
-            <div id="mediaCondition"></div>
-          </div>
-          <div class="flexbox">
-            <div>Sleeve:</div>
-            <div id="sleeveCondition"></div>
-          </div>
-          <h4>Years</h4>
-          <div class="flexbox">
-            <div>Release year:</div>
-            <div id="releaseYear"></div>
-          </div>
-          <div class="flexbox">
-            <div>Original release year:</div>
-            <div id="origReleaseYear"></div>
-          </div>
-        </div>  
-      </div>
-    <div id="detailsHeader">Tracks</div>
-    <div id="tracksDiv" class="dataBox">
-      <div class="scroll-container">
+    <div class="scroll-container">
+      <div id="detailsHeader">Details</div>
+        <div class="dataBox">
+          <div id="detailsDiv">
+            <div class="flexbox">
+              <div>Format:</div>
+              <div id="format"></div>
+            </div>
+            <div class="flexbox">
+              <div>Store:</div>
+              <div id="store"></div>
+            </div>
+            <div class="flexbox">
+              <div>Price:</div>
+              <div id="price"></div>
+              <div>SEK</div>
+            </div>
+            <h4>Conditions</h4>
+            <div class="flexbox">
+              <div>Media:</div>
+              <div id="mediaCondition"></div>
+            </div>
+            <div class="flexbox">
+              <div>Sleeve:</div>
+              <div id="sleeveCondition"></div>
+            </div>
+            <h4>Years</h4>
+            <div class="flexbox">
+              <div>Release year:</div>
+              <div id="releaseYear"></div>
+            </div>
+            <div class="flexbox">
+              <div>Original release year:</div>
+              <div id="origReleaseYear"></div>
+            </div>
+          </div>  
+        </div>
+      <div id="detailsHeader">Tracks</div>
+      <div id="tracksDiv" class="dataBox">
         <table id="tracksTable">
           <!-- TRACKS CREATED DYNAMICALLY HERE -->
         </table>

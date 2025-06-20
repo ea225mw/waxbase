@@ -17,7 +17,7 @@ body {
   grid-template: 
   "header header" 3.9rem
   "main single" auto
-  "footer single" 5rem
+  "footer single" 6rem
   /6fr 4fr;
   height: 100vh;
   max-height: 100vh;

@@ -7,13 +7,9 @@ export const cssTemplate =
 /*css*/`
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
-* {
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
-  }
-
   #singleRecordWrapper {
     visibility: hidden;
-    margin: 0.588rem;
+    margin: 0.625rem;
     margin-left: 1.176rem;
     height: 80vh;
   }
@@ -155,7 +151,7 @@ export const cssTemplate =
   .scroll-container {
   position: relative;
   overflow-y: auto;
-  max-height: 15rem;
+  max-height: 40rem;
 }
 
   #detailsHeader {

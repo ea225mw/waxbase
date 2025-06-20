@@ -19,7 +19,7 @@ export const cssTemplate =
 .scroll-container {
   position: relative;
   overflow-y: auto;
-  max-height: 80vh;
+  max-height: 70vh;
 }
 
 #allRecordsTable  {
