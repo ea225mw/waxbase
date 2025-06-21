@@ -1,6 +1,18 @@
 import { validateSeconds, validateMinutes } from '../../config/validations.js'
 import { baseURLClient } from '../../config/variables.js'
 
+const tableHeadTemplate = document.createElement('template')
+tableHeadTemplate.innerHTML = `
+<thead>
+  <tr>
+    <th></th>
+    <th>Title</th>
+    <th>Min</th>
+    <th>Sec</th>
+  </tr>
+</thead>
+`
+
 /**
  * Defines a class with common methods for the wb-edit-record and wb-new-record components.
  */
@@ -381,58 +393,73 @@ export class EditRecordBaseClass extends HTMLElement {
    * @param {Array} tracks - The trackslist array from the record object.
    */
   populateTracks (tracks) {
+    const table = document.createElement('table')
+    const tableHead = tableHeadTemplate.content.cloneNode(true)
+    table.append(tableHead)
+
     Object.values(tracks).forEach((track) => {
-      const [div, trackIndex, trackTitleField, trackMinutesField, trackSecondsField] = ['div', 'div', 'input', 'input', 'input'].map(tag => document.createElement(tag))
+      const [tr, td1TrackIndex, td2Title, trackTitleField, td3Minutes, trackMinutesField, td4Seconds, trackSecondsField] = ['tr', 'td', 'td', 'input', 'td', 'input', 'td', 'input'].map(tag => document.createElement(tag))
 
-      div.classList.add('editTracksContainer')
-      div.dataset.id = track.id
+      tr.classList.add('editTracksContainer')
+      tr.dataset.id = track.id
 
-      trackIndex.textContent = `${track.trackIndex}.`
-      trackIndex.classList.add('trackIndexDiv')
-      trackIndex.dataset.trackIndex = `${track.trackIndex}`
+      td1TrackIndex.textContent = `${track.trackIndex}.`
+      td1TrackIndex.classList.add('trackIndexTD')
+      td1TrackIndex.dataset.trackIndex = `${track.trackIndex}`
 
       trackTitleField.classList.add('trackTitle')
       trackTitleField.value = track.trackTitle
+      td2Title.append(trackTitleField)
 
       trackMinutesField.classList.add('minutesField')
       trackMinutesField.value = track.minutes
       trackMinutesField.dataset.valid = 'true'
+      td3Minutes.append(trackMinutesField)
 
       trackSecondsField.classList.add('secondsField')
       trackSecondsField.value = String(track.seconds).padStart(2, '0')
       trackSecondsField.dataset.valid = 'true'
+      td4Seconds.append(trackSecondsField)
 
-      div.append(trackIndex, trackTitleField, trackMinutesField, trackSecondsField)
-      this.tracksWrapper.append(div)
+      tr.append(td1TrackIndex, td2Title, td3Minutes, td4Seconds)
+      table.append(tr)
     })
+    this.tracksWrapper.append(table)
   }
 
   /**
    * Adds another track to the tracklist with empty fields for the user to fill.
    */
   createAnotherTrack () {
-    const lastTrack = this.#tracksWrapper.lastElementChild
+    const lastTrack = this.#tracksWrapper.querySelector('table').lastElementChild
     let lastIndex = 0
     if (lastTrack !== null) {
-      lastIndex = lastTrack.querySelector('.trackIndexDiv').dataset.trackIndex
+      lastIndex = lastTrack.querySelector('.trackIndexTD').dataset.trackIndex
     }
-    const [div, trackIndex, trackTitleField, trackMinutesField, trackSecondsField] = ['div', 'div', 'input', 'input', 'input'].map(tag => document.createElement(tag))
+    const [tr, td1TrackIndex, td2Title, trackTitleField, td3Minutes, trackMinutesField, td4Seconds, trackSecondsField] = ['tr', 'td', 'td', 'input', 'td', 'input', 'td', 'input'].map(tag => document.createElement(tag))
 
-    div.classList.add('editTracksContainer')
+    tr.classList.add('editTracksContainer')
 
-    trackIndex.textContent = `${parseInt(lastIndex) + 1}.`
-    trackIndex.classList.add('trackIndexDiv')
-    trackIndex.dataset.trackIndex = `${parseInt(lastIndex) + 1}`
+    td1TrackIndex.textContent = `${parseInt(lastIndex) + 1}.`
+    td1TrackIndex.classList.add('trackIndexTD')
+    td1TrackIndex.dataset.trackIndex = `${parseInt(lastIndex) + 1}`
+    tr.append(td1TrackIndex)
 
     trackTitleField.classList.add('trackTitle')
+    td2Title.append(trackTitleField)
+
     trackMinutesField.classList.add('minutesField')
+    td3Minutes.append(trackMinutesField)
+
     trackSecondsField.classList.add('secondsField')
+    td4Seconds.append(trackSecondsField)
+
     trackMinutesField.dataset.valid = 'true'
     trackSecondsField.dataset.valid = 'true'
 
-    div.append(trackIndex, trackTitleField, trackMinutesField, trackSecondsField)
-    this.shadowRoot.querySelector('#tracksWrapper').append(div)
-    div.querySelector('.trackTitle').focus()
+    tr.append(td1TrackIndex, td2Title, td3Minutes, td4Seconds)
+    this.tracksWrapper.querySelector('table').append(tr)
+    tr.querySelector('.trackTitle').focus()
   }
 
   /**
@@ -488,7 +515,7 @@ export class EditRecordBaseClass extends HTMLElement {
     allEditTracksContainers.forEach((trackContainer) => {
       const track = {}
       track.id = trackContainer.dataset.id
-      track.trackIndex = trackContainer.querySelector('.trackIndexDiv').dataset.trackIndex
+      track.trackIndex = trackContainer.querySelector('.trackIndexTD').dataset.trackIndex
       track.trackTitle = trackContainer.querySelector('.trackTitle').value
       track.minutes = trackContainer.querySelector('.minutesField').value
       track.seconds = trackContainer.querySelector('.secondsField').value

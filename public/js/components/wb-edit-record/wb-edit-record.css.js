@@ -13,6 +13,7 @@ export const cssTemplate =
   right: 0;
   bottom: 0;
   z-index: 9999;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .backdrop {
@@ -36,8 +37,8 @@ export const cssTemplate =
   transform: translate(-50%);
   background-color: ${theme.modal};
   padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.861);
+  border-radius: 0.5rem;
+  box-shadow: 0.375rem 0.375rem 0.625rem rgba(0, 0, 0, 0.861);
   border: solid black 2px;
   width: 47rem;
   min-height: 35.3rem;
@@ -50,13 +51,13 @@ form {
 
 input, select {
   box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-  padding: 3px;
+  padding: 0.1875rem;
   background-color: ${theme.inputAndSelect}
 }
 
 label {
-  margin-top: 12px;
-  margin-bottom: 3px;
+  margin-top: 0.75rem;
+  margin-bottom: 0.1875rem;
   color: ${theme.generalText}
 }
 
@@ -67,28 +68,23 @@ label {
 }
 
 select[name="formatId"] {
-  max-width: 90px;
+  max-width: 5.625rem;
 }
 
 input[name="albumTitle"], 
 input[name="artist"], 
 input[name="store"] {
-  width: 250px;
+  width: 15.5rem;
 }
 
 input[name="releaseYear"], 
 input[name="origReleaseYear"], 
 input[name="price"]{
-  max-width: 50px;
-}
-
-#tracksWrapper {
-  display: flex;
-  flex-direction: column;
+  max-width: 3.125rem;
 }
 
 #tracksWrapper input {
-  width: 450px;
+  width: 28rem;
 }
 
 #tabsDiv {
@@ -96,7 +92,7 @@ input[name="price"]{
 }
 
 button.tab {
-  min-width: 58px;
+  min-width: 3.625rem;
 }
 
 #buttonsDiv {
@@ -110,7 +106,7 @@ button.tab {
 #detailsWrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.25rem;
 }
 
 input[type="radio"] {
@@ -120,21 +116,21 @@ input[type="radio"] {
 
 .conditionLabel {
   display: inline-block;
-  width: 110px;
+  width: 6.875rem;
 }
 
 .tab {
   border: none;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  border-top-left-radius: 0.1875rem;
+  border-top-right-radius: 0.1875rem;
   box-shadow: none;
   background-color: ${theme.tab};
   color: ${theme.shadedText};
-  padding-left: 7px;
-  padding-right: 7px;
+  padding-left: 0.4375rem;
+  padding-right: 0.4375rem;
   padding-bottom: 0;
-  height: 20px;
-  min-width: 65px;
+  height: 1.25rem;
+  min-width: 4.1rem;
 }
 
 .selected-tab {
@@ -145,45 +141,78 @@ input[type="radio"] {
 .forms {
   display: none;
   flex-direction: column;
-  padding: 20px;
+  padding: 1.25rem;
   background-color: ${theme.selectedTabAndForms};
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0.625rem;
+  border-bottom-right-radius: 0.625rem;
+  border-top-right-radius: 0.625rem;
 }
 
 .selected-form {
   display: flex;
 }
 
-.editTracksContainer {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin-top: 9px;
-}
+/* -------------------- TRACKS -------------------- */
 
 .minutesField, .secondsField {
-  max-width: 1rem;
+  max-width: 1.2rem;
 }
 
 .trackTitle {
   min-width: 17.5rem;
 }
 
+.trackIndexTD {
+  width: 1.5625rem;
+  text-align: right;
+  margin-right: 0.1875rem;
+}
+
+#addTrackBtn, #removeTrackBtn {
+  width: 1.6rem;
+  height: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.25rem;
+}
+
+#plusAndMinusBtn {
+  margin-top: 0.625rem;
+  margin-left: 1.875rem;
+  display: flex;
+  gap: 1rem;
+}
+
+#plusAndMinusBtn button {
+  background-color: ${theme.plusAndMinusBtn};
+  color: ${theme.plusAndMinusBtnText};
+}
+
+#removeTrackConfirmDiv {
+  display: none;
+  background-color: ${theme.inputAndSelect};
+  max-width: 37.5rem;
+  padding: 0.75rem;
+  border-radius: 0.625rem;
+}
+
+#removeTrackConfirmDiv button {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+/* -------------------- ALBUM COVER -------------------- */
+
 #frontCover {
   max-width: 9rem;
 }
 
-.trackIndexDiv {
-  width: 25px;
-  text-align: right;
-  margin-right: 3px;
-}
-
 select {
-  padding: 5px 9px;
-  border-radius: 5px;
+  padding: 0.3125rem 0.5625rem;
+  border-radius: 0.3125rem;
   border: 1px solid #999;
 }
 
@@ -193,30 +222,30 @@ input::placeholder {
 }
 
 .detailsHeader {
-  margin-top: 2px;
-  margin-bottom: 5px;
+  margin-top: 0.125rem;
+  margin-bottom: 0.3125rem;
 }
 
 .inputWithSuggestions {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 0.625rem;
   position: relative;
 }
 
 .suggestions {
   position: absolute;
-  left: 270px;
+  left: 16.875rem;
   list-style: none;
   margin: 0;
   padding: 0;
   background: white;
-  min-width: 200px;
-  max-width: 350px;
+  min-width: 12.5rem;
+  max-width: 22rem;
 }
 
 .suggestions li {
-  padding: 4px;
+  padding: 0.25rem;
   cursor: pointer;
 }
 
@@ -224,51 +253,14 @@ input::placeholder {
   background-color: ${theme.mainBackground};
 }
 
-#addTrackBtn, #removeTrackBtn {
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 50%;
-  font-size: 20px;
-}
-
-#plusAndMinusBtn {
-  margin-top: 10px;
-  margin-left: 30px;
-  display: flex;
-  gap: 15px;
-}
-
-#plusAndMinusBtn button {
-  background-color: ${theme.plusAndMinusBtn};
-  color: ${theme.plusAndMinusBtnText};
-}
-
 #cancel, #submit {
-  min-width: 58px;
-}
-
-#removeTrackConfirmDiv {
-  display: none;
-  background-color: ${theme.inputAndSelect};
-  max-width: 600px;
-  padding: 12px;
-  border-radius: 10px;
-}
-
-#removeTrackConfirmDiv button {
-  margin-top: 7px;
-  margin-right: 7px;
+  min-width: 3.6rem;
 }
 
 #validationFailMsg {
   position: absolute;
-  top: -30px;
-  left: -160px;
-  min-width: 200px;
+  top: -1.875rem;
+  left: -10rem;
+  min-width: 12.5rem;
 }
-
 `
