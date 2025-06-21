@@ -73,14 +73,14 @@ export const htmlTemplate =
             <select name="mediaConditionId" value="">
               <!-- MEDIA CONDITION CONTENT CREATED DYNAMICALLY -->
             </select>
-            <input placeholder="Media condition notes" id="mediaConditionNotes">
+            <input placeholder="Media condition notes" id="mediaConditionNotes" name="mediaConditionNotes">
           </div>
           <div>
             <label for="sleeveConditionId" class="conditionLabel">Sleeve condition</label>
             <select name="sleeveConditionId" value="">
               <!-- SLEEVE CONDITION CONTENT CREATED DYNAMICALLY -->
             </select>
-            <input placeholder="Sleeve condition notes" id="sleeveConditionNotes">
+            <input placeholder="Sleeve condition notes" id="sleeveConditionNotes" name="sleeveConditionNotes">
           </div>
         </div>
         <div>

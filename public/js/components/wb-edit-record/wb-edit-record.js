@@ -68,6 +68,8 @@ customElements.define('wb-edit-record',
       await this.createConditionOptions(record)
       this.shadowRoot.querySelector('select[name="mediaConditionId"]').value = String(record.mediaConditionId)
       this.shadowRoot.querySelector('select[name="sleeveConditionId"]').value = String(record.sleeveConditionId)
+      this.shadowRoot.querySelector('#mediaConditionNotes').value = record.mediaConditionNotes || ''
+      this.shadowRoot.querySelector('#sleeveConditionNotes').value = record.sleeveConditionNotes || ''
 
       this.populateForm(record)
       // this.#albumEditForm.setAttribute('method', 'POST')

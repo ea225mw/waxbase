@@ -248,7 +248,9 @@ async function seed () {
       storeId: store1.id,
       formatId: format1.id,
       sleeveConditionId: conditionVG.id,
+      sleeveConditionNotes: 'A sticker on the front cover.',
       mediaConditionId: conditionNM.id,
+      mediaConditionNotes: 'Hairline scratches but plays fine.',
       rpm: null
     })
     const album2 = await models.album.create({

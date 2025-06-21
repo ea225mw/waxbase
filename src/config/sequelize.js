@@ -50,6 +50,7 @@ const Album = sequelize.define('album', {
       key: 'id'
     }
   },
+  sleeveConditionNotes: DataTypes.TEXT,
   mediaConditionId: {
     type: DataTypes.INTEGER,
     references: {
@@ -57,6 +58,7 @@ const Album = sequelize.define('album', {
       key: 'id'
     }
   },
+  mediaConditionNotes: DataTypes.TEXT,
   rpm: DataTypes.INTEGER
 })
 

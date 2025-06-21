@@ -195,7 +195,9 @@ export class RecordController {
       storeId: req.body.storeId || null,
       artistId: req.body.artistId || null,
       mediaConditionId: req.body.mediaConditionId || null,
+      mediaConditionNotes: req.body.mediaConditionNotes || null,
       sleeveConditionId: req.body.sleeveConditionId || null,
+      sleeveConditionNotes: req.body.sleeveConditionNotes || null,
       rpm: req.body.rpm || null
     }
     return dataToSave
