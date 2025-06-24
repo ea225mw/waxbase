@@ -448,7 +448,7 @@ async function seed () {
       rpm: null
     })
     const album17 = await models.album.create({
-      albumTitle: 'Adreanlize',
+      albumTitle: 'Adrenalize',
       releaseYear: 1992,
       origReleaseYear: 1992,
       artistId: artist17.id,

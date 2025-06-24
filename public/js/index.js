@@ -4,6 +4,7 @@ import './components/wb-edit-record/wb-edit-record.js'
 import './components/wb-edit-record/wb-new-record.js'
 import './components/wb-statistics/wb-statistics.js'
 import './components/wb-search-discogs/wb-search-discogs.js'
+import './components/wb-menubar/wb-menubar.js'
 import { baseURLClient } from './config/variables.js'
 import { getTheme, themeID } from './config/colorThemes.js'
 
@@ -75,6 +76,7 @@ function setColors () {
 }
 
 /* ---------- ADD RECORD MANUALLY ---------- */
+/*
 const addRecordBtn = document.querySelector('#addRecordBtn')
 addRecordBtn.addEventListener('click', () => {
   const newRecordView = document.createElement('wb-new-record')
@@ -85,7 +87,7 @@ addRecordBtn.addEventListener('click', () => {
   newRecordView.addEventListener('recordAdded', (event) => {
     newRecordAdded(event)
   })
-})
+}) */
 
 /**
  *
@@ -98,7 +100,7 @@ function newRecordAdded (event) {
   document.querySelector('#noRecordSelected').style.display = 'none'
   wbStatistics.updateStatistics()
 }
-
+/*
 const searchReleaseBtn = document.querySelector('#searchReleaseBtn')
 searchReleaseBtn.addEventListener('click', () => {
   const wbSearchDiscogs = document.createElement('wb-search-discogs')
@@ -107,7 +109,7 @@ searchReleaseBtn.addEventListener('click', () => {
     getOneResourceFromDiscogs(event.detail.resource_url)
   })
 })
-
+*/
 /**
  *
  * @param url
