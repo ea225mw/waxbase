@@ -9,7 +9,7 @@ customElements.define('wb-menubar',
   class extends HTMLElement {
     #menubar
     /**
-     *
+     * Creates a new instance of the wb-menubar web component.
      */
     constructor () {
       super()
@@ -18,24 +18,28 @@ customElements.define('wb-menubar',
     }
 
     /**
-     *
+     * Called when the component is added to DOM.
      */
     connectedCallback () {
       this.#menubar = this.shadowRoot.querySelector('#menubar')
 
       this.#menubar.addEventListener('click', (event) => {
         if (event.target.classList.contains('menu-buttons')) {
-          console.log('Menu buttons clicked!')
+          // console.log('Menu buttons clicked!')
           this.displayMenuChoices(event)
         } else if (event.target.tagName === 'LI') {
-          console.log('Choice made')
+          const choice = event.target.closest('li')
+          console.log(choice.dataset.choice)
+          this.dispatchEvent(new CustomEvent(`${choice.dataset.choice}`))
+          this.hideAllMenus()
         }
       })
     }
 
     /**
+     * Displays the menu choices in the corresponing menu button.
      *
-     * @param event
+     * @param {MouseEvent} event - The mouse click event.
      */
     displayMenuChoices (event) {
       const allLists = this.shadowRoot.querySelectorAll('ul')
@@ -61,6 +65,16 @@ customElements.define('wb-menubar',
         column.classList.add('displayed')
         column.querySelector('ul').classList.add('visible')
       }
+    }
+
+    /**
+     * Hides all visible menus.
+     */
+    hideAllMenus () {
+      const allLists = this.shadowRoot.querySelectorAll('ul')
+      allLists.forEach((list) => {
+        list.classList.remove('visible')
+      })
     }
   }
 )

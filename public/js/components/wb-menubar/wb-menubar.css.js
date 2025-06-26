@@ -55,4 +55,8 @@ li {
   white-space: nowrap;
   cursor: pointer;
 }
+
+li:hover {
+  background-color: yellow;
+} 
 `

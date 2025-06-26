@@ -22,7 +22,7 @@ const wbSingleRecord = document.createElement('wb-single-record')
 document.querySelector('#singleRecordView').append(wbSingleRecord)
 
 /**
- * Fetches common data that other components have use for.
+ * Fetches common data that different components have use for.
  */
 async function fetchApplicationRecordData () {
   const response = await fetch(`${baseURLClient}records/commonData`)
@@ -59,6 +59,7 @@ wbSingleRecord.addEventListener('showEditView', (event) => {
     wbStatistics.updateStatistics()
   })
 })
+
 wbSingleRecord.addEventListener('recordDeleted', (event) => {
   wbRecordsTable.removeDeletedRecord(event.detail.id)
   wbStatistics.updateStatistics()
@@ -75,10 +76,11 @@ function setColors () {
   document.querySelector('#headerDiv').style.backgroundColor = `${theme.buttonsPlates}`
 }
 
-/* ---------- ADD RECORD MANUALLY ---------- */
-/*
-const addRecordBtn = document.querySelector('#addRecordBtn')
-addRecordBtn.addEventListener('click', () => {
+/* ---------- MENUBAR ---------- */
+
+const wbMenubar = document.querySelector('wb-menubar')
+
+wbMenubar.addEventListener('manually', () => {
   const newRecordView = document.createElement('wb-new-record')
   document.body.append(newRecordView)
   newRecordView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
@@ -87,11 +89,20 @@ addRecordBtn.addEventListener('click', () => {
   newRecordView.addEventListener('recordAdded', (event) => {
     newRecordAdded(event)
   })
-}) */
+})
+
+wbMenubar.addEventListener('bySearching', () => {
+  const wbSearchDiscogs = document.createElement('wb-search-discogs')
+  document.body.append(wbSearchDiscogs)
+  wbSearchDiscogs.addEventListener('getOneResourceFromDiscogs', (event) => {
+    getOneResourceFromDiscogs(event.detail.resource_url)
+  })
+})
 
 /**
+ * Called when the custom event 'recordAdded' is dispatched from wb-new-record component.
  *
- * @param event
+ * @param {CustomEvent} event - The 'recordAdded' event.
  */
 function newRecordAdded (event) {
   wbRecordsTable.setRecordData(event.detail.addedRecord)
@@ -100,19 +111,11 @@ function newRecordAdded (event) {
   document.querySelector('#noRecordSelected').style.display = 'none'
   wbStatistics.updateStatistics()
 }
-/*
-const searchReleaseBtn = document.querySelector('#searchReleaseBtn')
-searchReleaseBtn.addEventListener('click', () => {
-  const wbSearchDiscogs = document.createElement('wb-search-discogs')
-  document.body.append(wbSearchDiscogs)
-  wbSearchDiscogs.addEventListener('getOneResourceFromDiscogs', (event) => {
-    getOneResourceFromDiscogs(event.detail.resource_url)
-  })
-})
-*/
+
 /**
+ * Gets a Discogs release (record) from the passed URL.
  *
- * @param url
+ * @param {URL} url - The Discogs API URL.
  */
 async function getOneResourceFromDiscogs (url) {
   const response = await fetch(`${baseURLClient}search/getDiscogsResource`, {
@@ -130,8 +133,10 @@ async function getOneResourceFromDiscogs (url) {
 }
 
 /**
+ * Creates a new record to be added to the collection based on the info from the Discogs release.
+ * Called when there is a successful fetch in getOneResourceFromDiscogs().
  *
- * @param record
+ * @param {object} record - The fetched record object.
  */
 function createNewDiscogsRecord (record) {
   // console.log('record in createNewDiscogsRecord: ', record)
