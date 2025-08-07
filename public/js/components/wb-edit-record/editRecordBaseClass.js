@@ -1,17 +1,4 @@
-import { validateSeconds, validateMinutes } from '../../config/validations.js'
 import { baseURLClient } from '../../config/variables.js'
-
-const tableHeadTemplate = document.createElement('template')
-tableHeadTemplate.innerHTML = `
-<thead>
-  <tr>
-    <th></th>
-    <th>Title</th>
-    <th>Min</th>
-    <th>Sec</th>
-  </tr>
-</thead>
-`
 
 /**
  * Defines a class with common methods for the wb-edit-record and wb-new-record components.
@@ -36,14 +23,6 @@ export class EditRecordBaseClass extends HTMLElement {
   #releaseYear
   #origReleaseYear
   #imgURLHidden
-  #addTrackBtn
-  #removeTrackBtn
-  #tracksWrapper
-  #removeTrackConfirmDiv
-  #removeTrackConfirmMsg
-  #removeTrackCancel
-  #removeTrackSubmit
-  #tracksToBeRemoved = []
 
   /**
    * Called when the component that inherits from this class is added to DOM.
@@ -61,14 +40,7 @@ export class EditRecordBaseClass extends HTMLElement {
     this.#origReleaseYear = this.shadowRoot.querySelector('input[name="origReleaseYear"]')
     this.#storeIdHidden = this.shadowRoot.querySelector('#storeIdHidden')
     this.#imgURLHidden = this.shadowRoot.querySelector('input[name="imgURL"]')
-    this.#addTrackBtn = this.shadowRoot.querySelector('#addTrackBtn')
-    this.#removeTrackBtn = this.shadowRoot.querySelector('#removeTrackBtn')
-    this.#tracksWrapper = this.shadowRoot.querySelector('#tracksWrapper')
     this.#albumEditForm = this.shadowRoot.querySelector('#albumEditForm')
-    this.#removeTrackConfirmDiv = this.shadowRoot.querySelector('#removeTrackConfirmDiv')
-    this.#removeTrackConfirmMsg = this.shadowRoot.querySelector('#removeTrackConfirmMsg')
-    this.#removeTrackCancel = this.shadowRoot.querySelector('#removeTrackCancel')
-    this.#removeTrackSubmit = this.shadowRoot.querySelector('#removeTrackSubmit')
     this.#albumTitle = this.shadowRoot.querySelector('input[name="albumTitle"]')
     this.#store = this.shadowRoot.querySelector('input[name="store"]')
     this.#price = this.shadowRoot.querySelector('input[name="price"]')
@@ -95,39 +67,6 @@ export class EditRecordBaseClass extends HTMLElement {
         this.#storeInput.value = event.target.textContent
         this.#storeIdHidden.value = event.target.dataset.id
         this.#storeSuggestionsList.innerHTML = ''
-      }
-    })
-
-    this.#addTrackBtn.addEventListener('click', () => {
-      this.createAnotherTrack()
-    })
-    this.#removeTrackBtn.addEventListener('click', () => {
-      if (this.#tracksWrapper.lastElementChild) {
-        this.#removeTrackConfirmMsg.textContent = `Do you want to delete track "${this.#tracksWrapper.lastElementChild.querySelector('.trackTitle').value}"?`
-        this.#removeTrackConfirmDiv.style.display = 'block'
-      }
-    })
-    this.#removeTrackCancel.addEventListener('click', (event) => {
-      event.preventDefault()
-      this.#removeTrackConfirmDiv.style.display = 'none'
-    })
-    this.#removeTrackSubmit.addEventListener('click', (event) => {
-      event.preventDefault()
-      if (this.#tracksWrapper.lastElementChild.dataset.id) {
-        this.#tracksToBeRemoved.push(this.#tracksWrapper.lastElementChild.dataset.id)
-      }
-      this.#tracksWrapper.lastElementChild.remove()
-      this.#removeTrackConfirmDiv.style.display = 'none'
-    })
-
-    this.tracksWrapper.addEventListener('input', (event) => {
-      if (event.target.matches('.secondsField')) {
-        const valid = validateSeconds(event.target.value)
-        this.setRedBorders(valid, event.target)
-      }
-      if (event.target.matches('.minutesField')) {
-        const valid = validateMinutes(event.target.value)
-        this.setRedBorders(valid, event.target)
       }
     })
 
@@ -263,39 +202,12 @@ export class EditRecordBaseClass extends HTMLElement {
   }
 
   /**
-   * Getter for #addTrackBtn.
-   *
-   * @returns {HTMLButtonElement} - id="addTrackBtn"
-   */
-  get addTrackBtn () {
-    return this.#addTrackBtn
-  }
-
-  /**
-   * Getter for #tracksWrapper.
-   *
-   * @returns {HTMLDivElement} - The tracksWrapper div element.
-   */
-  get tracksWrapper () {
-    return this.#tracksWrapper
-  }
-
-  /**
    * Getter for #albumEditForm.
    *
    * @returns {HTMLFormElement} - The albumEditForm form element.
    */
   get albumEditForm () {
     return this.#albumEditForm
-  }
-
-  /**
-   * Getter for #tracksToBeRemoved.
-   *
-   * @returns {Array} - An array with tracks to be removed from record.
-   */
-  get tracksToBeRemoved () {
-    return this.#tracksToBeRemoved
   }
 
   /**
@@ -388,81 +300,6 @@ export class EditRecordBaseClass extends HTMLElement {
   }
 
   /**
-   * Populates the tracks tab with all tracks from the record object.
-   *
-   * @param {Array} tracks - The trackslist array from the record object.
-   */
-  populateTracks (tracks) {
-    const table = document.createElement('table')
-    const tableHead = tableHeadTemplate.content.cloneNode(true)
-    table.append(tableHead)
-
-    Object.values(tracks).forEach((track) => {
-      const [tr, td1TrackIndex, td2Title, trackTitleField, td3Minutes, trackMinutesField, td4Seconds, trackSecondsField] = ['tr', 'td', 'td', 'input', 'td', 'input', 'td', 'input'].map(tag => document.createElement(tag))
-
-      tr.classList.add('editTracksContainer')
-      tr.dataset.id = track.id
-
-      td1TrackIndex.textContent = `${track.trackIndex}.`
-      td1TrackIndex.classList.add('trackIndexTD')
-      td1TrackIndex.dataset.trackIndex = `${track.trackIndex}`
-
-      trackTitleField.classList.add('trackTitle')
-      trackTitleField.value = track.trackTitle
-      td2Title.append(trackTitleField)
-
-      trackMinutesField.classList.add('minutesField')
-      trackMinutesField.value = track.minutes
-      trackMinutesField.dataset.valid = 'true'
-      td3Minutes.append(trackMinutesField)
-
-      trackSecondsField.classList.add('secondsField')
-      trackSecondsField.value = String(track.seconds).padStart(2, '0')
-      trackSecondsField.dataset.valid = 'true'
-      td4Seconds.append(trackSecondsField)
-
-      tr.append(td1TrackIndex, td2Title, td3Minutes, td4Seconds)
-      table.append(tr)
-    })
-    this.tracksWrapper.append(table)
-  }
-
-  /**
-   * Adds another track to the tracklist with empty fields for the user to fill.
-   */
-  createAnotherTrack () {
-    const lastTrack = this.#tracksWrapper.querySelector('table').lastElementChild
-    let lastIndex = 0
-    if (lastTrack !== null) {
-      lastIndex = lastTrack.querySelector('.trackIndexTD').dataset.trackIndex
-    }
-    const [tr, td1TrackIndex, td2Title, trackTitleField, td3Minutes, trackMinutesField, td4Seconds, trackSecondsField] = ['tr', 'td', 'td', 'input', 'td', 'input', 'td', 'input'].map(tag => document.createElement(tag))
-
-    tr.classList.add('editTracksContainer')
-
-    td1TrackIndex.textContent = `${parseInt(lastIndex) + 1}.`
-    td1TrackIndex.classList.add('trackIndexTD')
-    td1TrackIndex.dataset.trackIndex = `${parseInt(lastIndex) + 1}`
-    tr.append(td1TrackIndex)
-
-    trackTitleField.classList.add('trackTitle')
-    td2Title.append(trackTitleField)
-
-    trackMinutesField.classList.add('minutesField')
-    td3Minutes.append(trackMinutesField)
-
-    trackSecondsField.classList.add('secondsField')
-    td4Seconds.append(trackSecondsField)
-
-    trackMinutesField.dataset.valid = 'true'
-    trackSecondsField.dataset.valid = 'true'
-
-    tr.append(td1TrackIndex, td2Title, td3Minutes, td4Seconds)
-    this.tracksWrapper.querySelector('table').append(tr)
-    tr.querySelector('.trackTitle').focus()
-  }
-
-  /**
    * Populates a suggestions list when typing in the artist field.
    */
   listenForArtistInput () {
@@ -501,27 +338,6 @@ export class EditRecordBaseClass extends HTMLElement {
       li.dataset.id = store.id
       this.#storeSuggestionsList.appendChild(li)
     })
-  }
-
-  /**
-   * Prepares all tracks into an array before submission to the server.
-   *
-   * @returns {Array} - The tracks array.
-   */
-  prepareTracksForSubmission () {
-    const tracks = []
-
-    const allEditTracksContainers = this.shadowRoot.querySelectorAll('.editTracksContainer')
-    allEditTracksContainers.forEach((trackContainer) => {
-      const track = {}
-      track.id = trackContainer.dataset.id
-      track.trackIndex = trackContainer.querySelector('.trackIndexTD').dataset.trackIndex
-      track.trackTitle = trackContainer.querySelector('.trackTitle').value
-      track.minutes = trackContainer.querySelector('.minutesField').value
-      track.seconds = trackContainer.querySelector('.secondsField').value
-      tracks.push(track)
-    })
-    return tracks
   }
 
   /**

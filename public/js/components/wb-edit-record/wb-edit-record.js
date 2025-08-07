@@ -1,6 +1,7 @@
 import { EditRecordBaseClass } from './editRecordBaseClass.js'
 import { cssTemplate } from './wb-edit-record.css.js'
 import { htmlTemplate } from './wb-edit-record.html.js'
+import '../wb-edit-record/wb-tracks-edit/wb-tracks-edit.js'
 import { renderTemplates, getFieldMap } from '../../commonMethods.js'
 
 const pathToModule = import.meta.url
@@ -15,7 +16,9 @@ customElements.define('wb-edit-record',
     #submit
     #tabsDiv
     #recordIndexHiddenInput
+    #tracksTab
     #allConditions = []
+    #wbTracksEdit = document.createElement('wb-tracks-edit')
 
     /**
      * Creates a new instance of the wb-edit-record web component.
@@ -37,6 +40,7 @@ customElements.define('wb-edit-record',
       this.#submit = this.shadowRoot.querySelector('#submit')
       this.#tabsDiv = this.shadowRoot.querySelector('#tabsDiv')
       this.#recordIndexHiddenInput = this.shadowRoot.querySelector('#recordIndex')
+      this.#tracksTab = this.shadowRoot.querySelector('#tracks')
 
       /* ---------- EVENT LISTENERS ---------- */
       this.#cancel.addEventListener('click', () => this.cancel())
@@ -70,6 +74,8 @@ customElements.define('wb-edit-record',
       this.shadowRoot.querySelector('select[name="sleeveConditionId"]').value = String(record.sleeveConditionId)
       this.shadowRoot.querySelector('#mediaConditionNotes').value = record.mediaConditionNotes || ''
       this.shadowRoot.querySelector('#sleeveConditionNotes').value = record.sleeveConditionNotes || ''
+
+      this.#tracksTab.append(this.#wbTracksEdit)
 
       this.populateForm(record)
       // this.#albumEditForm.setAttribute('method', 'POST')
@@ -109,7 +115,7 @@ customElements.define('wb-edit-record',
         }
       }
       if (record.tracks) {
-        this.populateTracks(record.tracks)
+        this.#wbTracksEdit.populateTracks(record.tracks)
       }
       this.setRPMs(record)
       this.shadowRoot.querySelector('#frontCover').src = record.imgURL || defaultImagePath
@@ -148,10 +154,10 @@ customElements.define('wb-edit-record',
       }
 
       const formData = new FormData(this.albumEditForm)
-      const tracks = this.prepareTracksForSubmission()
+      const tracks = this.#wbTracksEdit.prepareTracksForSubmission()
       formData.append('tracks', JSON.stringify(tracks))
-      if (this.tracksToBeRemoved.length > 0) {
-        formData.append('tracksToBeRemoved', JSON.stringify(this.tracksToBeRemoved))
+      if (this.#wbTracksEdit.tracksToBeRemoved.length > 0) {
+        formData.append('tracksToBeRemoved', JSON.stringify(this.#wbTracksEdit.tracksToBeRemoved))
       }
 
       if (formValid) {

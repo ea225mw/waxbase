@@ -45,20 +45,7 @@ export const htmlTemplate =
       </div>
     </div>
     <div id="tracks" class="forms">
-      <div>
-        <div id="tracksWrapper">
-          <!-- TRACKS CREATED DYNAMICALLY HERE -->
-        </div>
-      </div>
-      <div id="plusAndMinusBtn">
-        <button type="button" id="addTrackBtn">+</button>
-        <button type="button" id="removeTrackBtn">-</button>
-        <div id="removeTrackConfirmDiv">
-          <div id="removeTrackConfirmMsg"></div>
-          <button id="removeTrackCancel">No, cancel</button>
-          <button id="removeTrackSubmit">Yes, remove</button>
-        </div>
-      </div>
+    <!-- WB-TRACKS-EDIT COMPONENT IS ADDED DYNAMICALLY HERE-->
     </div>
     <div id="cover" class="forms">
       <input type="hidden" name="imgURL" value="">
