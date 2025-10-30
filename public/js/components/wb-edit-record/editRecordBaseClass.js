@@ -262,7 +262,7 @@ export class EditRecordBaseClass extends HTMLElement {
     if (tab !== null) {
       this.shadowRoot.querySelectorAll('.tab').forEach(t => t.classList.remove('selected-tab'))
       tab.classList.add('selected-tab')
-      const formToBeViewed = event.originalTarget.dataset.tab
+      const formToBeViewed = event.target.dataset.tab
       this.shadowRoot.querySelectorAll('.forms').forEach(f => f.classList.remove('selected-form'))
       this.shadowRoot.querySelector(`#${formToBeViewed}`).classList.add('selected-form')
     }
@@ -348,24 +348,6 @@ export class EditRecordBaseClass extends HTMLElement {
    */
   checkForInvalidFields (element) {
     return element.dataset.valid !== 'true'
-  }
-
-  /**
-   * Sets red borders to the input fields that doesn't pass validation.
-   *
-   * @param {boolean} valid - True/false.
-   * @param {HTMLInputElement} field - The validated input field.
-   */
-  setRedBorders (valid, field) {
-    if (!valid) {
-      field.style.border = '2px solid red'
-      field.style.color = 'red'
-      field.dataset.valid = false
-    } else {
-      field.style.border = 'solid black 1px'
-      field.style.color = 'black'
-      field.dataset.valid = true
-    }
   }
 
   /**

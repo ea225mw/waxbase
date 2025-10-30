@@ -1,10 +1,7 @@
-import { htmlTemplate } from './wb-tracks-edit.html.js'
+import { htmlTemplate, trackRowTemplate } from './wb-tracks-edit.html.js'
 import { cssTemplate } from './wb-tracks-edit.css.js'
 import { renderTemplates } from '../../../commonMethods.js'
-import { validateSeconds, validateMinutes } from '../../../config/validations.js'
-
-const pathToModule = import.meta.url
-const deleteBtnImgPath = new URL('./images/deletebtn.png', pathToModule)
+import { validateSeconds, validateMinutes, setRedBorders } from '../../../config/validations.js'
 
 const tableHeadTemplate = document.createElement('template')
 tableHeadTemplate.innerHTML = `
@@ -29,7 +26,7 @@ customElements.define('wb-tracks-edit',
     #removeTrackConfirmMsg
     #removeTrackCancel
     #removeTrackSubmit
-    #tracksToBeRemoved = []
+    tracksToBeRemoved = []
 
     /**
      * Creates a new instance of wb-track-edit web component.
@@ -64,7 +61,7 @@ customElements.define('wb-tracks-edit',
       this.#removeTrackSubmit.addEventListener('click', (event) => {
         event.preventDefault()
         if (this.#tracksWrapper.lastElementChild.dataset.id) {
-          this.#tracksToBeRemoved.push(this.#tracksWrapper.lastElementChild.dataset.id)
+          this.tracksToBeRemoved.push(this.#tracksWrapper.lastElementChild.dataset.id)
         }
         this.#tracksWrapper.lastElementChild.remove()
         this.#removeTrackConfirmDiv.style.display = 'none'
@@ -73,89 +70,78 @@ customElements.define('wb-tracks-edit',
       this.#tracksWrapper.addEventListener('input', (event) => {
         if (event.target.matches('.secondsField')) {
           const valid = validateSeconds(event.target.value)
-          this.setRedBorders(valid, event.target)
+          setRedBorders(valid, event.target)
         }
         if (event.target.matches('.minutesField')) {
           const valid = validateMinutes(event.target.value)
-          this.setRedBorders(valid, event.target)
+          setRedBorders(valid, event.target)
+        }
+      })
+
+      this.#tracksWrapper.addEventListener('click', (event) => {
+        if (event.target.matches('.deleteBtnTD div')) {
+          const row = event.target.closest('.editTracksContainer')
+          row.remove()
         }
       })
     }
 
     /**
-     * Getter for #tracksToBeRemoved.
      *
-     * @returns {Array} - The array with tracks to be removed.
+     * @param tracks
      */
-    get tracksToBeRemoved () {
-      return this.#tracksToBeRemoved
+    populateTracks (tracks) {
+      const trackTable = this.createTable()
+
+      Object.values(tracks).forEach((track) => {
+        const rowElement = this.createRowElement()
+        this.addTextContentToRowElements(rowElement, track)
+        this.addAttributesToRowElements(rowElement, track)
+        trackTable.append(rowElement)
+      })
+      this.#tracksWrapper.append(trackTable)
     }
 
     /**
-     * Populates the tracks tab with all tracks from the record object.
      *
-     * @param {Array} tracks - The trackslist array from the record object.
      */
-    populateTracks (tracks) {
+    createTable () {
       const table = document.createElement('table')
       const tableHead = tableHeadTemplate.content.cloneNode(true)
       table.append(tableHead)
-
-      Object.values(tracks).forEach((track) => {
-        const [tr, td1TrackIndex, td2Title, trackTitleField, td3Minutes, trackMinutesField, td4Seconds, trackSecondsField, td5DeleteBtn] = this.createRowTemplate()
-
-        tr.dataset.id = track.id
-
-        td1TrackIndex.textContent = `${track.trackIndex}.`
-        td1TrackIndex.dataset.trackIndex = `${track.trackIndex}`
-
-        trackTitleField.value = track.trackTitle
-        td2Title.append(trackTitleField)
-
-        trackMinutesField.value = track.minutes
-        trackMinutesField.dataset.valid = 'true'
-        td3Minutes.append(trackMinutesField)
-
-        trackSecondsField.value = String(track.seconds).padStart(2, '0')
-        trackSecondsField.dataset.valid = 'true'
-        td4Seconds.append(trackSecondsField)
-
-        const deleteBtnImg = document.createElement('img')
-        deleteBtnImg.src = deleteBtnImgPath
-        td5DeleteBtn.append(deleteBtnImg)
-
-        const elementsForClassAssignment = [tr, td1TrackIndex, trackTitleField, trackMinutesField, trackSecondsField, td5DeleteBtn]
-        this.assignClasses(elementsForClassAssignment)
-
-        tr.append(td1TrackIndex, td2Title, td3Minutes, td4Seconds, td5DeleteBtn)
-        table.append(tr)
-      })
-      this.#tracksWrapper.append(table)
+      return table
     }
 
     /**
-     * Creates HTML elements according to the array.
      *
-     * @returns {Array} - Ann array of HTML elements.
      */
-    createRowTemplate () {
-      const template = ['tr', 'td', 'td', 'input', 'td', 'input', 'td', 'input', 'td'].map(tag => document.createElement(tag))
-
-      return template
+    createRowElement () {
+      const template = document.createElement('template')
+      template.innerHTML = trackRowTemplate
+      const rowElement = template.content.cloneNode(true)
+      return rowElement
     }
 
     /**
-     * Adds classes to elements in an array that needs class assignments.
      *
-     * @param {Array} array - The HTML elements array.
+     * @param rowElement
+     * @param track
      */
-    assignClasses (array) {
-      array[0].classList.add('editTracksContainer')
-      array[1].classList.add('trackIndexTD')
-      array[2].classList.add('trackTitle')
-      array[3].classList.add('minutesField')
-      array[4].classList.add('secondsField')
-      array[5].classList.add('deleteBtnTD')
+    addTextContentToRowElements (rowElement, track) {
+      rowElement.querySelector('.trackIndexTD').textContent = `${track.trackIndex}.`
+      rowElement.querySelector('.trackTitle').value = track.trackTitle
+      rowElement.querySelector('.minutesField').value = track.minutes
+      rowElement.querySelector('.secondsField').value = String(track.seconds).padStart(2, '0')
+    }
+
+    /**
+     *
+     * @param rowElement
+     * @param track
+     */
+    addAttributesToRowElements (rowElement, track) {
+      rowElement.querySelector('.trackIndexTD').dataset.trackIndex = `${track.trackIndex}`
+      rowElement.querySelector('.editTracksContainer').dataset.id = track.id
     }
 
     /**
@@ -167,24 +153,22 @@ customElements.define('wb-tracks-edit',
       if (lastTrack !== null) {
         lastIndex = lastTrack.querySelector('.trackIndexTD').dataset.trackIndex
       }
-      const [tr, td1TrackIndex, td2Title, trackTitleField, td3Minutes, trackMinutesField, td4Seconds, trackSecondsField, td5DeleteBtn] = this.createRowTemplate()
+      const [tr, td1TrackIndex, td2Title, trackTitleInput, td3Minutes, trackMinutesInput, td4Seconds, trackSecondsInput, td5DeleteBtn] = this.createHtmlElementsForRow()
 
       td1TrackIndex.textContent = `${parseInt(lastIndex) + 1}.`
       td1TrackIndex.dataset.trackIndex = `${parseInt(lastIndex) + 1}`
       tr.append(td1TrackIndex)
 
-      td2Title.append(trackTitleField)
-      td3Minutes.append(trackMinutesField)
-      td4Seconds.append(trackSecondsField)
+      td2Title.append(trackTitleInput)
+      td3Minutes.append(trackMinutesInput)
+      td4Seconds.append(trackSecondsInput)
 
-      trackMinutesField.dataset.valid = 'true'
-      trackSecondsField.dataset.valid = 'true'
+      trackMinutesInput.dataset.valid = 'true'
+      trackSecondsInput.dataset.valid = 'true'
 
-      const deleteBtnImg = document.createElement('img')
-      deleteBtnImg.src = deleteBtnImgPath
-      td5DeleteBtn.append(deleteBtnImg)
+      this.createDeleteButton(td5DeleteBtn)
 
-      const elementsForClassAssignment = [tr, td1TrackIndex, trackTitleField, trackMinutesField, trackSecondsField, td5DeleteBtn]
+      const elementsForClassAssignment = [tr, td1TrackIndex, trackTitleInput, trackMinutesInput, trackSecondsInput, td5DeleteBtn]
       this.assignClasses(elementsForClassAssignment)
 
       tr.append(td1TrackIndex, td2Title, td3Minutes, td4Seconds, td5DeleteBtn)
@@ -198,7 +182,7 @@ customElements.define('wb-tracks-edit',
      * @returns {Array} - The tracks array.
      */
     prepareTracksForSubmission () {
-      const tracks = []
+      const tracksToSubmit = []
 
       const allEditTracksContainers = this.shadowRoot.querySelectorAll('.editTracksContainer')
       allEditTracksContainers.forEach((trackContainer) => {
@@ -208,9 +192,9 @@ customElements.define('wb-tracks-edit',
         track.trackTitle = trackContainer.querySelector('.trackTitle').value
         track.minutes = trackContainer.querySelector('.minutesField').value
         track.seconds = trackContainer.querySelector('.secondsField').value
-        tracks.push(track)
+        tracksToSubmit.push(track)
       })
-      return tracks
+      return tracksToSubmit
     }
   }
 )

@@ -6,10 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script type="module" src="./wb-tracks-edit.js"></script>
+  <style>
+    #removeTrackConfirmDiv {
+      background-color: aqua;
+      height: 6rem;
+      width: 12rem;
+    }
+  </style>
 </head>
 
 <body>
-  <wb-tracks-edit></wb-tracks-edit>
+  <div id="removeTrackConfirmDiv">
+    <div id="removeTrackConfirmDiv">
+      <div id="removeTrackConfirmMsg"></div>
+      <button id="removeTrackCancel">No, cancel</button>
+      <button id="removeTrackSubmit">Yes, delete</button>
+    </div>
+  </div>
+
+
 </body>
 
 </html>

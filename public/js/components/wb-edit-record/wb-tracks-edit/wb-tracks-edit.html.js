@@ -15,3 +15,23 @@ export const htmlTemplate =
     </div>
   </div>
 `
+
+export const trackRowTemplate =
+// eslint-disable-next-line
+/*html*/`
+  <tr class="editTracksContainer" data-id>
+    <td class="trackIndexTD"></td>
+    <td>
+      <input type="text" class="trackTitle">
+    </td>
+    <td>
+      <input type="text" class="minutesField" data-valid="true">
+    </td>
+    <td>
+      <input type="text" class="secondsField" data-valid="true">
+    </td>
+    <td class="deleteBtnTD">
+      <div>-</div>
+    </td>
+  </tr>
+`

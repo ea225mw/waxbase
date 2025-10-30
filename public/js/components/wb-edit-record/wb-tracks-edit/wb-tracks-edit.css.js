@@ -78,13 +78,21 @@ label {
 
 .deleteBtnTD {
   display: flex;
-  align-items: flex-end;
-  justify-content: start;
-  background: black;
-  padding: 2px 1rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
 }
 
 .deleteBtnTD img {
   height: 1.4rem;
+}
+
+.deleteBtnTD div {
+  background: #e92f2f;
+  width: 1.2rem;
+  height: 1.2rem;
+  text-align: center;
+  border-radius: 50%;
+  color: white;
 }
 `

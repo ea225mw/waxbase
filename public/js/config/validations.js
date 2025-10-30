@@ -45,3 +45,21 @@ export function validateMinutes (passedValue) {
   }
   return true
 }
+
+/**
+ * Sets red borders to the input fields that doesn't pass validation.
+ *
+ * @param {boolean} valid - True/false.
+ * @param {HTMLInputElement} field - The validated input field.
+ */
+export function setRedBorders (valid, field) {
+  if (!valid) {
+    field.style.border = '2px solid red'
+    field.style.color = 'red'
+    field.dataset.valid = false
+  } else {
+    field.style.border = 'solid black 1px'
+    field.style.color = 'black'
+    field.dataset.valid = true
+  }
+}
