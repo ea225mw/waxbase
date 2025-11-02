@@ -141,26 +141,18 @@ customElements.define('wb-edit-record',
      * @param {Event} event - The event dispatched from the clicking the OK button.
      */
     async submit (event) {
-      // Send form to web server
       event.preventDefault()
-      let formValid = true
+      let isFormValid = true
 
-      // CHECK FOR INVALID FIELDS
-      const allInputFields = this.albumEditForm.querySelectorAll('input[data-valid]')
-      const hasInvalidField = Array.from(allInputFields).some(el => this.checkForInvalidFields(el))
+      const hasInvalidField = this.#checkForInvalidFields()
 
       if (hasInvalidField) {
-        formValid = false
+        isFormValid = false
       }
 
-      const formData = new FormData(this.albumEditForm)
-      const tracks = this.#wbTracksEdit.prepareTracksForSubmission()
-      formData.append('tracks', JSON.stringify(tracks))
-      if (this.#wbTracksEdit.tracksToBeRemoved.length > 0) {
-        formData.append('tracksToBeRemoved', JSON.stringify(this.#wbTracksEdit.tracksToBeRemoved))
-      }
+      this.#gatherFormData()
 
-      if (formValid) {
+      if (isFormValid) {
         const response = await fetch(`${this.baseURLClient}records/save`, {
           method: 'POST',
           body: formData
@@ -178,6 +170,20 @@ customElements.define('wb-edit-record',
           }
         }))
         this.cancel()
+      }
+    }
+
+    #checkForInvalidFields() {
+      const allInputFields = this.albumEditForm.querySelectorAll('input[data-valid]')
+      const hasInvalidField = Array.from(allInputFields).some(element => this.checkForInvalidFields(element))
+    }
+
+    #gatherFormData() {
+      const formData = new FormData(this.albumEditForm)
+      const tracks = this.#wbTracksEdit.prepareTracksForSubmission()
+      formData.append('tracks', JSON.stringify(tracks))
+      if (this.#wbTracksEdit.tracksToBeRemoved.length > 0) {
+        formData.append('tracksToBeRemoved', JSON.stringify(this.#wbTracksEdit.tracksToBeRemoved))
       }
     }
   }
