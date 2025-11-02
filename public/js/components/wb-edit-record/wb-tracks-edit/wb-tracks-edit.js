@@ -1,24 +1,10 @@
-import { htmlTemplate, trackRowTemplate } from './wb-tracks-edit.html.js'
+import { htmlTemplate, trackRowTemplate, tableHeadTemplate } from './wb-tracks-edit.html.js'
 import { cssTemplate } from './wb-tracks-edit.css.js'
 import { renderTemplates } from '../../../commonMethods.js'
 import { validateSeconds, validateMinutes, setRedBorders } from '../../../config/validations.js'
 
-const tableHeadTemplate = document.createElement('template')
-tableHeadTemplate.innerHTML = `
-<thead>
-  <tr>
-    <th></th>
-    <th>Title</th>
-    <th>Min</th>
-    <th>Sec</th>
-  </tr>
-</thead>
-`
-
 customElements.define('wb-tracks-edit',
-  /**
-   *
-   */
+
   class extends HTMLElement {
     #tracksWrapper
     #addTrackBtn
@@ -26,11 +12,9 @@ customElements.define('wb-tracks-edit',
     #removeTrackConfirmMsg
     #removeTrackCancel
     #removeTrackSubmit
+    #trackIdOfTrackToDelete = null
     tracksToBeRemoved = []
 
-    /**
-     * Creates a new instance of wb-track-edit web component.
-     */
     constructor () {
       super()
       this.attachShadow({ mode: 'open' })
@@ -51,136 +35,122 @@ customElements.define('wb-tracks-edit',
 
       /* ---------- EVENT LISTENERS ------------------------------------------------------------------------- */
       this.#addTrackBtn.addEventListener('click', () => {
-        this.createAnotherTrack()
+        this.#createAnotherTrack()
       })
 
       this.#removeTrackCancel.addEventListener('click', (event) => {
         event.preventDefault()
-        this.#removeTrackConfirmDiv.style.display = 'none'
+        this.#hideConfirmDeleteMessage()
+        this.#trackIdOfTrackToDelete = null
       })
+
       this.#removeTrackSubmit.addEventListener('click', (event) => {
         event.preventDefault()
-        if (this.#tracksWrapper.lastElementChild.dataset.id) {
-          this.tracksToBeRemoved.push(this.#tracksWrapper.lastElementChild.dataset.id)
+        if (this.#trackIdOfTrackToDelete) {
+          this.tracksToBeRemoved.push(this.#trackIdOfTrackToDelete)
+          this.#tracksWrapper.querySelector(`[data-id="${this.#trackIdOfTrackToDelete}"]`).remove()
+          this.#hideConfirmDeleteMessage()
         }
-        this.#tracksWrapper.lastElementChild.remove()
-        this.#removeTrackConfirmDiv.style.display = 'none'
       })
 
       this.#tracksWrapper.addEventListener('input', (event) => {
         if (event.target.matches('.secondsField')) {
-          const valid = validateSeconds(event.target.value)
-          setRedBorders(valid, event.target)
+          const isValid = validateSeconds(event.target.value)
+          setRedBorders(isValid, event.target)
         }
         if (event.target.matches('.minutesField')) {
-          const valid = validateMinutes(event.target.value)
-          setRedBorders(valid, event.target)
+          const isValid = validateMinutes(event.target.value)
+          setRedBorders(isValid, event.target)
         }
       })
 
       this.#tracksWrapper.addEventListener('click', (event) => {
         if (event.target.matches('.deleteBtnTD div')) {
-          const row = event.target.closest('.editTracksContainer')
-          row.remove()
+          this.#confirmTrackDeletion(event)
         }
       })
     }
 
-    /**
-     *
-     * @param tracks
-     */
+    #confirmTrackDeletion(event) {
+      const row = event.target.closest('.editTracksContainer')
+      const trackTitle = row.querySelector('.trackTitle').value
+      this.#removeTrackConfirmMsg.textContent = `Do you want to delete track \"${trackTitle}"?`
+      this.#displayConfirmDeleteMessage()
+      this.#trackIdOfTrackToDelete = row.dataset.id
+    }
+
+    #displayConfirmDeleteMessage(){
+      this.#removeTrackConfirmDiv.style.display = 'block'
+    }
+
+    #hideConfirmDeleteMessage() {
+      this.#removeTrackConfirmDiv.style.display = 'none'
+    }
+
     populateTracks (tracks) {
-      const trackTable = this.createTable()
+      const trackTable = this.#createTable()
 
       Object.values(tracks).forEach((track) => {
-        const rowElement = this.createRowElement()
-        this.addTextContentToRowElements(rowElement, track)
-        this.addAttributesToRowElements(rowElement, track)
+        const rowElement = this.#createRowElement()
+        this.#addTextContentToRowElements(rowElement, track)
+        this.#addAttributesToRowElements(rowElement, track)
         trackTable.append(rowElement)
       })
       this.#tracksWrapper.append(trackTable)
     }
 
-    /**
-     *
-     */
-    createTable () {
+    #createTable () {
       const table = document.createElement('table')
       const tableHead = tableHeadTemplate.content.cloneNode(true)
       table.append(tableHead)
       return table
     }
 
-    /**
-     *
-     */
-    createRowElement () {
-      const template = document.createElement('template')
-      template.innerHTML = trackRowTemplate
-      const rowElement = template.content.cloneNode(true)
+    #createRowElement () {
+      const rowElement = trackRowTemplate.content.cloneNode(true)
       return rowElement
     }
 
-    /**
-     *
-     * @param rowElement
-     * @param track
-     */
-    addTextContentToRowElements (rowElement, track) {
+    #addTextContentToRowElements (rowElement, track) {
       rowElement.querySelector('.trackIndexTD').textContent = `${track.trackIndex}.`
       rowElement.querySelector('.trackTitle').value = track.trackTitle
       rowElement.querySelector('.minutesField').value = track.minutes
       rowElement.querySelector('.secondsField').value = String(track.seconds).padStart(2, '0')
     }
 
-    /**
-     *
-     * @param rowElement
-     * @param track
-     */
-    addAttributesToRowElements (rowElement, track) {
+    #addAttributesToRowElements (rowElement, track) {
       rowElement.querySelector('.trackIndexTD').dataset.trackIndex = `${track.trackIndex}`
       rowElement.querySelector('.editTracksContainer').dataset.id = track.id
     }
 
-    /**
-     * Adds another track to the tracklist with empty fields for the user to fill.
-     */
-    createAnotherTrack () {
-      const lastTrack = this.#tracksWrapper.querySelector('table').lastElementChild
-      let lastIndex = 0
-      if (lastTrack !== null) {
-        lastIndex = lastTrack.querySelector('.trackIndexTD').dataset.trackIndex
-      }
-      const [tr, td1TrackIndex, td2Title, trackTitleInput, td3Minutes, trackMinutesInput, td4Seconds, trackSecondsInput, td5DeleteBtn] = this.createHtmlElementsForRow()
+    #createAnotherTrack () {
+      const lastTrackIndex = this.#findLastTrackIndex()
 
-      td1TrackIndex.textContent = `${parseInt(lastIndex) + 1}.`
-      td1TrackIndex.dataset.trackIndex = `${parseInt(lastIndex) + 1}`
-      tr.append(td1TrackIndex)
+      const rowElement = this.#createRowElement()
 
-      td2Title.append(trackTitleInput)
-      td3Minutes.append(trackMinutesInput)
-      td4Seconds.append(trackSecondsInput)
+      rowElement.querySelector('.trackIndexTD').textContent = `${parseInt(lastTrackIndex) + 1}.`
+      rowElement.querySelector('.trackIndexTD').dataset.trackIndex = `${parseInt(lastTrackIndex) + 1}`
 
-      trackMinutesInput.dataset.valid = 'true'
-      trackSecondsInput.dataset.valid = 'true'
-
-      this.createDeleteButton(td5DeleteBtn)
-
-      const elementsForClassAssignment = [tr, td1TrackIndex, trackTitleInput, trackMinutesInput, trackSecondsInput, td5DeleteBtn]
-      this.assignClasses(elementsForClassAssignment)
-
-      tr.append(td1TrackIndex, td2Title, td3Minutes, td4Seconds, td5DeleteBtn)
-      this.#tracksWrapper.querySelector('table').append(tr)
-      tr.querySelector('.trackTitle').focus()
+      this.#tracksWrapper.querySelector('table').append(rowElement)
+      this.#setNewlyAddedTrackInFocus()
     }
 
-    /**
-     * Prepares all tracks into an array before submission to the server.
-     *
-     * @returns {Array} - The tracks array.
-     */
+    #findLastTrackIndex () {
+      const lastTrack = this.#tracksWrapper.querySelector('table').lastElementChild
+      let lastTrackIndex = 0
+      if (lastTrack !== null) {
+        lastTrackIndex = lastTrack.querySelector('.trackIndexTD').dataset.trackIndex
+      }
+      return lastTrackIndex
+    }
+
+    #setNewlyAddedTrackInFocus () {
+      const allTrackTitleInputs = this.#tracksWrapper.getElementsByClassName('trackTitle')
+      const indexOfLstTrackTitleInput = allTrackTitleInputs.length - 1
+      const lastTrackTitleInputElement = allTrackTitleInputs[indexOfLstTrackTitleInput]
+      lastTrackTitleInputElement.focus()
+    }
+
     prepareTracksForSubmission () {
       const tracksToSubmit = []
 
