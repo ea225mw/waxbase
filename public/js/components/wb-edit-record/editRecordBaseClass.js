@@ -27,17 +27,25 @@ export class EditRecordBaseClass extends HTMLElement {
   /**
    * Called when the component that inherits from this class is added to DOM.
    */
-  async connectedCallback () {
+  async connectedCallback() {
     this.#baseURLClient = baseURLClient
     /* ---------- REFERENCES ---------- */
     this.#formatId = this.shadowRoot.querySelector('select[name="formatId"]')
-    this.#artistSuggestionsList = this.shadowRoot.querySelector('#artistSuggestions')
-    this.#artistInput = this.shadowRoot.querySelector('input[name="artistDisplayName"]')
+    this.#artistSuggestionsList =
+      this.shadowRoot.querySelector('#artistSuggestions')
+    this.#artistInput = this.shadowRoot.querySelector(
+      'input[name="artistDisplayName"]'
+    )
     this.#artistIdHidden = this.shadowRoot.querySelector('#artistIdHidden')
-    this.#storeSuggestionsList = this.shadowRoot.querySelector('#storeSuggestions')
+    this.#storeSuggestionsList =
+      this.shadowRoot.querySelector('#storeSuggestions')
     this.#storeInput = this.shadowRoot.querySelector('input[name="store"]')
-    this.#releaseYear = this.shadowRoot.querySelector('input[name="releaseYear"]')
-    this.#origReleaseYear = this.shadowRoot.querySelector('input[name="origReleaseYear"]')
+    this.#releaseYear = this.shadowRoot.querySelector(
+      'input[name="releaseYear"]'
+    )
+    this.#origReleaseYear = this.shadowRoot.querySelector(
+      'input[name="origReleaseYear"]'
+    )
     this.#storeIdHidden = this.shadowRoot.querySelector('#storeIdHidden')
     this.#imgURLHidden = this.shadowRoot.querySelector('input[name="imgURL"]')
     this.#albumEditForm = this.shadowRoot.querySelector('#albumEditForm')
@@ -54,7 +62,7 @@ export class EditRecordBaseClass extends HTMLElement {
       this.listenForStoreInput()
     })
 
-    this.#artistSuggestionsList.addEventListener('click', event => {
+    this.#artistSuggestionsList.addEventListener('click', (event) => {
       if (event.target.tagName === 'LI') {
         this.artistInput.value = event.target.textContent
         this.#artistIdHidden.value = event.target.dataset.id
@@ -62,7 +70,7 @@ export class EditRecordBaseClass extends HTMLElement {
       }
     })
 
-    this.#storeSuggestionsList.addEventListener('click', event => {
+    this.#storeSuggestionsList.addEventListener('click', (event) => {
       if (event.target.tagName === 'LI') {
         this.#storeInput.value = event.target.textContent
         this.#storeIdHidden.value = event.target.dataset.id
@@ -70,15 +78,18 @@ export class EditRecordBaseClass extends HTMLElement {
       }
     })
 
-    this.#albumEditForm.addEventListener('input', (event) => {
-      const allInputFields = this.shadowRoot.querySelectorAll('input[data-valid]')
+    this.#albumEditForm.addEventListener('input', () => {
+      const allInputFields =
+        this.shadowRoot.querySelectorAll('input[data-valid]')
       for (const element of allInputFields) {
         const notValid = this.checkForInvalidFields(element)
         if (notValid) {
-          this.shadowRoot.querySelector('#validationFailMsg').style.display = 'block'
+          this.shadowRoot.querySelector('#validationFailMsg').style.display =
+            'block'
           break
         } else {
-          this.shadowRoot.querySelector('#validationFailMsg').style.display = 'none'
+          this.shadowRoot.querySelector('#validationFailMsg').style.display =
+            'none'
         }
       }
     })
@@ -89,7 +100,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {object} - An object with all artists in the database.
    */
-  get allArtists () {
+  get allArtists() {
     return this.#allArtists
   }
 
@@ -98,7 +109,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {object} - The #allFormats object.
    */
-  get allFormats () {
+  get allFormats() {
     return this.#allFormats
   }
 
@@ -107,7 +118,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {Array} - An array of all conditions.
    */
-  get allConditions () {
+  get allConditions() {
     return this.#allConditions
   }
 
@@ -116,7 +127,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {Array} - An array of all stores.
    */
-  get allStores () {
+  get allStores() {
     return this.#allStores
   }
 
@@ -125,7 +136,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {string} - The base URL.
    */
-  get baseURLClient () {
+  get baseURLClient() {
     return this.#baseURLClient
   }
 
@@ -134,7 +145,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLSelectElement} - name="formatId".
    */
-  get formatId () {
+  get formatId() {
     return this.#formatId
   }
 
@@ -143,7 +154,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLInputElement} - name="artist".
    */
-  get artistInput () {
+  get artistInput() {
     return this.#artistInput
   }
 
@@ -152,7 +163,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLInputElement} - name="releaseYear".
    */
-  get releaseYear () {
+  get releaseYear() {
     return this.#releaseYear
   }
 
@@ -161,7 +172,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLInputElement} - name="origReleaseYear".
    */
-  get origReleaseYear () {
+  get origReleaseYear() {
     return this.#origReleaseYear
   }
 
@@ -170,7 +181,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLUListElement} - id artistSuggestions.
    */
-  get artistSuggestionsList () {
+  get artistSuggestionsList() {
     return this.#artistSuggestionsList
   }
 
@@ -179,7 +190,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLUListElement} - id artistSuggestions.
    */
-  get artistIdHidden () {
+  get artistIdHidden() {
     return this.#artistIdHidden
   }
 
@@ -188,7 +199,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLUListElement} - id="artistSuggestions".
    */
-  get storeIdHidden () {
+  get storeIdHidden() {
     return this.#storeIdHidden
   }
 
@@ -197,7 +208,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLInputElement} - input[name="imgURL"]
    */
-  get imgURLHidden () {
+  get imgURLHidden() {
     return this.#imgURLHidden
   }
 
@@ -206,7 +217,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLFormElement} - The albumEditForm form element.
    */
-  get albumEditForm () {
+  get albumEditForm() {
     return this.#albumEditForm
   }
 
@@ -215,7 +226,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLInputElement} - input[name="albumTitle"]
    */
-  get albumTitle () {
+  get albumTitle() {
     return this.#albumTitle
   }
 
@@ -224,7 +235,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLInputElement} - input[name="store"]
    */
-  get store () {
+  get store() {
     return this.#store
   }
 
@@ -233,7 +244,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @returns {HTMLInputElement} - input[name="price"]
    */
-  get price () {
+  get price() {
     return this.#price
   }
 
@@ -245,7 +256,7 @@ export class EditRecordBaseClass extends HTMLElement {
    * @param {Array} conditions - The conditions array.
    * @param {Array} stores - The stores array.
    */
-  setCommonRecordData (artists, formats, conditions, stores) {
+  setCommonRecordData(artists, formats, conditions, stores) {
     this.#allArtists = artists
     this.#allFormats = formats
     this.#allConditions = conditions
@@ -257,14 +268,20 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @param {Event} event - The click event.
    */
-  changeFormView (event) {
+  swapToAnotherTab(event) {
     const tab = event.target.closest('.tab')
     if (tab !== null) {
-      this.shadowRoot.querySelectorAll('.tab').forEach(t => t.classList.remove('selected-tab'))
+      this.shadowRoot
+        .querySelectorAll('.tab')
+        .forEach((t) => t.classList.remove('selected-tab'))
       tab.classList.add('selected-tab')
       const formToBeViewed = event.target.dataset.tab
-      this.shadowRoot.querySelectorAll('.forms').forEach(f => f.classList.remove('selected-form'))
-      this.shadowRoot.querySelector(`#${formToBeViewed}`).classList.add('selected-form')
+      this.shadowRoot
+        .querySelectorAll('.forms')
+        .forEach((f) => f.classList.remove('selected-form'))
+      this.shadowRoot
+        .querySelector(`#${formToBeViewed}`)
+        .classList.add('selected-form')
     }
   }
 
@@ -274,7 +291,7 @@ export class EditRecordBaseClass extends HTMLElement {
    *
    * @param {object} record - The record object.
    */
-  async createFormatOptions (record) {
+  async createFormatOptions() {
     this.allFormats.forEach((format) => {
       const option = document.createElement('option')
       option.value = format.id
@@ -284,32 +301,16 @@ export class EditRecordBaseClass extends HTMLElement {
   }
 
   /**
-   * Creates option elements for all record CONDITIONS in the database.
-   *
-   * @param {object} record - The record object.
-   */
-  async createConditionOptions (record) {
-    this.#allConditions.forEach((condition) => {
-      const option = document.createElement('option')
-      option.value = condition.id
-      option.textContent = condition.conditionName
-      this.shadowRoot.querySelector('select[name="mediaConditionId"]').append(option)
-      const optionCopy = option.cloneNode(true)
-      this.shadowRoot.querySelector('select[name="sleeveConditionId"]').append(optionCopy)
-    })
-  }
-
-  /**
    * Populates a suggestions list when typing in the artist field.
    */
-  listenForArtistInput () {
+  listenForArtistInput() {
     const query = this.#artistInput.value.toLowerCase()
-    const matches = this.allArtists.filter(artist =>
+    const matches = this.allArtists.filter((artist) =>
       `${artist.fullName}`.toLowerCase().includes(query)
     )
 
     this.#artistSuggestionsList.innerHTML = ''
-    matches.forEach(artist => {
+    matches.forEach((artist) => {
       const li = document.createElement('li')
       if (artist.the === null && artist.firstName === null) {
         li.textContent = `${artist.lastName}`
@@ -326,13 +327,13 @@ export class EditRecordBaseClass extends HTMLElement {
   /**
    * Populates a suggestions list when typing in the store field.
    */
-  listenForStoreInput () {
+  listenForStoreInput() {
     const query = this.#storeInput.value.toLowerCase()
-    const matches = this.allStores.filter(store =>
+    const matches = this.allStores.filter((store) =>
       `${store.storeName}`.toLowerCase().includes(query)
     )
     this.#storeSuggestionsList.innerHTML = ''
-    matches.forEach(store => {
+    matches.forEach((store) => {
       const li = document.createElement('li')
       li.textContent = `${store.storeName}`
       li.dataset.id = store.id
@@ -346,14 +347,14 @@ export class EditRecordBaseClass extends HTMLElement {
    * @param {HTMLInputElement} element - The input element to be checked.
    * @returns {boolean} - True/false.
    */
-  checkForInvalidFields (element) {
+  checkForInvalidFields(element) {
     return element.dataset.valid !== 'true'
   }
 
   /**
    * Cancels the editing and removes the edit view component.
    */
-  cancel () {
+  cancel() {
     document.body.style.pointerEvents = ''
     this.remove()
   }

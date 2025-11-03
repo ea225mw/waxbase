@@ -3,7 +3,7 @@ import { getTheme, themeID } from '../../../config/colorThemes.js'
 const theme = getTheme(themeID)
 
 export const cssTemplate =
-// eslint-disable-next-line
+ 
 /*css*/`
 form {
   margin: 15px;

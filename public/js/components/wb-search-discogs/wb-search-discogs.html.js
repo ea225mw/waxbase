@@ -1,5 +1,5 @@
 export const htmlTemplate =
-// eslint-disable-next-line
+ 
 /*html*/`
 <div class="backdrop">
   <div id="searchWrapper">

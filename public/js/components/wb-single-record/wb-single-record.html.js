@@ -4,7 +4,7 @@ const deleteBtnImagePath = new URL('./images/deletebtn.png', pathToModule)
 const warningSignPath = new URL('./images/warning_sign.png', pathToModule)
 
 export const htmlTemplate =
-// eslint-disable-next-line
+ 
 /*html*/`
 <div id="singleRecordWrapper">
     <div id="imgTitleArtist">

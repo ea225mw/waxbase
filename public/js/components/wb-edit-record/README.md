@@ -13,7 +13,7 @@ This component uses shadow DOM and its CSS styles are encapsulated and not affec
 |-----------------------|-----------------------------------|
 | **connectedCallback** | Called when component is added to DOM. Sets up references and event listeners. |
 | **setCommonRecordData** | Sets collection data that is common for the whole application, like lists of all artists and stores. |
-| **changeFormView** | Displays a new part of the edit form (a new tab). |
+| **swapToAnotherTab** | Displays a new part of the edit form (a new tab). |
 | **createFormatOptions** | Creates option elements for all record formats in the database. Also sets the saved record format option. |
 | **createConditionOptions** | Creates option elements for all record CONDITIONS in the database. |
 | **createAnotherTrack** | Adds another track to the tracklist with empty fields for the user to fill. |

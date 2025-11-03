@@ -7,7 +7,8 @@ import { renderTemplates, getFieldMap } from '../../commonMethods.js'
 const pathToModule = import.meta.url
 const defaultImagePath = new URL('./images/default.svg', pathToModule)
 
-customElements.define('wb-edit-record',
+customElements.define(
+  'wb-edit-record',
   /**
    *
    */
@@ -17,13 +18,13 @@ customElements.define('wb-edit-record',
     #tabsDiv
     #recordIndexHiddenInput
     #tracksTab
-    #allConditions = []
-    #wbTracksEdit = document.createElement('wb-tracks-edit')
+    #wbTracksEdit
+    #wbDetailsEdit
 
     /**
      * Creates a new instance of the wb-edit-record web component.
      */
-    constructor () {
+    constructor() {
       super()
       this.attachShadow({ mode: 'open' })
       renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
@@ -32,20 +33,25 @@ customElements.define('wb-edit-record',
     /**
      * Called when the component is added to DOM.
      */
-    connectedCallback () {
+    connectedCallback() {
       super.connectedCallback()
 
       // SETTING UP REFERENCES
       this.#cancel = this.shadowRoot.querySelector('#cancel')
       this.#submit = this.shadowRoot.querySelector('#submit')
       this.#tabsDiv = this.shadowRoot.querySelector('#tabsDiv')
-      this.#recordIndexHiddenInput = this.shadowRoot.querySelector('#recordIndex')
+      this.#recordIndexHiddenInput =
+        this.shadowRoot.querySelector('#recordIndex')
       this.#tracksTab = this.shadowRoot.querySelector('#tracks')
+      this.#wbTracksEdit = this.shadowRoot.querySelector('wb-tracks-edit')
+      this.#wbDetailsEdit = this.shadowRoot.querySelector('wb-details-edit')
 
       /* ---------- EVENT LISTENERS ---------- */
       this.#cancel.addEventListener('click', () => this.cancel())
       this.#submit.addEventListener('click', (event) => this.submit(event))
-      this.#tabsDiv.addEventListener('click', (event) => this.changeFormView(event))
+      this.#tabsDiv.addEventListener('click', (event) =>
+        this.swapToAnotherTab(event)
+      )
     }
 
     /**
@@ -53,27 +59,27 @@ customElements.define('wb-edit-record',
      *
      * @param {number} recordIndex - The index of the record to be displayed.
      */
-    async showEditView (recordIndex) {
-      const response = await fetch(`${this.baseURLClient}records/viewSingleAlbum`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          id: recordIndex
-        })
-      })
+    async showEditView(recordIndex) {
+      const response = await fetch(
+        `${this.baseURLClient}records/viewSingleAlbum`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: recordIndex
+          })
+        }
+      )
 
       const record = await response.json()
 
       await this.createFormatOptions(record)
       this.formatId.value = String(record.formatId)
 
-      await this.createConditionOptions(record)
-      this.shadowRoot.querySelector('select[name="mediaConditionId"]').value = String(record.mediaConditionId)
-      this.shadowRoot.querySelector('select[name="sleeveConditionId"]').value = String(record.sleeveConditionId)
-      this.shadowRoot.querySelector('#mediaConditionNotes').value = record.mediaConditionNotes || ''
-      this.shadowRoot.querySelector('#sleeveConditionNotes').value = record.sleeveConditionNotes || ''
+      this.#wbDetailsEdit.setConditionOptions(this.allConditions)
+      this.#wbDetailsEdit.configureComponent(record)
 
       this.#tracksTab.append(this.#wbTracksEdit)
 
@@ -91,7 +97,7 @@ customElements.define('wb-edit-record',
      *
      * @param {object} record - The record object.
      */
-    populateForm (record) {
+    populateForm(record) {
       const fieldMap = getFieldMap(this)
 
       for (const key in fieldMap) {
@@ -104,7 +110,11 @@ customElements.define('wb-edit-record',
               this.store.dataset.id = record.storeId
               valueFromRecord = valueFromRecord.storeName
             } else if (key === 'artist') {
-              valueFromRecord = valueFromRecord.fullName || [valueFromRecord.firstName, valueFromRecord.lastName].filter(Boolean).join(' ')
+              valueFromRecord =
+                valueFromRecord.fullName ||
+                [valueFromRecord.firstName, valueFromRecord.lastName]
+                  .filter(Boolean)
+                  .join(' ')
               this.artistInput.dataset.id = record.artistId
             }
           }
@@ -117,22 +127,8 @@ customElements.define('wb-edit-record',
       if (record.tracks) {
         this.#wbTracksEdit.populateTracks(record.tracks)
       }
-      this.setRPMs(record)
-      this.shadowRoot.querySelector('#frontCover').src = record.imgURL || defaultImagePath
-    }
-
-    /**
-     * Sets the radio button that correspons to the the records saved RPM to "checked".
-     *
-     * @param {object} record - The record object.
-     */
-    setRPMs (record) {
-      if (record.rpm === null) {
-        this.shadowRoot.querySelector('#_N_A').checked = true
-      } else {
-        const checkedRPM = this.shadowRoot.querySelector(`#_${record.rpm}`)
-        checkedRPM.checked = true
-      }
+      this.shadowRoot.querySelector('#frontCover').src =
+        record.imgURL || defaultImagePath
     }
 
     /**
@@ -140,7 +136,7 @@ customElements.define('wb-edit-record',
      *
      * @param {Event} event - The event dispatched from the clicking the OK button.
      */
-    async submit (event) {
+    async submit(event) {
       event.preventDefault()
       let isFormValid = true
 
@@ -150,7 +146,7 @@ customElements.define('wb-edit-record',
         isFormValid = false
       }
 
-      this.#gatherFormData()
+      const formData = this.#gatherFormData()
 
       if (isFormValid) {
         const response = await fetch(`${this.baseURLClient}records/save`, {
@@ -164,18 +160,24 @@ customElements.define('wb-edit-record',
         }
 
         const album = await response.json() // Get the updated album fresh from the database and send in an event.
-        this.dispatchEvent(new CustomEvent('albumUpdated', {
-          detail: {
-            updatedAlbum: album
-          }
-        }))
+        this.dispatchEvent(
+          new CustomEvent('albumUpdated', {
+            detail: {
+              updatedAlbum: album
+            }
+          })
+        )
         this.cancel()
       }
     }
 
     #checkForInvalidFields() {
-      const allInputFields = this.albumEditForm.querySelectorAll('input[data-valid]')
-      const hasInvalidField = Array.from(allInputFields).some(element => this.checkForInvalidFields(element))
+      const allInputFields =
+        this.albumEditForm.querySelectorAll('input[data-valid]')
+      const hasInvalidField = Array.from(allInputFields).some((element) =>
+        this.checkForInvalidFields(element)
+      )
+      return hasInvalidField
     }
 
     #gatherFormData() {
@@ -183,8 +185,12 @@ customElements.define('wb-edit-record',
       const tracks = this.#wbTracksEdit.prepareTracksForSubmission()
       formData.append('tracks', JSON.stringify(tracks))
       if (this.#wbTracksEdit.tracksToBeRemoved.length > 0) {
-        formData.append('tracksToBeRemoved', JSON.stringify(this.#wbTracksEdit.tracksToBeRemoved))
+        formData.append(
+          'tracksToBeRemoved',
+          JSON.stringify(this.#wbTracksEdit.tracksToBeRemoved)
+        )
       }
+      return formData
     }
   }
 )

@@ -3,7 +3,7 @@ import { getTheme, themeID } from '../../config/colorThemes.js'
 const theme = getTheme(themeID)
 
 export const cssTemplate =
-// eslint-disable-next-line
+ 
 /*css*/`
 :host {
   display: none;
@@ -103,22 +103,6 @@ button.tab {
   align-self: center;
 }
 
-#detailsWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-input[type="radio"] {
-  margin-left: 0.2rem;
-  margin-right: 1.2rem;
-}
-
-.conditionLabel {
-  display: inline-block;
-  width: 6.875rem;
-}
-
 .tab {
   border: none;
   border-top-left-radius: 0.1875rem;
@@ -152,78 +136,8 @@ input[type="radio"] {
   display: flex;
 }
 
-/* -------------------- TRACKS -------------------- */
-
-.minutesField, .secondsField {
-  max-width: 1.2rem;
-}
-
-.trackTitle {
-  min-width: 17.5rem;
-}
-
-.trackIndexTD {
-  width: 1.5625rem;
-  text-align: right;
-  margin-right: 0.1875rem;
-}
-
-#addTrackBtn, #removeTrackBtn {
-  width: 1.6rem;
-  height: 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 50%;
-  font-size: 1.25rem;
-}
-
-#plusAndMinusBtn {
-  margin-top: 0.625rem;
-  margin-left: 1.875rem;
-  display: flex;
-  gap: 1rem;
-}
-
-#plusAndMinusBtn button {
-  background-color: ${theme.plusAndMinusBtn};
-  color: ${theme.plusAndMinusBtnText};
-}
-
-#removeTrackConfirmDiv {
-  display: none;
-  background-color: ${theme.inputAndSelect};
-  max-width: 37.5rem;
-  padding: 0.75rem;
-  border-radius: 0.625rem;
-}
-
-#removeTrackConfirmDiv button {
-  margin-top: 0.5rem;
-  margin-right: 0.5rem;
-}
-
-/* -------------------- ALBUM COVER -------------------- */
-
 #frontCover {
   max-width: 9rem;
-}
-
-select {
-  padding: 0.3125rem 0.5625rem;
-  border-radius: 0.3125rem;
-  border: 1px solid #999;
-}
-
-input::placeholder {
-  font-style: italic;
-  color: rgb(181, 181, 181);
-}
-
-.detailsHeader {
-  margin-top: 0.125rem;
-  margin-bottom: 0.3125rem;
 }
 
 .inputWithSuggestions {

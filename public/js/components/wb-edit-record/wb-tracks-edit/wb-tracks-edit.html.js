@@ -1,5 +1,5 @@
 export const htmlTemplate =
-// eslint-disable-next-line
+ 
 /*html*/`
   <div>
     <div id="tracksWrapper">
@@ -18,7 +18,7 @@ export const htmlTemplate =
 
 export const trackRowTemplate = document.createElement('template')
 trackRowTemplate.innerHTML =
-// eslint-disable-next-line
+ 
 /*html*/`
   <tr class="editTracksContainer" data-id>
     <td class="trackIndexTD"></td>

@@ -3,7 +3,7 @@ import { getTheme, themeID } from '../../config/colorThemes.js'
 const theme = getTheme(themeID)
 
 export const cssTemplate =
-// eslint-disable-next-line
+ 
 /*css*/`
 * {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;

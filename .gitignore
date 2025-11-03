@@ -197,4 +197,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# VSCodeCounter
+.VSCodeCounter/
+
 # End of https://www.toptal.com/developers/gitignore/api/node,linux,macos,windows,visualstudiocode

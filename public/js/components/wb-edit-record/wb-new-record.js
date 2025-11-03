@@ -1,4 +1,5 @@
 import { EditRecordBaseClass } from './editRecordBaseClass.js'
+import './wb-details-edit/wb-details-edit.js'
 import { cssTemplate } from './wb-edit-record.css.js'
 import { htmlTemplate } from './wb-edit-record.html.js'
 import { renderTemplates } from '../../commonMethods.js'
@@ -34,7 +35,7 @@ customElements.define('wb-new-record',
       /* ---------- EVENT LISTENERS ---------- */
       this.#cancel.addEventListener('click', () => this.cancel())
       this.#submit.addEventListener('click', (event) => this.submit(event))
-      this.#tabsDiv.addEventListener('click', (event) => this.changeFormView(event))
+      this.#tabsDiv.addEventListener('click', (event) => this.swapToAnotherTab(event))
     }
 
     /**

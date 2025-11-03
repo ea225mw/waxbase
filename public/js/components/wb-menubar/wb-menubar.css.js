@@ -1,5 +1,5 @@
 export const cssTemplate =
-// eslint-disable-next-line
+ 
 /*css*/`
 #menubar {
   /*background-color: aqua;*/

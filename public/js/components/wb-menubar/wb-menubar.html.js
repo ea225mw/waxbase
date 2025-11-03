@@ -1,5 +1,5 @@
 export const htmlTemplate =
-// eslint-disable-next-line
+ 
 /*html*/`
 <div id="menubar">
     <div id="add-record-column" class="columns">

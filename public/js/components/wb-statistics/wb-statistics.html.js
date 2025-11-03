@@ -1,5 +1,5 @@
 export const htmlTemplate =
-// eslint-disable-next-line
+ 
 /*html*/`
 <div class="statisticsWrapper">
     <button id="toggleStatisticsBtn">
