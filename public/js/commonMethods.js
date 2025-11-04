@@ -7,7 +7,7 @@
  * @param {string} htmlTemplate - The HTML template string.
  * @param {object} shadowRoot - The shadow root onto which the templates will be appended.
  */
-export function renderTemplates (cssTemplate, htmlTemplate, shadowRoot) {
+export function renderTemplates(cssTemplate, htmlTemplate, shadowRoot) {
   const style = document.createElement('style')
   style.textContent = cssTemplate
 
@@ -19,11 +19,13 @@ export function renderTemplates (cssTemplate, htmlTemplate, shadowRoot) {
 
 /**
  * Used in wb-edit-record and wb-new-record.
+ * Key = record[key]
+ * Value = the HTML element on which to apply the record[key].
  *
  * @param {} context - The context onto which the function is applied (this).
  * @returns {object} - The field map object.
  */
-export function getFieldMap (context) {
+export function getFieldMap(context) {
   return {
     artist: context.artistInput,
     albumTitle: context.albumTitle,

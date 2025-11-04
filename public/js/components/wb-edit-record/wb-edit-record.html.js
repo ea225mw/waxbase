@@ -1,6 +1,4 @@
-export const htmlTemplate =
- 
-/*html*/`
+export const htmlTemplate = /*html*/ `
 <div class="backdrop"></div>
 <div class="modal">
   <form id="albumEditForm">
@@ -15,12 +13,7 @@ export const htmlTemplate =
         <label for="albumTitle">Album Title</label>
         <input type="text" name="albumTitle">
 
-        <label for="artistDisplayName">Artist</label>
-        <div class="inputWithSuggestions">
-          <input type="text" name="artistDisplayName">
-          <ul id="artistSuggestions" class="suggestions"></ul>
-        </div>
-        <input type="hidden" name="artistId" id="artistIdHidden" value="">
+        <div id="tempTestDiv"></div>
 
         <label for="formatId">Format</label>
         <select name="formatId" value="">

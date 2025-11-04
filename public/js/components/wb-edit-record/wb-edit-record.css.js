@@ -2,9 +2,7 @@ import { getTheme, themeID } from '../../config/colorThemes.js'
 
 const theme = getTheme(themeID)
 
-export const cssTemplate =
- 
-/*css*/`
+export const cssTemplate = /*css*/ `
 :host {
   display: none;
   position: fixed;
@@ -138,33 +136,6 @@ button.tab {
 
 #frontCover {
   max-width: 9rem;
-}
-
-.inputWithSuggestions {
-  display: flex;
-  flex-direction: row;
-  gap: 0.625rem;
-  position: relative;
-}
-
-.suggestions {
-  position: absolute;
-  left: 16.875rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background: white;
-  min-width: 12.5rem;
-  max-width: 22rem;
-}
-
-.suggestions li {
-  padding: 0.25rem;
-  cursor: pointer;
-}
-
-.suggestions li:hover {
-  background-color: ${theme.mainBackground};
 }
 
 #cancel, #submit {

@@ -2,6 +2,7 @@ import { EditRecordBaseClass } from './editRecordBaseClass.js'
 import { cssTemplate } from './wb-edit-record.css.js'
 import { htmlTemplate } from './wb-edit-record.html.js'
 import '../wb-edit-record/wb-tracks-edit/wb-tracks-edit.js'
+import '../wb-edit-record/wb-artist-suggestions/wb-artist-suggestions.js'
 import { renderTemplates, getFieldMap } from '../../commonMethods.js'
 
 const pathToModule = import.meta.url
@@ -20,6 +21,9 @@ customElements.define(
     #tracksTab
     #wbTracksEdit
     #wbDetailsEdit
+    #wbArtistSuggestions
+    artistInput
+    artistIdHidden
 
     /**
      * Creates a new instance of the wb-edit-record web component.
@@ -40,18 +44,22 @@ customElements.define(
       this.#cancel = this.shadowRoot.querySelector('#cancel')
       this.#submit = this.shadowRoot.querySelector('#submit')
       this.#tabsDiv = this.shadowRoot.querySelector('#tabsDiv')
-      this.#recordIndexHiddenInput =
-        this.shadowRoot.querySelector('#recordIndex')
+      this.#recordIndexHiddenInput = this.shadowRoot.querySelector('#recordIndex')
       this.#tracksTab = this.shadowRoot.querySelector('#tracks')
       this.#wbTracksEdit = this.shadowRoot.querySelector('wb-tracks-edit')
       this.#wbDetailsEdit = this.shadowRoot.querySelector('wb-details-edit')
 
+      this.#wbArtistSuggestions = document.createElement('wb-artist-suggestions')
+      this.shadowRoot.querySelector('#tempTestDiv').append(this.#wbArtistSuggestions)
+      // console.log(this.#wbArtistSuggestions)
+
+      this.artistInput = this.#wbArtistSuggestions.artistInput
+      this.artistIdHidden = this.#wbArtistSuggestions.artistIdHidden
+
       /* ---------- EVENT LISTENERS ---------- */
       this.#cancel.addEventListener('click', () => this.cancel())
       this.#submit.addEventListener('click', (event) => this.submit(event))
-      this.#tabsDiv.addEventListener('click', (event) =>
-        this.swapToAnotherTab(event)
-      )
+      this.#tabsDiv.addEventListener('click', (event) => this.swapToAnotherTab(event))
     }
 
     /**
@@ -60,23 +68,22 @@ customElements.define(
      * @param {number} recordIndex - The index of the record to be displayed.
      */
     async showEditView(recordIndex) {
-      const response = await fetch(
-        `${this.baseURLClient}records/viewSingleAlbum`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            id: recordIndex
-          })
-        }
-      )
+      const response = await fetch(`${this.baseURLClient}records/viewSingleAlbum`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: recordIndex
+        })
+      })
 
       const record = await response.json()
 
       await this.createFormatOptions(record)
       this.formatId.value = String(record.formatId)
+
+      this.#wbArtistSuggestions.setAllArtists(this.allArtists)
 
       this.#wbDetailsEdit.setConditionOptions(this.allConditions)
       this.#wbDetailsEdit.configureComponent(record)
@@ -110,15 +117,10 @@ customElements.define(
               this.store.dataset.id = record.storeId
               valueFromRecord = valueFromRecord.storeName
             } else if (key === 'artist') {
-              valueFromRecord =
-                valueFromRecord.fullName ||
-                [valueFromRecord.firstName, valueFromRecord.lastName]
-                  .filter(Boolean)
-                  .join(' ')
-              this.artistInput.dataset.id = record.artistId
+              valueFromRecord = valueFromRecord.displayName
+              this.#wbArtistSuggestions.artistInput.dataset.id = record.artistId
             }
           }
-
           fieldMap[key].value = valueFromRecord // Example: this.#price.value = record.price
         } else {
           fieldMap[key].value = ''
@@ -127,8 +129,7 @@ customElements.define(
       if (record.tracks) {
         this.#wbTracksEdit.populateTracks(record.tracks)
       }
-      this.shadowRoot.querySelector('#frontCover').src =
-        record.imgURL || defaultImagePath
+      this.shadowRoot.querySelector('#frontCover').src = record.imgURL || defaultImagePath
     }
 
     /**
@@ -172,11 +173,8 @@ customElements.define(
     }
 
     #checkForInvalidFields() {
-      const allInputFields =
-        this.albumEditForm.querySelectorAll('input[data-valid]')
-      const hasInvalidField = Array.from(allInputFields).some((element) =>
-        this.checkForInvalidFields(element)
-      )
+      const allInputFields = this.albumEditForm.querySelectorAll('input[data-valid]')
+      const hasInvalidField = Array.from(allInputFields).some((element) => this.checkForInvalidFields(element))
       return hasInvalidField
     }
 
@@ -185,10 +183,7 @@ customElements.define(
       const tracks = this.#wbTracksEdit.prepareTracksForSubmission()
       formData.append('tracks', JSON.stringify(tracks))
       if (this.#wbTracksEdit.tracksToBeRemoved.length > 0) {
-        formData.append(
-          'tracksToBeRemoved',
-          JSON.stringify(this.#wbTracksEdit.tracksToBeRemoved)
-        )
+        formData.append('tracksToBeRemoved', JSON.stringify(this.#wbTracksEdit.tracksToBeRemoved))
       }
       return formData
     }
