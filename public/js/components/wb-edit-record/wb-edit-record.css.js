@@ -47,7 +47,7 @@ form {
   grid-area: a;
 }
 
-input, select {
+input {
   box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
   padding: 0.1875rem;
   background-color: ${theme.inputAndSelect}
@@ -69,9 +69,7 @@ select[name="formatId"] {
   max-width: 5.625rem;
 }
 
-input[name="albumTitle"], 
-input[name="artist"], 
-input[name="store"] {
+input[name="albumTitle"] {
   width: 15.5rem;
 }
 

@@ -13,7 +13,7 @@ export const htmlTemplate = /*html*/ `
         <label for="albumTitle">Album Title</label>
         <input type="text" name="albumTitle">
 
-        <div id="tempTestDiv"></div>
+        <div id="artistComponentWrapper"></div>
 
         <label for="formatId">Format</label>
         <select name="formatId" value="">
@@ -26,12 +26,7 @@ export const htmlTemplate = /*html*/ `
         <label for="origReleaseYear">Original release year</label>
         <input type="text" name="origReleaseYear">
 
-        <label for="store">Store</label>
-        <div class="inputWithSuggestions">
-          <input type="text" name="store">
-          <ul id="storeSuggestions" class="suggestions"></ul>
-        </div>
-        <input type="hidden" name="storeId" id="storeIdHidden" value="">
+        <wb-store-suggestions></wb-store-suggestions>
 
         <label for="price">Price</label>
         <input type="text" name="price">
@@ -45,7 +40,6 @@ export const htmlTemplate = /*html*/ `
       <img src="" id="frontCover">
     </div>
     <div id="details" class="forms">
-      <!-- WB-DETAILS-EDIT COMPONENT IS ADDED HERE -->
        <wb-details-edit></wb-details-edit>
     </div>
     <input type="hidden" name="id" id="recordIndex" value="">

@@ -3,6 +3,7 @@ import { cssTemplate } from './wb-edit-record.css.js'
 import { htmlTemplate } from './wb-edit-record.html.js'
 import '../wb-edit-record/wb-tracks-edit/wb-tracks-edit.js'
 import '../wb-edit-record/wb-artist-suggestions/wb-artist-suggestions.js'
+import '../wb-edit-record/wb-store-suggestions/wb-store-suggestions.js'
 import { renderTemplates, getFieldMap } from '../../commonMethods.js'
 
 const pathToModule = import.meta.url
@@ -21,9 +22,14 @@ customElements.define(
     #tracksTab
     #wbTracksEdit
     #wbDetailsEdit
+
     #wbArtistSuggestions
     artistInput
     artistIdHidden
+
+    #wbStoreSuggestions
+    storeInput
+    storeIdHidden
 
     /**
      * Creates a new instance of the wb-edit-record web component.
@@ -50,11 +56,14 @@ customElements.define(
       this.#wbDetailsEdit = this.shadowRoot.querySelector('wb-details-edit')
 
       this.#wbArtistSuggestions = document.createElement('wb-artist-suggestions')
-      this.shadowRoot.querySelector('#tempTestDiv').append(this.#wbArtistSuggestions)
-      // console.log(this.#wbArtistSuggestions)
+      this.shadowRoot.querySelector('#artistComponentWrapper').append(this.#wbArtistSuggestions)
 
       this.artistInput = this.#wbArtistSuggestions.artistInput
       this.artistIdHidden = this.#wbArtistSuggestions.artistIdHidden
+
+      this.#wbStoreSuggestions = this.shadowRoot.querySelector('wb-store-suggestions')
+      this.storeInput = this.#wbStoreSuggestions.storeInput
+      this.storeIdHidden = this.#wbStoreSuggestions.storeIdHidden
 
       /* ---------- EVENT LISTENERS ---------- */
       this.#cancel.addEventListener('click', () => this.cancel())
@@ -68,16 +77,7 @@ customElements.define(
      * @param {number} recordIndex - The index of the record to be displayed.
      */
     async showEditView(recordIndex) {
-      const response = await fetch(`${this.baseURLClient}records/viewSingleAlbum`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          id: recordIndex
-        })
-      })
-
+      const response = await this.#getRecordFromServer(recordIndex)
       const record = await response.json()
 
       await this.createFormatOptions(record)
@@ -99,6 +99,18 @@ customElements.define(
       this.style.pointerEvents = 'auto'
     }
 
+    async #getRecordFromServer(recordIndex) {
+      return await fetch(`${this.baseURLClient}records/viewSingleAlbum`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: recordIndex
+        })
+      })
+    }
+
     /**
      * Populates the edit form with all the record data.
      *
@@ -114,7 +126,7 @@ customElements.define(
           // If value is an object instead of a string:
           if (typeof valueFromRecord === 'object' && valueFromRecord !== null) {
             if (key === 'store') {
-              this.store.dataset.id = record.storeId
+              this.#wbStoreSuggestions.storeInput.dataset.id = record.storeId
               valueFromRecord = valueFromRecord.storeName
             } else if (key === 'artist') {
               valueFromRecord = valueFromRecord.displayName
@@ -126,11 +138,14 @@ customElements.define(
           fieldMap[key].value = ''
         }
       }
+
       if (record.tracks) {
         this.#wbTracksEdit.populateTracks(record.tracks)
       }
       this.shadowRoot.querySelector('#frontCover').src = record.imgURL || defaultImagePath
     }
+
+    assignValueFromRecord() {}
 
     /**
      * Submits the form to web server.

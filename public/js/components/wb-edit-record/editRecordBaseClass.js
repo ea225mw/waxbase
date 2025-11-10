@@ -11,9 +11,7 @@ export class EditRecordBaseClass extends HTMLElement {
   #allStores
   #baseURLClient
   #formatId
-  #storeSuggestionsList
-  #storeInput
-  #storeIdHidden
+
   #albumTitle
   #store
   #price
@@ -29,11 +27,9 @@ export class EditRecordBaseClass extends HTMLElement {
     /* ---------- REFERENCES ---------- */
     this.#formatId = this.shadowRoot.querySelector('select[name="formatId"]')
 
-    this.#storeSuggestionsList = this.shadowRoot.querySelector('#storeSuggestions')
-    this.#storeInput = this.shadowRoot.querySelector('input[name="store"]')
     this.#releaseYear = this.shadowRoot.querySelector('input[name="releaseYear"]')
     this.#origReleaseYear = this.shadowRoot.querySelector('input[name="origReleaseYear"]')
-    this.#storeIdHidden = this.shadowRoot.querySelector('#storeIdHidden')
+
     this.#imgURLHidden = this.shadowRoot.querySelector('input[name="imgURL"]')
     this.#albumEditForm = this.shadowRoot.querySelector('#albumEditForm')
     this.#albumTitle = this.shadowRoot.querySelector('input[name="albumTitle"]')
@@ -41,18 +37,6 @@ export class EditRecordBaseClass extends HTMLElement {
     this.#price = this.shadowRoot.querySelector('input[name="price"]')
 
     /* ---------- EVENT LISTENERS ------------------------------------------------------------------------- */
-
-    this.#storeInput.addEventListener('input', () => {
-      this.listenForStoreInput()
-    })
-
-    this.#storeSuggestionsList.addEventListener('click', (event) => {
-      if (event.target.tagName === 'LI') {
-        this.#storeInput.value = event.target.textContent
-        this.#storeIdHidden.value = event.target.dataset.id
-        this.#storeSuggestionsList.innerHTML = ''
-      }
-    })
 
     this.#albumEditForm.addEventListener('input', () => {
       const allInputFields = this.shadowRoot.querySelectorAll('input[data-valid]')
@@ -98,10 +82,6 @@ export class EditRecordBaseClass extends HTMLElement {
 
   get origReleaseYear() {
     return this.#origReleaseYear
-  }
-
-  get storeIdHidden() {
-    return this.#storeIdHidden
   }
 
   get imgURLHidden() {
@@ -167,21 +147,6 @@ export class EditRecordBaseClass extends HTMLElement {
       option.value = format.id
       option.textContent = format.format
       this.#formatId.append(option)
-    })
-  }
-
-  /**
-   * Populates a suggestions list when typing in the store field.
-   */
-  listenForStoreInput() {
-    const query = this.#storeInput.value.toLowerCase()
-    const matches = this.allStores.filter((store) => `${store.storeName}`.toLowerCase().includes(query))
-    this.#storeSuggestionsList.innerHTML = ''
-    matches.forEach((store) => {
-      const li = document.createElement('li')
-      li.textContent = `${store.storeName}`
-      li.dataset.id = store.id
-      this.#storeSuggestionsList.appendChild(li)
     })
   }
 
