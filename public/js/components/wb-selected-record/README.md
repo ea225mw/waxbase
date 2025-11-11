@@ -1,4 +1,4 @@
-# wb-single-record
+# wb-selected-record
 
 ## Description
 

@@ -47,7 +47,7 @@ form {
   grid-area: a;
 }
 
-input {
+input, select {
   box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
   padding: 0.1875rem;
   background-color: ${theme.inputAndSelect}

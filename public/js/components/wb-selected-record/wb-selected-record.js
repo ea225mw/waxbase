@@ -1,15 +1,16 @@
 import '../wb-edit-record/wb-edit-record.js'
-import { cssTemplate } from './wb-single-record.css.js'
-import { htmlTemplate } from './wb-single-record.html.js'
+import { cssTemplate } from './wb-selected-record.css.js'
+import { htmlTemplate } from './wb-selected-record.html.js'
 import { renderTemplates } from '../../commonMethods.js'
 import { baseURLClient } from '../../config/variables.js'
 
 const pathToModule = import.meta.url
 const defaultImagePath = new URL('./images/default.svg', pathToModule)
 
-customElements.define('wb-single-record',
+customElements.define(
+  'wb-selected-record',
   /**
-   * A web component for a single record view, used in WaxBase.
+   * A web component for a selected record view, used in WaxBase.
    */
   class extends HTMLElement {
     #albumCover
@@ -30,9 +31,9 @@ customElements.define('wb-single-record',
     #baseURLClient
 
     /**
-     * Creates a new instance of the wb-single-record web component.
+     * Creates a new instance of the wb-selected-record web component.
      */
-    constructor () {
+    constructor() {
       super()
       this.attachShadow({ mode: 'open' })
       renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
@@ -42,7 +43,7 @@ customElements.define('wb-single-record',
     /**
      * Called when the component is added to DOM.
      */
-    connectedCallback () {
+    connectedCallback() {
       /* ---------- SETTING UP REFERENCES ---------- */
       this.#albumCover = this.shadowRoot.querySelector('img')
       this.#albumTitle = this.shadowRoot.querySelector('#albumTitle')
@@ -62,11 +63,13 @@ customElements.define('wb-single-record',
       /* ---------- SETTING UP EVENT LISTENERS ---------- */
       this.#editBtn.addEventListener('click', () => {
         this.#confirmDeleteDiv.setAttribute('style', 'transform: scaleY(0)')
-        this.dispatchEvent(new CustomEvent('showEditView', {
-          detail: {
-            id: this.#currentRecordIndex
-          }
-        }))
+        this.dispatchEvent(
+          new CustomEvent('showEditView', {
+            detail: {
+              id: this.#currentRecordIndex
+            }
+          })
+        )
       })
 
       this.#deleteBtn.addEventListener('click', () => {
@@ -88,7 +91,7 @@ customElements.define('wb-single-record',
      *
      * @param {JSON} record - A JSON object with record information.
      */
-    showSingleRecord (record) {
+    showSingleRecord(record) {
       this.#confirmDeleteDiv.setAttribute('style', 'transform: scaleY(0)')
 
       this.shadowRoot.querySelector('#singleRecordWrapper').style.visibility = 'visible'
@@ -144,11 +147,11 @@ customElements.define('wb-single-record',
      *
      * @param {JSON} record - A JSON object with record information.
      */
-    createTracks (record) {
+    createTracks(record) {
       this.#tracksTable.innerHTML = null
 
       Object.values(record.tracks).forEach((track) => {
-        const [trackRow, indexTD, titleTD, timeTD] = ['tr', 'td', 'td', 'td'].map(tag => document.createElement(tag))
+        const [trackRow, indexTD, titleTD, timeTD] = ['tr', 'td', 'td', 'td'].map((tag) => document.createElement(tag))
 
         indexTD.textContent = `${track.trackIndex}.`
         titleTD.textContent = track.trackTitle
@@ -177,7 +180,7 @@ customElements.define('wb-single-record',
      * Contacts the server and deletes the record in the database.
      * Dispatches a custom event to update record table.
      */
-    async deleteRecord () {
+    async deleteRecord() {
       const response = await fetch(`${this.#baseURLClient}records/delete`, {
         method: 'POST',
         headers: {
@@ -189,11 +192,13 @@ customElements.define('wb-single-record',
       })
       if (response.ok) {
         this.#confirmDeleteDiv.style.transform = 'scaleY(0)'
-        this.dispatchEvent(new CustomEvent('recordDeleted', {
-          detail: {
-            id: this.#currentRecordIndex
-          }
-        }))
+        this.dispatchEvent(
+          new CustomEvent('recordDeleted', {
+            detail: {
+              id: this.#currentRecordIndex
+            }
+          })
+        )
         this.shadowRoot.querySelector('#singleRecordWrapper').style.visibility = 'hidden'
       }
       const obj = await response.text()

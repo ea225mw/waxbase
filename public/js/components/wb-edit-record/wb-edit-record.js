@@ -97,9 +97,13 @@ customElements.define(
 
       this.populateForm(record)
 
-      this.#recordIndexHiddenInput.setAttribute('value', recordIndex)
+      this.#recordIndexHiddenInput.value = recordIndex
 
       this.style.display = 'block'
+      this.#setPointerEvents()
+    }
+
+    #setPointerEvents() {
       document.body.style.pointerEvents = 'none'
       this.style.pointerEvents = 'auto'
     }

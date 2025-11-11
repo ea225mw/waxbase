@@ -1,4 +1,4 @@
-import './components/wb-single-record/wb-single-record.js'
+import './components/wb-selected-record/wb-selected-record.js'
 import './components/wb-records-table/wb-records-table.js'
 import './components/wb-edit-record/wb-edit-record.js'
 import './components/wb-edit-record/wb-new-record.js'
@@ -15,16 +15,16 @@ let allStores
 
 const theme = getTheme(themeID)
 
-fetchApplicationRecordData()
+fetchApplicationData()
 setColors()
 
-const wbSingleRecord = document.createElement('wb-single-record')
-document.querySelector('#singleRecordView').append(wbSingleRecord)
+const wbSelectedRecord = document.createElement('wb-selected-record')
+document.querySelector('#singleRecordView').append(wbSelectedRecord)
 
 /**
  * Fetches common data that different components have use for.
  */
-async function fetchApplicationRecordData () {
+async function fetchApplicationData() {
   const response = await fetch(`${baseURLClient}records/commonData`)
   const object = await response.json()
 
@@ -40,27 +40,27 @@ document.querySelector('#page').append(wbRecordsTable)
 
 wbRecordsTable.addEventListener('showSingleRecord', (event) => {
   document.querySelector('#noRecordSelected').style.display = 'none'
-  wbSingleRecord.showSingleRecord(event.detail.rec)
+  wbSelectedRecord.showSingleRecord(event.detail.rec)
 })
 
 /* ---------- THE STATISTICS BAR ---------- */
 const wbStatistics = document.querySelector('wb-statistics')
 
-/* ---------- THE SINGLE RECORD VIEW ---------- */
-wbSingleRecord.addEventListener('showEditView', (event) => {
+/* ---------- THE SELECTED RECORD VIEW ---------- */
+wbSelectedRecord.addEventListener('showEditView', (event) => {
   const editView = document.createElement('wb-edit-record')
   document.body.append(editView)
   editView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
   editView.showEditView(event.detail.id)
 
   editView.addEventListener('albumUpdated', (event) => {
-    wbSingleRecord.showSingleRecord(event.detail.updatedAlbum)
+    wbSelectedRecord.showSingleRecord(event.detail.updatedAlbum)
     wbRecordsTable.updateTableRow(event.detail.updatedAlbum)
     wbStatistics.updateStatistics()
   })
 })
 
-wbSingleRecord.addEventListener('recordDeleted', (event) => {
+wbSelectedRecord.addEventListener('recordDeleted', (event) => {
   wbRecordsTable.removeDeletedRecord(event.detail.id)
   wbStatistics.updateStatistics()
   document.querySelector('#noRecordSelected').style.display = 'block'
@@ -70,7 +70,7 @@ wbSingleRecord.addEventListener('recordDeleted', (event) => {
 /**
  * Sets colors to certain elements.
  */
-function setColors () {
+function setColors() {
   document.querySelector('body').style.backgroundColor = `${theme.mainBackground}`
   document.querySelector('#page').style.backgroundColor = `${theme.mainBackground}`
   document.querySelector('#headerDiv').style.backgroundColor = `${theme.buttonsPlates}`
@@ -104,10 +104,10 @@ wbMenubar.addEventListener('bySearching', () => {
  *
  * @param {CustomEvent} event - The 'recordAdded' event.
  */
-function newRecordAdded (event) {
+function newRecordAdded(event) {
   wbRecordsTable.setRecordData(event.detail.addedRecord)
   wbRecordsTable.selectRowToHighlight(event.detail.addedRecord.id)
-  wbSingleRecord.showSingleRecord(event.detail.addedRecord)
+  wbSelectedRecord.showSingleRecord(event.detail.addedRecord)
   document.querySelector('#noRecordSelected').style.display = 'none'
   wbStatistics.updateStatistics()
 }
@@ -117,7 +117,7 @@ function newRecordAdded (event) {
  *
  * @param {URL} url - The Discogs API URL.
  */
-async function getOneResourceFromDiscogs (url) {
+async function getOneResourceFromDiscogs(url) {
   const response = await fetch(`${baseURLClient}search/getDiscogsResource`, {
     method: 'POST',
     headers: {
@@ -138,7 +138,7 @@ async function getOneResourceFromDiscogs (url) {
  *
  * @param {object} record - The fetched record object.
  */
-function createNewDiscogsRecord (record) {
+function createNewDiscogsRecord(record) {
   // console.log('record in createNewDiscogsRecord: ', record)
   const newDiscogsRecord = document.createElement('wb-new-record')
   document.body.append(newDiscogsRecord)
