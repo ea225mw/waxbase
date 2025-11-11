@@ -11,9 +11,7 @@ const defaultImagePath = new URL('./images/default.svg', pathToModule)
 
 customElements.define(
   'wb-edit-record',
-  /**
-   *
-   */
+
   class extends EditRecordBaseClass {
     #cancel
     #submit
@@ -31,9 +29,8 @@ customElements.define(
     storeInput
     storeIdHidden
 
-    /**
-     * Creates a new instance of the wb-edit-record web component.
-     */
+    #fieldMap
+
     constructor() {
       super()
       this.attachShadow({ mode: 'open' })
@@ -45,6 +42,7 @@ customElements.define(
      */
     connectedCallback() {
       super.connectedCallback()
+      this.#createChildComponents()
 
       // SETTING UP REFERENCES
       this.#cancel = this.shadowRoot.querySelector('#cancel')
@@ -55,20 +53,26 @@ customElements.define(
       this.#wbTracksEdit = this.shadowRoot.querySelector('wb-tracks-edit')
       this.#wbDetailsEdit = this.shadowRoot.querySelector('wb-details-edit')
 
-      this.#wbArtistSuggestions = document.createElement('wb-artist-suggestions')
-      this.shadowRoot.querySelector('#artistComponentWrapper').append(this.#wbArtistSuggestions)
-
       this.artistInput = this.#wbArtistSuggestions.artistInput
       this.artistIdHidden = this.#wbArtistSuggestions.artistIdHidden
 
-      this.#wbStoreSuggestions = this.shadowRoot.querySelector('wb-store-suggestions')
       this.storeInput = this.#wbStoreSuggestions.storeInput
       this.storeIdHidden = this.#wbStoreSuggestions.storeIdHidden
+
+      this.#fieldMap = getFieldMap(this)
 
       /* ---------- EVENT LISTENERS ---------- */
       this.#cancel.addEventListener('click', () => this.cancel())
       this.#submit.addEventListener('click', (event) => this.submit(event))
       this.#tabsDiv.addEventListener('click', (event) => this.swapToAnotherTab(event))
+    }
+
+    #createChildComponents() {
+      this.#wbArtistSuggestions = document.createElement('wb-artist-suggestions')
+      this.shadowRoot.querySelector('#artistComponentWrapper').append(this.#wbArtistSuggestions)
+
+      this.#wbStoreSuggestions = document.createElement('wb-store-suggestions')
+      this.shadowRoot.querySelector('#storeComponentWrapper').append(this.#wbStoreSuggestions)
     }
 
     /**
@@ -84,6 +88,7 @@ customElements.define(
       this.formatId.value = String(record.formatId)
 
       this.#wbArtistSuggestions.setAllArtists(this.allArtists)
+      this.#wbStoreSuggestions.setAllStores(this.allStores)
 
       this.#wbDetailsEdit.setConditionOptions(this.allConditions)
       this.#wbDetailsEdit.configureComponent(record)
@@ -91,7 +96,7 @@ customElements.define(
       this.#tracksTab.append(this.#wbTracksEdit)
 
       this.populateForm(record)
-      // this.#albumEditForm.setAttribute('method', 'POST')
+
       this.#recordIndexHiddenInput.setAttribute('value', recordIndex)
 
       this.style.display = 'block'
@@ -111,41 +116,51 @@ customElements.define(
       })
     }
 
-    /**
-     * Populates the edit form with all the record data.
-     *
-     * @param {object} record - The record object.
-     */
     populateForm(record) {
-      const fieldMap = getFieldMap(this)
+      this.#populateBasicFields(record)
+      this.#populateArtist(record)
+      this.#populateStore(record)
+      this.#populateTracks(record)
+      this.#populateCoverImage(record)
+    }
 
-      for (const key in fieldMap) {
-        let valueFromRecord = record[key] // Example: valueFromRecord = record.price
-
-        if (valueFromRecord) {
-          // If value is an object instead of a string:
-          if (typeof valueFromRecord === 'object' && valueFromRecord !== null) {
-            if (key === 'store') {
-              this.#wbStoreSuggestions.storeInput.dataset.id = record.storeId
-              valueFromRecord = valueFromRecord.storeName
-            } else if (key === 'artist') {
-              valueFromRecord = valueFromRecord.displayName
-              this.#wbArtistSuggestions.artistInput.dataset.id = record.artistId
-            }
-          }
-          fieldMap[key].value = valueFromRecord // Example: this.#price.value = record.price
-        } else {
-          fieldMap[key].value = ''
+    #populateBasicFields(record) {
+      for (const key in this.#fieldMap) {
+        let value = record[key]
+        if (!value) {
+          this.#fieldMap[key].value = ''
+          continue
         }
-      }
+        if (['artist', 'store'].includes(key)) continue
 
+        this.#fieldMap[key].value = value
+      }
+    }
+
+    #populateArtist(record) {
+      if (record.artist) {
+        this.#wbArtistSuggestions.artistInput.value = record.artist.displayName
+        this.#wbArtistSuggestions.artistIdHidden.value = record.artistId
+      }
+    }
+
+    #populateStore(record) {
+      if (record.store) {
+        this.#wbStoreSuggestions.storeInput.value = record.store.storeName
+        this.#wbStoreSuggestions.storeIdHidden.value = record.storeId
+      }
+    }
+
+    #populateTracks(record) {
       if (record.tracks) {
         this.#wbTracksEdit.populateTracks(record.tracks)
       }
-      this.shadowRoot.querySelector('#frontCover').src = record.imgURL || defaultImagePath
     }
 
-    assignValueFromRecord() {}
+    #populateCoverImage(record) {
+      const cover = this.shadowRoot.querySelector('#frontCover')
+      cover.src = record.imgURL || defaultImagePath
+    }
 
     /**
      * Submits the form to web server.

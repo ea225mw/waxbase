@@ -22,19 +22,15 @@ export function renderTemplates(cssTemplate, htmlTemplate, shadowRoot) {
  * Key = record[key]
  * Value = the HTML element on which to apply the record[key].
  *
- * @param {} context - The context onto which the function is applied (this).
+ * @param {} wbEditRecord - The context onto which the function is applied (this).
  * @returns {object} - The field map object.
  */
-export function getFieldMap(context) {
+export function getFieldMap(wbEditRecord) {
   return {
-    artist: context.artistInput,
-    albumTitle: context.albumTitle,
-    releaseYear: context.releaseYear,
-    origReleaseYear: context.origReleaseYear,
-    store: context.store,
-    price: context.price,
-    artistId: context.artistIdHidden,
-    storeId: context.storeIdHidden,
-    imgURL: context.imgURLHidden
+    albumTitle: wbEditRecord.albumTitle,
+    releaseYear: wbEditRecord.releaseYear,
+    origReleaseYear: wbEditRecord.origReleaseYear,
+    price: wbEditRecord.price,
+    imgURL: wbEditRecord.imgURLHidden
   }
 }

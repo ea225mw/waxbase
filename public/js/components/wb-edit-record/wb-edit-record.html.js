@@ -26,7 +26,7 @@ export const htmlTemplate = /*html*/ `
         <label for="origReleaseYear">Original release year</label>
         <input type="text" name="origReleaseYear">
 
-        <wb-store-suggestions></wb-store-suggestions>
+        <div id="storeComponentWrapper"></div>
 
         <label for="price">Price</label>
         <input type="text" name="price">
