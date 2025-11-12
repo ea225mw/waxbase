@@ -3,7 +3,8 @@ import { htmlTemplate } from './wb-records-table.html.js'
 import { baseURLClient } from '../../config/variables.js'
 import { renderTemplates } from '../../commonMethods.js'
 
-customElements.define('wb-records-table',
+customElements.define(
+  'wb-records-table',
   /**
    *
    */
@@ -14,7 +15,7 @@ customElements.define('wb-records-table',
     /**
      * Creates a new instance of the wb-record-table web component.
      */
-    constructor () {
+    constructor() {
       super()
       this.attachShadow({ mode: 'open' })
       renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
@@ -25,16 +26,30 @@ customElements.define('wb-records-table',
     /**
      * Called when the component is added to DOM.
      */
-    async connectedCallback () {
+    async connectedCallback() {
       this.#baseURLClient = baseURLClient
       await this.getAllRecordsData()
-      this.#allRecordsTable.addEventListener('click', (event) => this.getSingleRecord(event))
+
+      this.#allRecordsTable.addEventListener('click', (event) => {
+        const row = event.target.closest('tr.recordTableRow')
+        if (!row) return
+        this.highlightRow(row)
+
+        const id = row.dataset.id
+        this.dispatchEvent(
+          new CustomEvent('showSingleRecord', {
+            detail: {
+              recordId: id
+            }
+          })
+        )
+      })
     }
 
     /**
      * Called in connectedCallback and fetches all records from the database and displays them in the table.
      */
-    async getAllRecordsData () {
+    async getAllRecordsData() {
       const response = await fetch(`${this.#baseURLClient}records/allalbums`)
       const data = await response.json()
       Object.values(data).forEach((record) => {
@@ -47,24 +62,54 @@ customElements.define('wb-records-table',
      *
      * @param {object} record - The record object.
      */
-    setRecordData (record) {
+    setRecordData(record) {
       const tr = document.createElement('tr')
       tr.classList.add('recordTableRow')
       tr.dataset.id = record.id
 
-      const [idTD, formatTD, albumTitleTD, fullNameTD, releaseYearTD, priceTD, storeNameTD, mediaConditionTD, sleeveConditionTD] = ['td', 'td', 'td', 'td', 'td', 'td', 'td', 'td', 'td'].map(tag => document.createElement(tag))
+      const [
+        idTD,
+        formatTD,
+        albumTitleTD,
+        fullNameTD,
+        releaseYearTD,
+        priceTD,
+        storeNameTD,
+        mediaConditionTD,
+        sleeveConditionTD
+      ] = ['td', 'td', 'td', 'td', 'td', 'td', 'td', 'td', 'td'].map((tag) => document.createElement(tag))
 
       const centeredItems = [idTD, releaseYearTD, mediaConditionTD, sleeveConditionTD]
       centeredItems.forEach((item) => {
         item.classList.add('centered')
       })
 
-      const allTD = { id: idTD, format: formatTD, albumTitle: albumTitleTD, fullName: fullNameTD, releaseYear: releaseYearTD, price: priceTD, store: storeNameTD, mediaCondition: mediaConditionTD, sleeveCondition: sleeveConditionTD }
+      const allTD = {
+        id: idTD,
+        format: formatTD,
+        albumTitle: albumTitleTD,
+        fullName: fullNameTD,
+        releaseYear: releaseYearTD,
+        price: priceTD,
+        store: storeNameTD,
+        mediaCondition: mediaConditionTD,
+        sleeveCondition: sleeveConditionTD
+      }
 
       this.setClassesOnTD(allTD)
       this.fillTextInTD(allTD, record)
 
-      tr.append(idTD, formatTD, albumTitleTD, fullNameTD, releaseYearTD, priceTD, storeNameTD, mediaConditionTD, sleeveConditionTD)
+      tr.append(
+        idTD,
+        formatTD,
+        albumTitleTD,
+        fullNameTD,
+        releaseYearTD,
+        priceTD,
+        storeNameTD,
+        mediaConditionTD,
+        sleeveConditionTD
+      )
 
       this.#tbody.append(tr)
     }
@@ -74,7 +119,7 @@ customElements.define('wb-records-table',
      *
      * @param {object} allTD - An object containing all td elements.
      */
-    setClassesOnTD (allTD) {
+    setClassesOnTD(allTD) {
       allTD.id.classList.add('id')
       allTD.format.classList.add('format')
       allTD.albumTitle.classList.add('albumTitle')
@@ -92,7 +137,7 @@ customElements.define('wb-records-table',
      * @param {object} allTD - An object containing all td elements.
      * @param {object} record - The record object.
      */
-    fillTextInTD (allTD, record) {
+    fillTextInTD(allTD, record) {
       allTD.id.textContent = record.id
       if (record.format) {
         allTD.format.textContent = record.format.format
@@ -113,44 +158,12 @@ customElements.define('wb-records-table',
     }
 
     /**
-     * Fetches the clicked on record from the database and displays it in the single record view.
-     * Also highlights the clicked on record in the record table.
-     *
-     * @param {MouseEvent} event - The click event.
-     */
-    async getSingleRecord (event) {
-      const row = event.target.closest('tr.recordTableRow')
-      if (!row) return
-
-      this.highlightRow(row)
-
-      // Get detailed information on selected record.
-      const id = row.dataset.id
-      const response = await fetch(`${this.#baseURLClient}records/viewSingleAlbum`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          id
-        })
-      })
-      const record = await response.json()
-
-      this.dispatchEvent(new CustomEvent('showSingleRecord', {
-        detail: {
-          rec: record
-        }
-      }))
-    }
-
-    /**
      * Highlights a row in the record table.
      *
      * @param {HTMLTableRowElement} row - The table row to highlight.
      */
-    highlightRow (row) {
-      this.shadowRoot.querySelectorAll('.recordTableRow').forEach(r => r.classList.remove('selected'))
+    highlightRow(row) {
+      this.shadowRoot.querySelectorAll('.recordTableRow').forEach((r) => r.classList.remove('selected'))
       row.classList.add('selected')
     }
 
@@ -159,7 +172,7 @@ customElements.define('wb-records-table',
      *
      * @param {number} id - The id of the record that should be marked and highlighted.
      */
-    selectRowToHighlight (id) {
+    selectRowToHighlight(id) {
       const rowToHighlight = this.shadowRoot.querySelector(`tr[data-id="${id}"]`)
       this.highlightRow(rowToHighlight)
     }
@@ -169,7 +182,7 @@ customElements.define('wb-records-table',
      *
      * @param {object} record - The record object.
      */
-    updateTableRow (record) {
+    updateTableRow(record) {
       const row = this.shadowRoot.querySelector(`tr[data-id="${record.id}"]`)
       const idTD = row.querySelector('.id')
       const formatTD = row.querySelector('.format')
@@ -181,7 +194,17 @@ customElements.define('wb-records-table',
       const mediaConditionTD = row.querySelector('.mediaCondition')
       const sleeveConditionTD = row.querySelector('.sleeveCondition')
 
-      const allTD = { id: idTD, format: formatTD, albumTitle: albumTitleTD, fullName: fullNameTD, releaseYear: releaseYearTD, price: priceTD, store: storeNameTD, mediaCondition: mediaConditionTD, sleeveCondition: sleeveConditionTD }
+      const allTD = {
+        id: idTD,
+        format: formatTD,
+        albumTitle: albumTitleTD,
+        fullName: fullNameTD,
+        releaseYear: releaseYearTD,
+        price: priceTD,
+        store: storeNameTD,
+        mediaCondition: mediaConditionTD,
+        sleeveCondition: sleeveConditionTD
+      }
 
       this.fillTextInTD(allTD, record)
     }
@@ -191,7 +214,7 @@ customElements.define('wb-records-table',
      *
      * @param {number} id - The id of the record to remove from the table.
      */
-    removeDeletedRecord (id) {
+    removeDeletedRecord(id) {
       const row = this.shadowRoot.querySelector(`.recordTableRow[data-id="${id}"]`)
       row.remove()
     }

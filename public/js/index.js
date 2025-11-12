@@ -50,9 +50,11 @@ async function getRecordFromServer(recordIndex) {
 const wbRecordsTable = document.createElement('wb-records-table')
 document.querySelector('#page').append(wbRecordsTable)
 
-wbRecordsTable.addEventListener('showSingleRecord', (event) => {
+wbRecordsTable.addEventListener('showSingleRecord', async (event) => {
   document.querySelector('#noRecordSelected').style.display = 'none'
-  wbSelectedRecord.showSelectedRecord(event.detail.rec)
+  const response = await getRecordFromServer(event.detail.recordId)
+  const record = await response.json()
+  wbSelectedRecord.showSelectedRecord(record)
 })
 
 /* ---------- THE STATISTICS BAR ---------- */
