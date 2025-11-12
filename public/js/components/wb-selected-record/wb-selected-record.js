@@ -91,7 +91,7 @@ customElements.define(
      *
      * @param {JSON} record - A JSON object with record information.
      */
-    showSingleRecord(record) {
+    showSelectedRecord(record) {
       this.#confirmDeleteDiv.setAttribute('style', 'transform: scaleY(0)')
 
       this.shadowRoot.querySelector('#singleRecordWrapper').style.visibility = 'visible'

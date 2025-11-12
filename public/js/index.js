@@ -19,7 +19,7 @@ fetchApplicationData()
 setColors()
 
 const wbSelectedRecord = document.createElement('wb-selected-record')
-document.querySelector('#singleRecordView').append(wbSelectedRecord)
+document.querySelector('#selectedRecordView').append(wbSelectedRecord)
 
 /**
  * Fetches common data that different components have use for.
@@ -34,27 +34,41 @@ async function fetchApplicationData() {
   allStores = object.allStores
 }
 
+async function getRecordFromServer(recordIndex) {
+  return await fetch(`${baseURLClient}records/viewSingleAlbum`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id: recordIndex
+    })
+  })
+}
+
 /* ---------- THE RECORD TABLE ---------- */
 const wbRecordsTable = document.createElement('wb-records-table')
 document.querySelector('#page').append(wbRecordsTable)
 
 wbRecordsTable.addEventListener('showSingleRecord', (event) => {
   document.querySelector('#noRecordSelected').style.display = 'none'
-  wbSelectedRecord.showSingleRecord(event.detail.rec)
+  wbSelectedRecord.showSelectedRecord(event.detail.rec)
 })
 
 /* ---------- THE STATISTICS BAR ---------- */
 const wbStatistics = document.querySelector('wb-statistics')
 
 /* ---------- THE SELECTED RECORD VIEW ---------- */
-wbSelectedRecord.addEventListener('showEditView', (event) => {
+wbSelectedRecord.addEventListener('showEditView', async (event) => {
   const editView = document.createElement('wb-edit-record')
   document.body.append(editView)
   editView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
-  editView.showEditView(event.detail.id)
+  const response = await getRecordFromServer(event.detail.id)
+  const recordFetchedFromServer = await response.json()
+  editView.showEditView(recordFetchedFromServer)
 
   editView.addEventListener('albumUpdated', (event) => {
-    wbSelectedRecord.showSingleRecord(event.detail.updatedAlbum)
+    wbSelectedRecord.showSelectedRecord(event.detail.updatedAlbum)
     wbRecordsTable.updateTableRow(event.detail.updatedAlbum)
     wbStatistics.updateStatistics()
   })

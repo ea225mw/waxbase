@@ -50,7 +50,7 @@ footer {
   margin: 10px;
 }
 
-#singleRecordView {
+#selectedRecordView {
   grid-area: single;
   border-left: solid black 3px;
 }

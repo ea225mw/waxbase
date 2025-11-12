@@ -17,7 +17,6 @@ customElements.define(
     #submit
     #tabsDiv
     #recordIndexHiddenInput
-    #tracksTab
     #wbTracksEdit
     #wbDetailsEdit
 
@@ -49,7 +48,6 @@ customElements.define(
       this.#submit = this.shadowRoot.querySelector('#submit')
       this.#tabsDiv = this.shadowRoot.querySelector('#tabsDiv')
       this.#recordIndexHiddenInput = this.shadowRoot.querySelector('#recordIndex')
-      this.#tracksTab = this.shadowRoot.querySelector('#tracks')
       this.#wbTracksEdit = this.shadowRoot.querySelector('wb-tracks-edit')
       this.#wbDetailsEdit = this.shadowRoot.querySelector('wb-details-edit')
 
@@ -75,29 +73,26 @@ customElements.define(
       this.shadowRoot.querySelector('#storeComponentWrapper').append(this.#wbStoreSuggestions)
     }
 
-    /**
-     * Displays this edit view component. Called every time the user clicks on a record in the record table.
-     *
-     * @param {number} recordIndex - The index of the record to be displayed.
-     */
-    async showEditView(recordIndex) {
-      const response = await this.#getRecordFromServer(recordIndex)
-      const record = await response.json()
-
-      await this.createFormatOptions(record)
-      this.formatId.value = String(record.formatId)
-
+    #configureChildComponents(record) {
       this.#wbArtistSuggestions.setAllArtists(this.allArtists)
       this.#wbStoreSuggestions.setAllStores(this.allStores)
 
       this.#wbDetailsEdit.setConditionOptions(this.allConditions)
       this.#wbDetailsEdit.configureComponent(record)
+    }
 
-      this.#tracksTab.append(this.#wbTracksEdit)
+    /**
+     * Displays this edit view component. Called every time the user clicks on a record in the record table.
+     *
+     * @param {number} recordIndex - The index of the record to be displayed.
+     */
+    showEditView(record) {
+      this.createFormatOptions(record)
+      this.formatId.value = String(record.formatId)
+      this.#recordIndexHiddenInput.value = record.id
 
-      this.populateForm(record)
-
-      this.#recordIndexHiddenInput.value = recordIndex
+      this.#configureChildComponents(record)
+      this.#populateForm(record)
 
       this.style.display = 'block'
       this.#setPointerEvents()
@@ -108,19 +103,7 @@ customElements.define(
       this.style.pointerEvents = 'auto'
     }
 
-    async #getRecordFromServer(recordIndex) {
-      return await fetch(`${this.baseURLClient}records/viewSingleAlbum`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          id: recordIndex
-        })
-      })
-    }
-
-    populateForm(record) {
+    #populateForm(record) {
       this.#populateBasicFields(record)
       this.#populateArtist(record)
       this.#populateStore(record)
@@ -214,6 +197,7 @@ customElements.define(
 
     #gatherFormData() {
       const formData = new FormData(this.albumEditForm)
+      console.log(formData)
       const tracks = this.#wbTracksEdit.prepareTracksForSubmission()
       formData.append('tracks', JSON.stringify(tracks))
       if (this.#wbTracksEdit.tracksToBeRemoved.length > 0) {
