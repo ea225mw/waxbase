@@ -50,7 +50,7 @@ async function getRecordFromServer(recordIndex) {
 const wbRecordsTable = document.createElement('wb-records-table')
 document.querySelector('#page').append(wbRecordsTable)
 
-wbRecordsTable.addEventListener('showSingleRecord', async (event) => {
+wbRecordsTable.addEventListener('showSelectedRecord', async (event) => {
   document.querySelector('#noRecordSelected').style.display = 'none'
   const response = await getRecordFromServer(event.detail.recordId)
   const record = await response.json()

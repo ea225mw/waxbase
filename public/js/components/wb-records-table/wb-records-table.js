@@ -1,5 +1,5 @@
 import { cssTemplate } from './wb-records-table.css.js'
-import { htmlTemplate } from './wb-records-table.html.js'
+import { htmlTemplate, tableRowTemplate } from './wb-records-table.html.js'
 import { baseURLClient } from '../../config/variables.js'
 import { renderTemplates } from '../../commonMethods.js'
 
@@ -37,7 +37,7 @@ customElements.define(
 
         const id = row.dataset.id
         this.dispatchEvent(
-          new CustomEvent('showSingleRecord', {
+          new CustomEvent('showSelectedRecord', {
             detail: {
               recordId: id
             }
@@ -63,72 +63,18 @@ customElements.define(
      * @param {object} record - The record object.
      */
     setRecordData(record) {
-      const tr = document.createElement('tr')
-      tr.classList.add('recordTableRow')
+      const tr = this.#createTRElementFromTemplate()
       tr.dataset.id = record.id
 
-      const [
-        idTD,
-        formatTD,
-        albumTitleTD,
-        fullNameTD,
-        releaseYearTD,
-        priceTD,
-        storeNameTD,
-        mediaConditionTD,
-        sleeveConditionTD
-      ] = ['td', 'td', 'td', 'td', 'td', 'td', 'td', 'td', 'td'].map((tag) => document.createElement(tag))
-
-      const centeredItems = [idTD, releaseYearTD, mediaConditionTD, sleeveConditionTD]
-      centeredItems.forEach((item) => {
-        item.classList.add('centered')
-      })
-
-      const allTD = {
-        id: idTD,
-        format: formatTD,
-        albumTitle: albumTitleTD,
-        fullName: fullNameTD,
-        releaseYear: releaseYearTD,
-        price: priceTD,
-        store: storeNameTD,
-        mediaCondition: mediaConditionTD,
-        sleeveCondition: sleeveConditionTD
-      }
-
-      this.setClassesOnTD(allTD)
-      this.fillTextInTD(allTD, record)
-
-      tr.append(
-        idTD,
-        formatTD,
-        albumTitleTD,
-        fullNameTD,
-        releaseYearTD,
-        priceTD,
-        storeNameTD,
-        mediaConditionTD,
-        sleeveConditionTD
-      )
+      this.fillTextInTD(tr, record)
 
       this.#tbody.append(tr)
     }
 
-    /**
-     * Sets classes to the the td elements created in method setRecordData.
-     *
-     * @param {object} allTD - An object containing all td elements.
-     */
-    setClassesOnTD(allTD) {
-      allTD.id.classList.add('id')
-      allTD.format.classList.add('format')
-      allTD.albumTitle.classList.add('albumTitle')
-      allTD.fullName.classList.add('fullName')
-      allTD.releaseYear.classList.add('releaseYear')
-      allTD.price.classList.add('price')
-      allTD.store.classList.add('store')
-      allTD.mediaCondition.classList.add('mediaCondition')
-      allTD.sleeveCondition.classList.add('sleeveCondition')
+    #createTRElementFromTemplate() {
+      const docFragment = tableRowTemplate.content.cloneNode(true)
+      const tr = docFragment.querySelector('tr')
+      return tr
     }
 
     /**
@@ -137,23 +83,23 @@ customElements.define(
      * @param {object} allTD - An object containing all td elements.
      * @param {object} record - The record object.
      */
-    fillTextInTD(allTD, record) {
-      allTD.id.textContent = record.id
+    fillTextInTD(tr, record) {
+      tr.querySelector('.id').textContent = record.id
       if (record.format) {
-        allTD.format.textContent = record.format.format
+        tr.querySelector('.format').textContent = record.format.format
       }
-      allTD.albumTitle.textContent = record.albumTitle
-      allTD.fullName.textContent = record.artist.sortName || record.artist.displayName
-      allTD.releaseYear.textContent = record.releaseYear
-      allTD.price.textContent = record.price
+      tr.querySelector('.albumTitle').textContent = record.albumTitle
+      tr.querySelector('.fullName').textContent = record.artist.sortName || record.artist.displayName
+      tr.querySelector('.releaseYear').textContent = record.releaseYear
+      tr.querySelector('.price').textContent = record.price
       if (record.store) {
-        allTD.store.textContent = record.store.storeName
+        tr.querySelector('.store').textContent = record.store.storeName
       }
       if (record.mediaCondition) {
-        allTD.mediaCondition.textContent = record.mediaCondition.conditionName
+        tr.querySelector('.mediaCondition').textContent = record.mediaCondition.conditionName
       }
       if (record.sleeveCondition) {
-        allTD.sleeveCondition.textContent = record.sleeveCondition.conditionName
+        tr.querySelector('.sleeveCondition').textContent = record.sleeveCondition.conditionName
       }
     }
 
