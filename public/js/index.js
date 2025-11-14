@@ -49,6 +49,13 @@ async function getRecordFromServer(recordIndex) {
 /* ---------- THE RECORD TABLE ---------- */
 const wbRecordsTable = document.createElement('wb-records-table')
 document.querySelector('#page').append(wbRecordsTable)
+getAllRecordsFromServer()
+
+async function getAllRecordsFromServer() {
+  const response = await fetch(`${baseURLClient}records/allalbums`)
+  const allRecords = await response.json()
+  wbRecordsTable.populateRecordsTable(allRecords)
+}
 
 wbRecordsTable.addEventListener('showSelectedRecord', async (event) => {
   document.querySelector('#noRecordSelected').style.display = 'none'
@@ -121,7 +128,7 @@ wbMenubar.addEventListener('bySearching', () => {
  * @param {CustomEvent} event - The 'recordAdded' event.
  */
 function newRecordAdded(event) {
-  wbRecordsTable.setRecordData(event.detail.addedRecord)
+  wbRecordsTable.setRecordDataToRowAndItsChildren(event.detail.addedRecord)
   wbRecordsTable.selectRowToHighlight(event.detail.addedRecord.id)
   wbSelectedRecord.showSingleRecord(event.detail.addedRecord)
   document.querySelector('#noRecordSelected').style.display = 'none'
