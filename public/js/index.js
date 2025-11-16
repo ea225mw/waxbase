@@ -7,6 +7,7 @@ import './components/wb-search-discogs/wb-search-discogs.js'
 import './components/wb-menubar/wb-menubar.js'
 import { baseURLClient } from './config/variables.js'
 import { getTheme, themeID } from './config/colorThemes.js'
+import { ServerCaller } from './ServerCaller.js'
 
 let allArtists
 let allFormats
@@ -14,19 +15,16 @@ let allConditions
 let allStores
 
 const theme = getTheme(themeID)
-
-fetchApplicationData()
-setColors()
+const serverCaller = new ServerCaller(baseURLClient)
 
 const wbSelectedRecord = document.createElement('wb-selected-record')
 document.querySelector('#selectedRecordView').append(wbSelectedRecord)
 
-/**
- * Fetches common data that different components have use for.
- */
-async function fetchApplicationData() {
-  const response = await fetch(`${baseURLClient}records/commonData`)
-  const object = await response.json()
+setApplicationData()
+setColors()
+
+async function setApplicationData() {
+  const object = await serverCaller.fetchApplicationData()
 
   allArtists = object.allArtists
   allFormats = object.allFormats
@@ -34,60 +32,56 @@ async function fetchApplicationData() {
   allStores = object.allStores
 }
 
-async function getRecordFromServer(recordIndex) {
-  return await fetch(`${baseURLClient}records/viewSingleAlbum`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id: recordIndex
-    })
-  })
-}
-
 /* ---------- THE RECORD TABLE ---------- */
 const wbRecordsTable = document.createElement('wb-records-table')
 document.querySelector('#page').append(wbRecordsTable)
-getAllRecordsFromServer()
+getAllRecords()
 
-async function getAllRecordsFromServer() {
-  const response = await fetch(`${baseURLClient}records/allalbums`)
-  const allRecords = await response.json()
+async function getAllRecords() {
+  const allRecords = await serverCaller.fetchAllRecordsFromServer()
   wbRecordsTable.populateRecordsTable(allRecords)
 }
 
 wbRecordsTable.addEventListener('showSelectedRecord', async (event) => {
   document.querySelector('#noRecordSelected').style.display = 'none'
-  const response = await getRecordFromServer(event.detail.recordId)
-  const record = await response.json()
+  const record = await serverCaller.fetchRecordFromServer(event.detail.recordId)
   wbSelectedRecord.showSelectedRecord(record)
 })
 
 /* ---------- THE STATISTICS BAR ---------- */
 const wbStatistics = document.querySelector('wb-statistics')
+getAndUpdateStatistics()
+
+async function getAndUpdateStatistics() {
+  const statistics = await serverCaller.fetchStatistics()
+  wbStatistics.updateStatistics(statistics)
+}
 
 /* ---------- THE SELECTED RECORD VIEW ---------- */
 wbSelectedRecord.addEventListener('showEditView', async (event) => {
-  const editView = document.createElement('wb-edit-record')
-  document.body.append(editView)
-  editView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
-  const response = await getRecordFromServer(event.detail.id)
-  const recordFetchedFromServer = await response.json()
+  const editView = createAndInitializeEditView(event)
+  const recordFetchedFromServer = await serverCaller.fetchRecordFromServer(event.detail.id)
   editView.showEditView(recordFetchedFromServer)
 
   editView.addEventListener('albumUpdated', (event) => {
     wbSelectedRecord.showSelectedRecord(event.detail.updatedAlbum)
     wbRecordsTable.updateTableRow(event.detail.updatedAlbum)
-    wbStatistics.updateStatistics()
+    getAndUpdateStatistics()
   })
 })
 
 wbSelectedRecord.addEventListener('recordDeleted', (event) => {
-  wbRecordsTable.removeDeletedRecord(event.detail.id)
+  wbRecordsTable.removeDeletedRecordFromTable(event.detail.id)
   wbStatistics.updateStatistics()
   document.querySelector('#noRecordSelected').style.display = 'block'
 })
+
+function createAndInitializeEditView() {
+  const editView = document.createElement('wb-edit-record')
+  document.body.append(editView)
+  editView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
+  return editView
+}
 
 /* ---------- SET COLORS ---------- */
 /**
@@ -118,7 +112,7 @@ wbMenubar.addEventListener('bySearching', () => {
   const wbSearchDiscogs = document.createElement('wb-search-discogs')
   document.body.append(wbSearchDiscogs)
   wbSearchDiscogs.addEventListener('getOneResourceFromDiscogs', (event) => {
-    getOneResourceFromDiscogs(event.detail.resource_url)
+    getOneDiscogsResource(event.detail.resource_url)
   })
 })
 
@@ -135,32 +129,14 @@ function newRecordAdded(event) {
   wbStatistics.updateStatistics()
 }
 
-/**
- * Gets a Discogs release (record) from the passed URL.
- *
- * @param {URL} url - The Discogs API URL.
- */
-async function getOneResourceFromDiscogs(url) {
-  const response = await fetch(`${baseURLClient}search/getDiscogsResource`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ resource_url: url })
-  })
-  const record = await response.json()
+async function getOneDiscogsResource(url) {
+  const record = await serverCaller.fetchOneResourceFromDiscogs(url)
   if (record) {
     document.querySelector('wb-search-discogs').remove()
     createNewDiscogsRecord(record)
   }
 }
 
-/**
- * Creates a new record to be added to the collection based on the info from the Discogs release.
- * Called when there is a successful fetch in getOneResourceFromDiscogs().
- *
- * @param {object} record - The fetched record object.
- */
 function createNewDiscogsRecord(record) {
   // console.log('record in createNewDiscogsRecord: ', record)
   const newDiscogsRecord = document.createElement('wb-new-record')

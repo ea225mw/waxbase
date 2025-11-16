@@ -22,19 +22,23 @@ customElements.define(
      */
     async connectedCallback() {
       this.#allRecordsTable.addEventListener('click', (event) => {
-        const row = event.target.closest('tr.recordTableRow')
-        if (!row) return
-        this.#highlightSelectedRow(row)
-
-        const id = row.dataset.id
-        this.dispatchEvent(
-          new CustomEvent('showSelectedRecord', {
-            detail: {
-              recordId: id
-            }
-          })
-        )
+        this.#handleClickOnRecord(event)
       })
+    }
+
+    #handleClickOnRecord(event) {
+      const row = event.target.closest('tr.recordTableRow')
+      if (!row) return
+      this.#highlightSelectedRow(row)
+
+      const id = row.dataset.id
+      this.dispatchEvent(
+        new CustomEvent('showSelectedRecord', {
+          detail: {
+            recordId: id
+          }
+        })
+      )
     }
 
     populateRecordsTable(allRecords) {
@@ -84,11 +88,6 @@ customElements.define(
       }
     }
 
-    /**
-     * Marks one row in the record table.
-     *
-     * @param {number} id - The id of the record that should be marked and highlighted.
-     */
     selectRowToHighlight(id) {
       const rowToHighlight = this.shadowRoot.querySelector(`tr[data-id="${id}"]`)
       this.#highlightSelectedRow(rowToHighlight)
@@ -99,22 +98,12 @@ customElements.define(
       row.classList.add('selected')
     }
 
-    /**
-     * Updates the record table when information is edited.
-     *
-     * @param {object} record - The record object.
-     */
     updateTableRow(record) {
       const row = this.shadowRoot.querySelector(`tr[data-id="${record.id}"]`)
       this.#fillTextInTD(row, record)
     }
 
-    /**
-     * Removes the table row that holds the deleted record.
-     *
-     * @param {number} id - The id of the record to remove from the table.
-     */
-    removeDeletedRecord(id) {
+    removeDeletedRecordFromTable(id) {
       const row = this.shadowRoot.querySelector(`.recordTableRow[data-id="${id}"]`)
       row.remove()
     }
