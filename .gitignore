@@ -200,4 +200,8 @@ $RECYCLE.BIN/
 # VSCodeCounter
 .VSCodeCounter/
 
+# Homemade trash can
+trash/
+
+
 # End of https://www.toptal.com/developers/gitignore/api/node,linux,macos,windows,visualstudiocode

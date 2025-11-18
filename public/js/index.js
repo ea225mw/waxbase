@@ -1,7 +1,7 @@
 import './components/wb-selected-record/wb-selected-record.js'
 import './components/wb-records-table/wb-records-table.js'
 import './components/wb-edit-record/wb-edit-record.js'
-import './components/wb-edit-record/wb-new-record.js'
+// import './components/wb-edit-record/wb-new-record.js'
 import './components/wb-statistics/wb-statistics.js'
 import './components/wb-search-discogs/wb-search-discogs.js'
 import './components/wb-menubar/wb-menubar.js'
@@ -59,9 +59,10 @@ async function getAndUpdateStatistics() {
 
 /* ---------- THE SELECTED RECORD VIEW ---------- */
 wbSelectedRecord.addEventListener('showEditView', async (event) => {
-  const editView = createAndInitializeEditView(event)
+  const editView = createAndInitializeEditView()
+  document.body.append(editView)
   const recordFetchedFromServer = await serverCaller.fetchRecordFromServer(event.detail.id)
-  editView.showEditView(recordFetchedFromServer)
+  editView.showEditViewForSelectedRecord(recordFetchedFromServer)
 
   editView.addEventListener('albumUpdated', (event) => {
     wbSelectedRecord.showSelectedRecord(event.detail.updatedAlbum)
@@ -78,15 +79,12 @@ wbSelectedRecord.addEventListener('recordDeleted', (event) => {
 
 function createAndInitializeEditView() {
   const editView = document.createElement('wb-edit-record')
-  document.body.append(editView)
   editView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
   return editView
 }
 
 /* ---------- SET COLORS ---------- */
-/**
- * Sets colors to certain elements.
- */
+
 function setColors() {
   document.querySelector('body').style.backgroundColor = `${theme.mainBackground}`
   document.querySelector('#page').style.backgroundColor = `${theme.mainBackground}`
@@ -98,14 +96,19 @@ function setColors() {
 const wbMenubar = document.querySelector('wb-menubar')
 
 wbMenubar.addEventListener('manually', () => {
-  const newRecordView = document.createElement('wb-new-record')
+  console.log('manually clicked!')
+  const editViewForNewRecord = createAndInitializeEditView()
+  editViewForNewRecord.setDisplayToBlock()
+  document.body.append(editViewForNewRecord)
+
+  /* const newRecordView = document.createElement('wb-new-record')
   document.body.append(newRecordView)
   newRecordView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
   newRecordView.newEmptyRecord()
 
   newRecordView.addEventListener('recordAdded', (event) => {
     newRecordAdded(event)
-  })
+  })*/
 })
 
 wbMenubar.addEventListener('bySearching', () => {

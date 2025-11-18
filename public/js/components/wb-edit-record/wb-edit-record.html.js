@@ -40,7 +40,7 @@ export const htmlTemplate = /*html*/ `
       <img src="" id="frontCover">
     </div>
     <div id="details" class="forms">
-       <wb-details-edit></wb-details-edit>
+       <div id="detailsComponentWrapper"></div>
     </div>
     <input type="hidden" name="id" id="recordIndex" value="">
   </form>

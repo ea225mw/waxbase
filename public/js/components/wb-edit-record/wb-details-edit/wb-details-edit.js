@@ -22,7 +22,7 @@ customElements.define(
      *
      * @param {object} record
      */
-    configureComponent(record) {
+    populateComponentWithRecordData(record) {
       this.#createConditionOptions()
       this.#setRPMs(record)
       this.#setAttributes(record)
@@ -39,13 +39,9 @@ customElements.define(
         const option = document.createElement('option')
         option.value = condition.id
         option.textContent = condition.conditionName
-        this.shadowRoot
-          .querySelector('select[name="mediaConditionId"]')
-          .append(option)
+        this.shadowRoot.querySelector('select[name="mediaConditionId"]').append(option)
         const optionCopy = option.cloneNode(true)
-        this.shadowRoot
-          .querySelector('select[name="sleeveConditionId"]')
-          .append(optionCopy)
+        this.shadowRoot.querySelector('select[name="sleeveConditionId"]').append(optionCopy)
       })
     }
 
@@ -64,17 +60,13 @@ customElements.define(
     }
 
     #setAttributes(record) {
-      this.shadowRoot.querySelector('select[name="mediaConditionId"]').value =
-        String(record.mediaConditionId)
-      this.shadowRoot.querySelector('select[name="sleeveConditionId"]').value =
-        String(record.sleeveConditionId)
+      this.shadowRoot.querySelector('select[name="mediaConditionId"]').value = String(record.mediaConditionId)
+      this.shadowRoot.querySelector('select[name="sleeveConditionId"]').value = String(record.sleeveConditionId)
     }
 
     #setConditionNotes(record) {
-      this.shadowRoot.querySelector('#mediaConditionNotes').value =
-        record.mediaConditionNotes || ''
-      this.shadowRoot.querySelector('#sleeveConditionNotes').value =
-        record.sleeveConditionNotes || ''
+      this.shadowRoot.querySelector('#mediaConditionNotes').value = record.mediaConditionNotes || ''
+      this.shadowRoot.querySelector('#sleeveConditionNotes').value = record.sleeveConditionNotes || ''
     }
   }
 )

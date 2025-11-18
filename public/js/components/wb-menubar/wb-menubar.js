@@ -2,7 +2,8 @@ import { cssTemplate } from './wb-menubar.css.js'
 import { htmlTemplate } from './wb-menubar.html.js'
 import { renderTemplates } from '../../commonMethods.js'
 
-customElements.define('wb-menubar',
+customElements.define(
+  'wb-menubar',
   /**
    *
    */
@@ -11,7 +12,7 @@ customElements.define('wb-menubar',
     /**
      * Creates a new instance of the wb-menubar web component.
      */
-    constructor () {
+    constructor() {
       super()
       this.attachShadow({ mode: 'open' })
       renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
@@ -20,28 +21,21 @@ customElements.define('wb-menubar',
     /**
      * Called when the component is added to DOM.
      */
-    connectedCallback () {
+    connectedCallback() {
       this.#menubar = this.shadowRoot.querySelector('#menubar')
 
       this.#menubar.addEventListener('click', (event) => {
         if (event.target.classList.contains('menu-buttons')) {
-          // console.log('Menu buttons clicked!')
           this.displayMenuChoices(event)
         } else if (event.target.tagName === 'LI') {
           const choice = event.target.closest('li')
-          console.log(choice.dataset.choice)
           this.dispatchEvent(new CustomEvent(`${choice.dataset.choice}`))
           this.hideAllMenus()
         }
       })
     }
 
-    /**
-     * Displays the menu choices in the corresponing menu button.
-     *
-     * @param {MouseEvent} event - The mouse click event.
-     */
-    displayMenuChoices (event) {
+    displayMenuChoices(event) {
       const allLists = this.shadowRoot.querySelectorAll('ul')
       const allColumns = this.shadowRoot.querySelectorAll('.columns')
 
@@ -70,7 +64,7 @@ customElements.define('wb-menubar',
     /**
      * Hides all visible menus.
      */
-    hideAllMenus () {
+    hideAllMenus() {
       const allLists = this.shadowRoot.querySelectorAll('ul')
       allLists.forEach((list) => {
         list.classList.remove('visible')
