@@ -1,4 +1,4 @@
-import '../wb-edit-record/wb-edit-record.js'
+import '../edit_record_components/wb-edit-record/wb-edit-record.js'
 import { cssTemplate } from './wb-selected-record.css.js'
 import { htmlTemplate } from './wb-selected-record.html.js'
 import { renderTemplates } from '../../commonMethods.js'

@@ -1,11 +1,11 @@
 //import { EditRecordBaseClass } from './editRecordBaseClass.js'
 import { cssTemplate } from './wb-edit-record.css.js'
 import { htmlTemplate } from './wb-edit-record.html.js'
-import '../wb-edit-record/wb-tracks-edit/wb-tracks-edit.js'
-import '../wb-edit-record/wb-artist-suggestions/wb-artist-suggestions.js'
-import '../wb-edit-record/wb-store-suggestions/wb-store-suggestions.js'
-import '../wb-edit-record/wb-details-edit/wb-details-edit.js'
-import { renderTemplates, getFieldMap } from '../../commonMethods.js'
+import '../wb-tracks-edit/wb-tracks-edit.js'
+import '../wb-artist-suggestions/wb-artist-suggestions.js'
+import '../wb-store-suggestions/wb-store-suggestions.js'
+import '../wb-details-edit/wb-details-edit.js'
+import { renderTemplates, getFieldMap } from '../../../commonMethods.js'
 
 const pathToModule = import.meta.url
 const defaultImagePath = new URL('./images/default.svg', pathToModule)

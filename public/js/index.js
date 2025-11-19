@@ -1,7 +1,6 @@
 import './components/wb-selected-record/wb-selected-record.js'
 import './components/wb-records-table/wb-records-table.js'
-import './components/wb-edit-record/wb-edit-record.js'
-// import './components/wb-edit-record/wb-new-record.js'
+import './components/edit_record_components/wb-edit-record/wb-edit-record.js'
 import './components/wb-statistics/wb-statistics.js'
 import './components/wb-search-discogs/wb-search-discogs.js'
 import './components/wb-menubar/wb-menubar.js'

@@ -1,4 +1,4 @@
-import { getTheme, themeID } from '../../config/colorThemes.js'
+import { getTheme, themeID } from '../../../config/colorThemes.js'
 
 const theme = getTheme(themeID)
 
