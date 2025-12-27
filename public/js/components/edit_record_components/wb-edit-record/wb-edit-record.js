@@ -20,14 +20,6 @@ customElements.define(
     #wbDetailsEdit
     #wbGeneralEdit
 
-    // #fieldMap
-
-    // #allStores
-    // #allArtists
-    // #allFormats
-    // #allConditions
-
-    // #formatId
     #albumEditForm
 
     imgURLHidden
@@ -36,7 +28,6 @@ customElements.define(
       super()
       this.attachShadow({ mode: 'open' })
       renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
-      // this.#createChildComponents()
     }
 
     /**
@@ -63,13 +54,8 @@ customElements.define(
     }
 
     /* -------------------- METHODS -------------------- */
-    // #createChildComponents() {
-    //   this.#wbDetailsEdit = document.createElement('wb-details-edit')
-    //   this.#appendChildComponents()
-    // }
 
     #configureChildComponents(record) {
-      // this.#wbDetailsEdit.setConditionOptions(this.#allConditions)
       this.#wbDetailsEdit.populateComponentWithRecordData(record)
       this.#wbGeneralEdit.populateComponentWithRecordData(record)
     }
@@ -78,14 +64,10 @@ customElements.define(
       this.#wbGeneralEdit.allArtists = artists
       this.#wbGeneralEdit.allFormats = formats
       this.#wbGeneralEdit.allStores = stores
-      // this.#allArtists = artists
-      // this.#allFormats = formats
       this.#wbDetailsEdit.setConditionOptions(conditions)
-      // this.#allStores = stores
     }
 
     showEditViewForSelectedRecord(record) {
-      // this.#wbGeneralEdit.setFormatId(String(record.formatId))
       this.#recordIndexHiddenInput.value = record.id
 
       this.#configureChildComponents(record)
@@ -105,9 +87,6 @@ customElements.define(
     }
 
     #populateForm(record) {
-      // this.#populateBasicFields(record)
-      // this.#populateArtist(record)
-      // this.#populateStore(record)
       this.#populateTracks(record)
       this.#populateCoverImage(record)
     }

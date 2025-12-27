@@ -26,13 +26,10 @@ customElements.define(
 
     #formatId
 
-    // #fieldMap
-
     constructor() {
       super()
       this.attachShadow({ mode: 'open' })
       renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
-      // this.#fieldMap = getFieldMap(this)
 
       this.#createChildComponents()
       this.#appendChildComponents()
@@ -61,10 +58,6 @@ customElements.define(
       this.shadowRoot.querySelector('#storeComponentWrapper').append(this.#wbStoreSuggestions)
     }
 
-    // setFormatId(formatId) {
-    //   this.#formatId = formatId
-    // }
-
     #createFormatOptions() {
       this.allFormats.forEach((format) => {
         const option = document.createElement('option')
@@ -79,7 +72,6 @@ customElements.define(
       this.#populateStore(record)
       this.#createFormatOptions()
       this.#populateBasicFields(record)
-      // this.#formatId = record.formatId
     }
 
     #configureChildComponents() {
