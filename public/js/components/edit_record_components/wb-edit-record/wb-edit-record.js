@@ -58,6 +58,7 @@ customElements.define(
     #configureChildComponents(record) {
       this.#wbDetailsEdit.populateComponentWithRecordData(record)
       this.#wbGeneralEdit.populateComponentWithRecordData(record)
+      if (record.tracks) this.#wbTracksEdit.populateTracks(record.tracks)
     }
 
     setCommonRecordData(artists, formats, conditions, stores) {
@@ -71,7 +72,7 @@ customElements.define(
       this.#recordIndexHiddenInput.value = record.id
 
       this.#configureChildComponents(record)
-      this.#populateForm(record)
+      this.#populateCoverImage(record)
 
       this.setDisplayToBlock()
       this.#setPointerEvents()
@@ -84,17 +85,6 @@ customElements.define(
     #setPointerEvents() {
       document.body.style.pointerEvents = 'none'
       this.style.pointerEvents = 'auto'
-    }
-
-    #populateForm(record) {
-      this.#populateTracks(record)
-      this.#populateCoverImage(record)
-    }
-
-    #populateTracks(record) {
-      if (record.tracks) {
-        this.#wbTracksEdit.populateTracks(record.tracks)
-      }
     }
 
     #populateCoverImage(record) {

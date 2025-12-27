@@ -1,7 +1,7 @@
 import { htmlTemplate } from './wb-store-suggestions.html.js'
 /*CSS template shared with wb-artist-suggestions component */
 import { sharedCssTemplate } from './wb-store-suggestions.css.js'
-import { renderTemplates } from '../../../commonMethods.js'
+import { renderTemplates } from '../../../../commonMethods.js'
 
 customElements.define(
   'wb-store-suggestions',

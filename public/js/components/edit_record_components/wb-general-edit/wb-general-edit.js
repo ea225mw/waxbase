@@ -1,8 +1,8 @@
 import { htmlTemplate } from './wb-general-edit.html.js'
 import { cssTemplate } from './wb-general-edit.css.js'
 import { renderTemplates } from '../../../commonMethods.js'
-import '../wb-artist-suggestions/wb-artist-suggestions.js'
-import '../wb-store-suggestions/wb-store-suggestions.js'
+import './wb-artist-suggestions/wb-artist-suggestions.js'
+import './wb-store-suggestions/wb-store-suggestions.js'
 
 customElements.define(
   'wb-general-edit',
@@ -94,12 +94,11 @@ customElements.define(
     }
 
     #populateBasicFields(record) {
-      console.log(record.formatId)
       this.#albumTitle.value = record.albumTitle
       this.#releaseYear.value = record.releaseYear
       this.#origReleaseYear.value = record.origReleaseYear
       this.#price.value = record.price
-      this.#formatId.value = String(record.formatId)
+      this.#formatId.value = record.formatId
     }
   }
 )

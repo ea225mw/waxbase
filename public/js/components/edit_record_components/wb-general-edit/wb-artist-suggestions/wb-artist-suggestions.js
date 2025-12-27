@@ -1,6 +1,6 @@
 import { htmlTemplate } from './wb-artist-suggestions.html.js'
 import { cssTemplate } from './wb-artist-suggestions.css.js'
-import { renderTemplates } from '../../../commonMethods.js'
+import { renderTemplates } from '../../../../commonMethods.js'
 
 customElements.define(
   'wb-artist-suggestions',

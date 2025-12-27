@@ -1,9 +1,10 @@
 import { htmlTemplate, trackRowTemplate, tableHeadTemplate } from './wb-tracks-edit.html.js'
 import { cssTemplate } from './wb-tracks-edit.css.js'
 import { renderTemplates } from '../../../commonMethods.js'
-import { validateSeconds, validateMinutes, setRedBorders } from '../../../config/validations.js'
+import { validateSeconds, validateMinutes, setAppropriateBorderColor } from '../../../config/validations.js'
 
-customElements.define('wb-tracks-edit',
+customElements.define(
+  'wb-tracks-edit',
 
   class extends HTMLElement {
     #tracksWrapper
@@ -15,7 +16,7 @@ customElements.define('wb-tracks-edit',
     #trackIdOfTrackToDelete = null
     tracksToBeRemoved = []
 
-    constructor () {
+    constructor() {
       super()
       this.attachShadow({ mode: 'open' })
       renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
@@ -24,7 +25,7 @@ customElements.define('wb-tracks-edit',
     /**
      * Called when the component is added to DOM.
      */
-    connectedCallback () {
+    connectedCallback() {
       /* ----------------------- REFERENCES ----------------------- */
       this.#tracksWrapper = this.shadowRoot.querySelector('#tracksWrapper')
       this.#addTrackBtn = this.shadowRoot.querySelector('#addTrackBtn')
@@ -56,11 +57,11 @@ customElements.define('wb-tracks-edit',
       this.#tracksWrapper.addEventListener('input', (event) => {
         if (event.target.matches('.secondsField')) {
           const isValid = validateSeconds(event.target.value)
-          setRedBorders(isValid, event.target)
+          setAppropriateBorderColor(isValid, event.target)
         }
         if (event.target.matches('.minutesField')) {
           const isValid = validateMinutes(event.target.value)
-          setRedBorders(isValid, event.target)
+          setAppropriateBorderColor(isValid, event.target)
         }
       })
 
@@ -79,7 +80,7 @@ customElements.define('wb-tracks-edit',
       this.#trackIdOfTrackToDelete = row.dataset.id
     }
 
-    #displayConfirmDeleteMessage(){
+    #displayConfirmDeleteMessage() {
       this.#removeTrackConfirmDiv.style.display = 'block'
     }
 
@@ -87,7 +88,7 @@ customElements.define('wb-tracks-edit',
       this.#removeTrackConfirmDiv.style.display = 'none'
     }
 
-    populateTracks (tracks) {
+    populateTracks(tracks) {
       const trackTable = this.#createTable()
 
       Object.values(tracks).forEach((track) => {
@@ -99,31 +100,31 @@ customElements.define('wb-tracks-edit',
       this.#tracksWrapper.append(trackTable)
     }
 
-    #createTable () {
+    #createTable() {
       const table = document.createElement('table')
       const tableHead = tableHeadTemplate.content.cloneNode(true)
       table.append(tableHead)
       return table
     }
 
-    #createRowElement () {
+    #createRowElement() {
       const rowElement = trackRowTemplate.content.cloneNode(true)
       return rowElement
     }
 
-    #addTextContentToRowElements (rowElement, track) {
+    #addTextContentToRowElements(rowElement, track) {
       rowElement.querySelector('.trackIndexTD').textContent = `${track.trackIndex}.`
       rowElement.querySelector('.trackTitle').value = track.trackTitle
       rowElement.querySelector('.minutesField').value = track.minutes
       rowElement.querySelector('.secondsField').value = String(track.seconds).padStart(2, '0')
     }
 
-    #addAttributesToRowElements (rowElement, track) {
+    #addAttributesToRowElements(rowElement, track) {
       rowElement.querySelector('.trackIndexTD').dataset.trackIndex = `${track.trackIndex}`
       rowElement.querySelector('.editTracksContainer').dataset.id = track.id
     }
 
-    #createAnotherTrack () {
+    #createAnotherTrack() {
       const lastTrackIndex = this.#findLastTrackIndex()
 
       const rowElement = this.#createRowElement()
@@ -135,7 +136,7 @@ customElements.define('wb-tracks-edit',
       this.#setNewlyAddedTrackInFocus()
     }
 
-    #findLastTrackIndex () {
+    #findLastTrackIndex() {
       const lastTrack = this.#tracksWrapper.querySelector('table').lastElementChild
       let lastTrackIndex = 0
       if (lastTrack !== null) {
@@ -144,14 +145,14 @@ customElements.define('wb-tracks-edit',
       return lastTrackIndex
     }
 
-    #setNewlyAddedTrackInFocus () {
+    #setNewlyAddedTrackInFocus() {
       const allTrackTitleInputs = this.#tracksWrapper.getElementsByClassName('trackTitle')
       const indexOfLstTrackTitleInput = allTrackTitleInputs.length - 1
       const lastTrackTitleInputElement = allTrackTitleInputs[indexOfLstTrackTitleInput]
       lastTrackTitleInputElement.focus()
     }
 
-    prepareTracksForSubmission () {
+    prepareTracksForSubmission() {
       const tracksToSubmit = []
 
       const allEditTracksContainers = this.shadowRoot.querySelectorAll('.editTracksContainer')

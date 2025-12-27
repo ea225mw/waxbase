@@ -4,7 +4,7 @@
  * @param {number | string} passedValue - The passed value.
  * @returns {boolean} - True/false.
  */
-export function validateSeconds (passedValue) {
+export function validateSeconds(passedValue) {
   const value = passedValue.trim()
 
   if (value === '') {
@@ -14,7 +14,7 @@ export function validateSeconds (passedValue) {
   if (!/^\d+$/.test(value)) {
     return false
   } else {
-    const number = parseInt(value, 10)
+    const number = Number.parseInt(value, 10)
     if (number < 0 || number > 59) {
       return false
     }
@@ -28,7 +28,7 @@ export function validateSeconds (passedValue) {
  * @param {number | string} passedValue - The passed value.
  * @returns {boolean} - True/false.
  */
-export function validateMinutes (passedValue) {
+export function validateMinutes(passedValue) {
   const value = passedValue.trim()
 
   if (value === '') {
@@ -52,7 +52,7 @@ export function validateMinutes (passedValue) {
  * @param {boolean} valid - True/false.
  * @param {HTMLInputElement} field - The validated input field.
  */
-export function setRedBorders (valid, field) {
+export function setAppropriateBorderColor(valid, field) {
   if (!valid) {
     field.style.border = '2px solid red'
     field.style.color = 'red'
