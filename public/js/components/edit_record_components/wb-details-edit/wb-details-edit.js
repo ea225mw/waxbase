@@ -5,7 +5,7 @@ import { renderTemplates } from '../../../commonMethods.js'
 customElements.define(
   'wb-details-edit',
   class extends HTMLElement {
-    #conditionOptions = []
+    #conditionOptions
 
     constructor() {
       super()

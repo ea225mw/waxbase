@@ -60,6 +60,7 @@ async function getAndUpdateStatistics() {
 wbSelectedRecord.addEventListener('showEditView', async (event) => {
   const editView = createAndInitializeEditView()
   document.body.append(editView)
+  editView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
   const recordFetchedFromServer = await serverCaller.fetchRecordFromServer(event.detail.id)
   editView.showEditViewForSelectedRecord(recordFetchedFromServer)
 
@@ -78,7 +79,6 @@ wbSelectedRecord.addEventListener('recordDeleted', (event) => {
 
 function createAndInitializeEditView() {
   const editView = document.createElement('wb-edit-record')
-  editView.setCommonRecordData(allArtists, allFormats, allConditions, allStores)
   return editView
 }
 

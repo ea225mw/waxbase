@@ -9,28 +9,7 @@ export const htmlTemplate = /*html*/ `
       <button type="button" data-tab="details" class="tab">Details</button>
     </div>
     <div id="general" class="forms selected-form">
-      <div id="generalWrapper">
-        <label for="albumTitle">Album Title</label>
-        <input type="text" name="albumTitle">
-
-        <div id="artistComponentWrapper"></div>
-
-        <label for="formatId">Format</label>
-        <select name="formatId" value="">
-          <!-- FORMAT OPTIONS CREATED DYNAMICALLY HERE -->
-        </select>
-
-        <label for="releaseYear">Release year</label>
-        <input type="text" name="releaseYear">
-
-        <label for="origReleaseYear">Original release year</label>
-        <input type="text" name="origReleaseYear">
-
-        <div id="storeComponentWrapper"></div>
-
-        <label for="price">Price</label>
-        <input type="text" name="price">
-      </div>
+      <wb-general-edit></wb-general-edit>
     </div>
     <div id="tracks" class="forms">
       <wb-tracks-edit></wb-tracks-edit>
@@ -40,7 +19,9 @@ export const htmlTemplate = /*html*/ `
       <img src="" id="frontCover">
     </div>
     <div id="details" class="forms">
-       <div id="detailsComponentWrapper"></div>
+       <div id="detailsComponentWrapper">
+        <wb-details-edit></wb-details-edit>  
+       </div>
     </div>
     <input type="hidden" name="id" id="recordIndex" value="">
   </form>

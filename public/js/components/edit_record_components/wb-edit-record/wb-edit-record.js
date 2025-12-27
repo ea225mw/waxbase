@@ -1,11 +1,9 @@
-//import { EditRecordBaseClass } from './editRecordBaseClass.js'
 import { cssTemplate } from './wb-edit-record.css.js'
 import { htmlTemplate } from './wb-edit-record.html.js'
+import '../wb-general-edit/wb-general-edit.js'
 import '../wb-tracks-edit/wb-tracks-edit.js'
-import '../wb-artist-suggestions/wb-artist-suggestions.js'
-import '../wb-store-suggestions/wb-store-suggestions.js'
 import '../wb-details-edit/wb-details-edit.js'
-import { renderTemplates, getFieldMap } from '../../../commonMethods.js'
+import { renderTemplates } from '../../../commonMethods.js'
 
 const pathToModule = import.meta.url
 const defaultImagePath = new URL('./images/default.svg', pathToModule)
@@ -20,36 +18,25 @@ customElements.define(
     #recordIndexHiddenInput
     #wbTracksEdit
     #wbDetailsEdit
+    #wbGeneralEdit
 
-    #wbArtistSuggestions
-    artistInput
-    artistIdHidden
+    // #fieldMap
 
-    #wbStoreSuggestions
-    storeInput
-    storeIdHidden
+    // #allStores
+    // #allArtists
+    // #allFormats
+    // #allConditions
 
-    #fieldMap
-
-    #allArtists
-    #allFormats
-    #allConditions
-    #allStores
-
-    #formatId
+    // #formatId
     #albumEditForm
 
-    albumTitle
-    price
-    releaseYear
-    origReleaseYear
     imgURLHidden
 
     constructor() {
       super()
       this.attachShadow({ mode: 'open' })
       renderTemplates(cssTemplate, htmlTemplate, this.shadowRoot)
-      this.#createChildComponents()
+      // this.#createChildComponents()
     }
 
     /**
@@ -63,23 +50,12 @@ customElements.define(
       this.#recordIndexHiddenInput = this.shadowRoot.querySelector('#recordIndex')
       this.#wbTracksEdit = this.shadowRoot.querySelector('wb-tracks-edit')
       this.#wbDetailsEdit = this.shadowRoot.querySelector('wb-details-edit')
-
-      this.artistInput = this.#wbArtistSuggestions.artistInput
-      this.artistIdHidden = this.#wbArtistSuggestions.artistIdHidden
-
-      this.storeInput = this.#wbStoreSuggestions.storeInput
-      this.storeIdHidden = this.#wbStoreSuggestions.storeIdHidden
-
-      this.#formatId = this.shadowRoot.querySelector('select[name="formatId"]')
+      this.#wbGeneralEdit = this.shadowRoot.querySelector('wb-general-edit')
 
       this.#albumEditForm = this.shadowRoot.querySelector('#albumEditForm')
-      this.albumTitle = this.shadowRoot.querySelector('input[name="albumTitle"]')
-      this.releaseYear = this.shadowRoot.querySelector('input[name="releaseYear"]')
-      this.origReleaseYear = this.shadowRoot.querySelector('input[name="origReleaseYear"]')
-      this.price = this.shadowRoot.querySelector('input[name="price"]')
+
       this.imgURLHidden = this.shadowRoot.querySelector('input[name="imgURL"]')
 
-      this.#fieldMap = getFieldMap(this)
       /* ---------- EVENT LISTENERS ---------- */
       this.#cancel.addEventListener('click', () => this.cancel())
       this.#submit.addEventListener('click', (event) => this.submit(event))
@@ -87,46 +63,29 @@ customElements.define(
     }
 
     /* -------------------- METHODS -------------------- */
-    #createChildComponents() {
-      this.#wbArtistSuggestions = document.createElement('wb-artist-suggestions')
-      this.#wbStoreSuggestions = document.createElement('wb-store-suggestions')
-      this.#wbDetailsEdit = document.createElement('wb-details-edit')
-      this.#appendChildComponents()
-    }
-
-    #appendChildComponents() {
-      this.shadowRoot.querySelector('#artistComponentWrapper').append(this.#wbArtistSuggestions)
-      this.shadowRoot.querySelector('#storeComponentWrapper').append(this.#wbStoreSuggestions)
-      this.shadowRoot.querySelector('#detailsComponentWrapper').append(this.#wbDetailsEdit)
-    }
+    // #createChildComponents() {
+    //   this.#wbDetailsEdit = document.createElement('wb-details-edit')
+    //   this.#appendChildComponents()
+    // }
 
     #configureChildComponents(record) {
-      this.#wbArtistSuggestions.setAllArtists(this.#allArtists)
-      this.#wbStoreSuggestions.setAllStores(this.#allStores)
-
-      this.#wbDetailsEdit.setConditionOptions(this.#allConditions)
+      // this.#wbDetailsEdit.setConditionOptions(this.#allConditions)
       this.#wbDetailsEdit.populateComponentWithRecordData(record)
+      this.#wbGeneralEdit.populateComponentWithRecordData(record)
     }
 
     setCommonRecordData(artists, formats, conditions, stores) {
-      this.#allArtists = artists
-      this.#allFormats = formats
-      this.#allConditions = conditions
-      this.#allStores = stores
-    }
-
-    createFormatOptions() {
-      this.#allFormats.forEach((format) => {
-        const option = document.createElement('option')
-        option.value = format.id
-        option.textContent = format.format
-        this.#formatId.append(option)
-      })
+      this.#wbGeneralEdit.allArtists = artists
+      this.#wbGeneralEdit.allFormats = formats
+      this.#wbGeneralEdit.allStores = stores
+      // this.#allArtists = artists
+      // this.#allFormats = formats
+      this.#wbDetailsEdit.setConditionOptions(conditions)
+      // this.#allStores = stores
     }
 
     showEditViewForSelectedRecord(record) {
-      this.createFormatOptions(record)
-      this.#formatId.value = String(record.formatId)
+      // this.#wbGeneralEdit.setFormatId(String(record.formatId))
       this.#recordIndexHiddenInput.value = record.id
 
       this.#configureChildComponents(record)
@@ -146,38 +105,11 @@ customElements.define(
     }
 
     #populateForm(record) {
-      this.#populateBasicFields(record)
-      this.#populateArtist(record)
-      this.#populateStore(record)
+      // this.#populateBasicFields(record)
+      // this.#populateArtist(record)
+      // this.#populateStore(record)
       this.#populateTracks(record)
       this.#populateCoverImage(record)
-    }
-
-    #populateBasicFields(record) {
-      for (const key in this.#fieldMap) {
-        let value = record[key]
-        if (!value) {
-          this.#fieldMap[key].value = ''
-          continue
-        }
-        if (['artist', 'store'].includes(key)) continue
-
-        this.#fieldMap[key].value = value
-      }
-    }
-
-    #populateArtist(record) {
-      if (record.artist) {
-        this.#wbArtistSuggestions.artistInput.value = record.artist.displayName
-        this.#wbArtistSuggestions.artistIdHidden.value = record.artistId
-      }
-    }
-
-    #populateStore(record) {
-      if (record.store) {
-        this.#wbStoreSuggestions.storeInput.value = record.store.storeName
-        this.#wbStoreSuggestions.storeIdHidden.value = record.storeId
-      }
     }
 
     #populateTracks(record) {
